@@ -1,0 +1,7 @@
+# git will ignore bloat resulting from build
+anubis_ws/build/
+anubis_ws/install/
+anubis_ws/log/
+
+# prevent accidental overwrites
+.vscode
