@@ -2,7 +2,7 @@
 	"name": "ANUBIS Development Environment",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "dev-container",
-	"workspaceMount": "source=${localWorkspaceFolder}/src,target=/root/anubis_ws/src,type=bind",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/root/ros_ws/src/${localWorkspaceFolderBasename},type=bind",
 	"workspaceFolder": "/workspace/anubis_ws",
 	"containerEnv": {
 		/* Uncomment to allow the container to access the X server on the host e.g. to run Rviz and other GUI tools
@@ -30,7 +30,7 @@
 			"type": "bind"
 		}
 		*/
-
+		// "source=${localWorkspaceFolder}/anubis_ws/src,target=/workspaces/ANUBIS/anubis_ws/src,type=bind",
 		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_history,target=/home/vscode/.bash_history,type=bind",
 		"source=/dev/,target=/dev/,type=bind",
     ],
@@ -51,6 +51,6 @@
               ]
         }
     },
-	"postStartCommand": "/bin/sh -c \"chmod 777 /workspaces/ANUBIS/.devcontainer/entrypoint.sh\" && /workspaces/ANUBIS/.devcontainer/entrypoint.sh",
+	"postStartCommand": "/bin/sh -c \"chmod 777 /workspaces/ANUBIS/.devcontainer/entrypoint.sh\" && /workspaces/REAPER/.devcontainer/entrypoint.sh",
 	"shutdownAction": "stopCompose",
   }
