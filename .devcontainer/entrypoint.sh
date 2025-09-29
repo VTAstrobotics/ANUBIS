@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Set up logging entrypoint stuff to build.log file in .devcontainer directory
-rm /workspaces/ANUBIS/.devcontainer/build.log
-sudo touch /workspaces/ANUBIS/.devcontainer/build.log
-sudo chmod 777 /workspaces/ANUBIS/.devcontainer/build.log
+rm /workspace/.devcontainer/build.log
+sudo touch /workspace/.devcontainer/build.log
+sudo chmod 777 /workspace/.devcontainer/build.log
 
 { printf "entrypoint.sh:\n"
 ###############################################################################
@@ -18,7 +18,7 @@ git config merge.conflictstyle diff3
 git config mergetool.prompt false
 
 # ROS basic build and source
-cd /workspaces/ANUBIS/
+cd /workspace/anubis_ws
 source build_scripts/build.sh
 
 # Give permissions to input devices, like Xbox controller
@@ -32,6 +32,6 @@ sudo chmod +rx /dev/input/js*
 # Shutdown commands (do not put anything below this)                          #
 #                                                                             #
 ###############################################################################
-} &> /workspaces/REAPER/.devcontainer/build.log
+} &> /workspace/.devcontainer/build.log
 
 exit 0
