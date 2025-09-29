@@ -3,7 +3,8 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "dev-container",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
-	"workspaceFolder": "/${localWorkspaceFolderBasename}",
+	// "workspaceFolder": "/${localWorkspaceFolderBasename}",
+	"workspaceFolder": "/workspace",
 	"containerEnv": {
 		/* Uncomment to allow the container to access the X server on the host e.g. to run Rviz and other GUI tools
     	"DISPLAY": "${localEnv:DISPLAY}"
