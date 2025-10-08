@@ -5,3 +5,4 @@ anubis_ws/log/
 
 # prevent accidental overwrites
 .vscode
+.devcontainer/build.log
