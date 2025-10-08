@@ -2,6 +2,9 @@
 anubis_ws/build/
 anubis_ws/install/
 anubis_ws/log/
+anubis_ws/src/build/
+anubis_ws/src/install/
+anubis_ws/src/log/
 
 # prevent accidental overwrites
 .vscode
