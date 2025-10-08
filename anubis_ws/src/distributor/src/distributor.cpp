@@ -36,51 +36,32 @@ class Distributor : public rclcpp::Node
     {
       //this is where you assign subscribers and publishers to a topic.
 
-      velocity_subscriber = this->create_subscription<geometry_msgs::msg::Joy>( // Creating the subscriber to the Joy topic
-      "/cmd_vel", 10, std::bind(&Distributor::your_callback, this, _1)); //TODO(2), change topic so subscriber listens to /cmd_vel topic.
+      joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>( // Creating the subscriber to the Joy topic
+      "/joy", 10, std::bind(&Distributor::your_callback, this, _1)); //TODO(2), change topic so subscriber listens to /joy topic.
 
-
-
-
-      left_publisher = this->create_publisher<std_msgs::msg::Float64>("/left_drive", 10);//example for left publisher.
-      //TODO(3) - assign the right publisher you create to a topic
-      right_publisher = this->create_publisher<std_msgs::msg::Float64>("/right_drive", 10);
+      velocity_publisher = this->create_publisher<geometry_msgs::msg::Twist>
+      ("/cmd_vel", 10, std::bind(&Distributor::joy_callback, this, _1)) // creates the publisher to the /joy topic
+      // uses the joy_callback to recieve the message from the subscriber and publish it to the /joy topic
     }
 
   private:
-    void your_callback(geometry_msgs::msg::Twist::SharedPtr msg)
+    void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
-      /***
-       * TODO(4)
-       * the method "your_callback" is run everytime your subscriber recieves a message. Here, do the math to find
-       * the left motor and right motor velocities, and publish them to their respective topics using two publishers, one for /left_drive
-       * and one for /right_drive
-      */
 
+        double lin = msg->axes[1] * linear_scale; // this is how you get the x velocity from the message. Try angular z!
+        double ang = msg->axes[0] * angular_scale; //the angular variable
 
+        geometry_msgs::msg::Twist cmd; //create a variable of type Twist to hold the velocity
+        cmd.linear.x = lin; //assigning the linear x vlaue to lin
+        cmd.angular.z = ang; //assigning the angular z value to ang
+        velocity_publisher->publish(cmd); //publishing the cmd variable to the /cmd_vel topic
 
-        double lin_x = msg->linear.x; // this is how you get the x velocity from the message. Try angular z!
-        double ang_z = msg->angular.z;
-        std_msgs::msg::Float64 left_velocity;
-        std_msgs::msg::Float64 right_velocity;
-        left_velocity.data = lin_x - 0.5 * ang_z * 1.0;  // 1.0 is the wheelbase
-        right_velocity.data = lin_x + 0.5 * ang_z * 1.0;
-
-        //Publishing to boith the left and the right topics
-        left_publisher->publish(left_velocity);
-        right_publisher->publish(right_velocity);
-
+        double linear_scale = 0.6;
+        double angular_scale = 1.8;
     }
-
-
     //this is where you can declare subscribers/publishers.
-
-
-    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr velocity_subscriber; //note the message type (hint - TODO(1))
-
-    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr left_publisher; // example for the /left_drive publisher. You need to make the right publisher.
-    //TODO(5) - create the publisher for the right motor
-    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr right_publisher;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_subscriber; //note the message type (hint - TODO(1))
+    rclcpp::Subscriber<std_msgs::msg::Joy>::SharedPtr joy_subscriber; // example for the /left_drive publisher. You need to make the right publisher.
     
 };
 
@@ -89,7 +70,7 @@ int main(int argc, char * argv[])
   //you don't have to worry about changing any of this for now
   //this is the code that makes everything run
   rclcpp::init(argc, argv); 
-  rclcpp::spin(std::make_shared<MotorNode>());
+  rclcpp::spin(std::make_shared<Distributor>());
   rclcpp::shutdown();
   return 0;
 }
