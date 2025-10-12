@@ -15,6 +15,8 @@ public:
   { 
     this->declare_parameter<std::string>("motor_name", "default_motor");
     this->declare_parameter<std::string>("control_topic", "/speed");
+    this->declare_parameter<std::string>("status_topic", "/status");
+    this->declare_parameter<std::string>("health_topic", "/health");
   }
 
   virtual void control_callback(const motor_messages::msg::Command::SharedPtr msg) = 0;
@@ -22,6 +24,11 @@ public:
   virtual void publish_health(const motor_messages::msg::Health::SharedPtr msg) = 0;
 
   virtual ~MotorControllerBase() = default;
+  private:
+    rclcpp::Subscription<motor_messages::msg::Command>::SharedPtr control_subscription;
+    rclcpp::Publisher<motor_messages::msg::Feedback>::SharedPtr status_publisher;
+    rclcpp::Publisher<motor_messages::msg::Health>::SharedPtr health_publisher;
+  
 };
 
 } // namespace motor_control
