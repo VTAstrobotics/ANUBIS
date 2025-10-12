@@ -67,7 +67,6 @@
 #define CTRL_DRIVE_FWD AXIS_RTRIGGER
 #define CTRL_DRIVE_BCK AXIS_LTRIGGER
 #define CTRL_DRIVE_TRN AXIS_LEFTX
-#define CTRL_DRIVE_TRN AXIS_RIGHTX
 #define CTRL_DRIVE_SPD BUTTON_A
 
 /* Indexes for each button on xbox controller, NEVER USE DIRECTLY */
