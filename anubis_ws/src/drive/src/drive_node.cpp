@@ -3,8 +3,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "std_msgs/msg/float64.hpp"
-#include "sensor_msgs/msg/joy.hpp"
+#include "motor_messages/msg/command.hpp"
 
  //change this
 
@@ -19,21 +18,21 @@ class Drive : public rclcpp::Node
     {
         //------------------------Publishers and Subscribers
         cmd_vel_subscriber = this->create_subscription<geometry_msgs::msg::Twist>( 
-        "/cmd_vel", 10, std::bind(&Distributor::cmd_vel_callback, this, _1)); 
+        "/cmd_vel", 10, std::bind(&Drive::cmd_vel_callback, this, _1)); 
         left_velocity_publisher = this->create_publisher<motor_messages::msg::Command>("/front_left/control", 10);
         right_velocity_publisher = this->create_publisher<motor_messages::msg::Command>("/front_right/control", 10);
 
         //--------------------------Config logic
-        String my_param = this->get_parameter("robot").as_int();
+        std::string robot_name = this->get_parameter("robot").as_int();
         
-        if(my_param == "REAPER"){
+        if(robot_name == "REAPER"){
             wheelbase = reaper_wheelbase;
             auto left_motor = rclcpp::NodeOptions()
                 .append_parameter_override("can_interface", "can0")
                 .append_parameter_override("can_id", 1)
                 .append_parameter_override("control_topic", "/front_left/control")
                 .append_parameter_override("status_topic",  "/front_left/status")
-                .append_parameter_override("health_topic",  "/front_left/health")
+                .append_parameter_override("health_topic",  "/front_left/health");
 
             auto left = std::make_shared<KrakenController>(left_motor);
             motors.push_back(left);
@@ -43,17 +42,16 @@ class Drive : public rclcpp::Node
                 .append_parameter_override("can_id", 1)
                 .append_parameter_override("control_topic", "/front_right/control")
                 .append_parameter_override("status_topic",  "/front_right/status")
-                .append_parameter_override("health_topic",  "/front_right/health")
+                .append_parameter_override("health_topic",  "/front_right/health");
 
             auto right = std::make_shared<KrakenController(right_motor);
             motors.push_back(right);
 
         }
-        else if(my_param == "ANUBIS"){
+        else if(robot_name == "ANUBIS"){
           //fill this in after ANUBIS has been constructed
         }
         else{
-
         }
 
     }
@@ -76,21 +74,22 @@ class Drive : public rclcpp::Node
         int ang_z = msg->angular.z;
 
         float left_vel = lin_x - 0.5*ang_z * wheelbase;
-        float right_vel = linx + 0.5*ang_z * wheelbase;
+        float right_vel = lin_x + 0.5*ang_z * wheelbase;
 
         motor_messages::msg::Command right_velocity_msg;
         motor_messages::msg::Command left_velocity_msg;
 
-        left_velocity.data.velocity = right_vel;
-        right_velocity.data.velocity = left_vel;
-        left_publisher->publish(left_velocity_msg);
-        right_publisher->publish(right_velocity_msg);
+        left_velocity_msg.velocity = right_vel;
+        right_velocity_msg.velocity = left_vel;
+
+        left_velocity_publisher->publish(left_velocity_msg);
+        right_velocity_publisher->publish(right_velocity_msg);
     }
 
     //----------------------publishers/subscribers
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_subscriber;
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr left_velocity_publisher;
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr right_velocity_publisher; 
+    rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr left_velocity_publisher;
+    rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr right_velocity_publisher; 
 
     //------------------------data variables
     std::vector<std::shared_ptr<rclcpp::Node>> motors;

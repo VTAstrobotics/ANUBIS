@@ -20,14 +20,15 @@ find_package(motor_messages REQUIRED)
 add_executable(drive_node src/drive_node.cpp)
 
 
-ament_target_dependencies(distributor_node
+ament_target_dependencies(drive_node
   rclcpp
   geometry_msgs
   std_msgs
   sensor_msgs
+  motor_messages
 )
 
-install(TARGETS distributor_node
+install(TARGETS drive_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
