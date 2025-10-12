@@ -46,6 +46,14 @@
 
   void KrakenController::publish_health() 
   {
+    motor_messages::msg::Health health;
     RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor health");
     // Implement the logic to publish the Kraken motor health here
+
+    health.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();
+    health.is_failed.data = false;
+    health.temperature.data = this->motor->GetDeviceTemp().GetValueAsDouble();
+    health.voltage.data = this->motor->GetSupplyVoltage().GetValueAsDouble();
+
+    health_publisher->publish(health);
   }
