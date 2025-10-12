@@ -10,6 +10,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(motor_messages REQUIRED)
 find_package(rclcpp_components REQUIRED)
+find_package(phoenix6 REQUIRED)
+add_definitions(-DUNIT_LIB_DISABLE_FMT -DUNIT_LIB_ENABLE_IOSTREAM)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -26,10 +28,20 @@ target_include_directories(kraken_control_node PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
+target_link_libraries(kraken_control_node phoenix6)
+
 install(TARGETS
   kraken_control_node
   DESTINATION lib/${PROJECT_NAME}
 )
+
+# Install launch files
+install(
+  DIRECTORY launch config
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+
 ament_export_include_directories(include)
 
 
