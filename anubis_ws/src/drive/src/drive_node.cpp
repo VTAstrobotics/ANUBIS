@@ -1,13 +1,16 @@
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "motor_messages/msg/command.hpp"
+#include "motor_control/kraken_controller.hpp"
+//need to include kraken once finished
 
  //change this
 
-#define reaper_wheelbase 100;
+#define reaper_wheelbase 0.5
 
 using std::placeholders::_1;
 class Drive : public rclcpp::Node
@@ -23,11 +26,15 @@ class Drive : public rclcpp::Node
         right_velocity_publisher = this->create_publisher<motor_messages::msg::Command>("/front_right/control", 10);
 
         //--------------------------Config logic
-        std::string robot_name = this->get_parameter("robot").as_int();
+        this->declare_parameter<std::string>("robot", "REAPER");
+        const std::string robot_name = this->get_parameter("robot").as_string();
         
         if(robot_name == "REAPER"){
+
+          //Might have name overlap with left and right motor nodes.
             wheelbase = reaper_wheelbase;
             auto left_motor = rclcpp::NodeOptions()
+                .append_parameter_override("motor_name", "left_motor")
                 .append_parameter_override("can_interface", "can0")
                 .append_parameter_override("can_id", 1)
                 .append_parameter_override("control_topic", "/front_left/control")
@@ -38,13 +45,14 @@ class Drive : public rclcpp::Node
             motors.push_back(left);
 
             auto right_motor = rclcpp::NodeOptions()
+                .append_parameter_override("motor_name", "right_motor")
                 .append_parameter_override("can_interface", "can1")
                 .append_parameter_override("can_id", 1)
                 .append_parameter_override("control_topic", "/front_right/control")
                 .append_parameter_override("status_topic",  "/front_right/status")
                 .append_parameter_override("health_topic",  "/front_right/health");
 
-            auto right = std::make_shared<KrakenController(right_motor);
+            auto right = std::make_shared<KrakenController>(right_motor);
             motors.push_back(right);
 
         }
@@ -70,8 +78,8 @@ class Drive : public rclcpp::Node
      * reacts to /cmd_velocity message, and distrubutes velocity to left_right topics
      */
     void cmd_vel_callback(geometry_msgs::msg::Twist::SharedPtr msg){
-        int lin_x = msg->linear.x;
-        int ang_z = msg->angular.z;
+        float lin_x = msg->linear.x;
+        float ang_z = msg->angular.z;
 
         float left_vel = lin_x - 0.5*ang_z * wheelbase;
         float right_vel = lin_x + 0.5*ang_z * wheelbase;
@@ -79,8 +87,8 @@ class Drive : public rclcpp::Node
         motor_messages::msg::Command right_velocity_msg;
         motor_messages::msg::Command left_velocity_msg;
 
-        left_velocity_msg.velocity = right_vel;
-        right_velocity_msg.velocity = left_vel;
+        left_velocity_msg.velocity.data = left_vel;
+        right_velocity_msg.velocity.data = right_vel;
 
         left_velocity_publisher->publish(left_velocity_msg);
         right_velocity_publisher->publish(right_velocity_msg);
