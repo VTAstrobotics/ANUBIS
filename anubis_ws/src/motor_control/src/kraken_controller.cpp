@@ -2,8 +2,10 @@
 #include <rclcpp/rclcpp.hpp>
 #include "motor_control/kraken_controller.hpp"
 #include <ctre/phoenix6/TalonFX.hpp>
+#include <ctre/phoenix6/unmanaged/Unmanaged.hpp>
 
 
+  using namespace ctre::phoenix6;
 
 
   void KrakenController::control_callback(const motor_messages::msg::Command::SharedPtr msg) 
@@ -11,7 +13,12 @@
 
     if(abs(msg->dutycycle.data) >= 0){
       this->outDuty.Output = msg->dutycycle.data;
-      this->motor->SetControl(this->outDuty);
+      
+      auto status = motor->SetControl(this->outDuty);
+      ctre::phoenix::unmanaged::FeedEnable(100);
+
+      RCLCPP_INFO(this->get_logger(), "SetControl status: %s", status.GetName());
+      
     }
     else if(abs(msg->current.data) >= 0){
       RCLCPP_ERROR(this->get_logger(), "We have not paid for this feature L");
@@ -32,7 +39,7 @@
   {
     
     motor_messages::msg::Feedback feedback;
-    RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor status");
+    // RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor status");
 
     feedback.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();
     feedback.is_disabled.data = false;
@@ -47,7 +54,7 @@
   void KrakenController::publish_health() 
   {
     motor_messages::msg::Health health;
-    RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor health");
+    // RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor health");
     // Implement the logic to publish the Kraken motor health here
 
     health.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();

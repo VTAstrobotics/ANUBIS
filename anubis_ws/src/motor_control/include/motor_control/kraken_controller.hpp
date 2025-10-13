@@ -2,7 +2,7 @@
 #include "motor_control/motor_controller_base.hpp"
 #include <chrono>
 #include <ctre/phoenix6/TalonFX.hpp>
-
+#include <ctre/phoenix6/unmanaged/Unmanaged.hpp>
 #include <rclcpp/rclcpp.hpp>
 using namespace ctre::phoenix6;
 class KrakenController : public motor_control::MotorControllerBase
@@ -13,8 +13,8 @@ public:
   {
 
     RCLCPP_INFO(this->get_logger(), "KrakenController node has been initialized.");
-    this->declare_parameter<std::string>("can_interface", "can0");
-    this->declare_parameter<int>("can_id", 42069);
+    this->declare_parameter<std::string>("can_interface", "can1");
+    this->declare_parameter<int>("can_id", 21);
     this->control_subscription = this->create_subscription<motor_messages::msg::Command>(
         this->get_parameter("control_topic").as_string(),
         10,
@@ -27,6 +27,13 @@ public:
 
     std::string can_interface = this->get_parameter("can_interface").as_string();
     this->motor = std::make_unique<hardware::TalonFX>((int)this->get_parameter("can_id").as_int(), can_interface);
+
+    configs::TalonFXConfiguration fx_config{};
+
+    fx_config.MotorOutput.Inverted = signals::InvertedValue::CounterClockwise_Positive;
+    motor->GetConfigurator().Apply(fx_config);
+
+    // motor->SetNeutralMode(signals::NeutralModeValue::Coast);
 
     std::chrono::duration<double> status_period(1 / this->get_parameter("status_publish_frequency").as_double()); // Defaults to seconds
     this->status_timer = this->create_wall_timer(status_period, std::bind(&KrakenController::publish_status, this));
