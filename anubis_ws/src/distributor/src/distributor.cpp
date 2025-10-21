@@ -5,7 +5,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float64.hpp"
 #include "sensor_msgs/msg/joy.hpp"
-
+#include "map.h"
 
 
 using std::placeholders::_1;
@@ -26,6 +26,10 @@ class Distributor : public rclcpp::Node
       this->declare_parameter("ROTATION_CONTROL", "RSTICKX");
       this->declare_parameter("CONVEYOR_FORWARD", "BUTTON_B");
       this->declare_parameter("CONVEYOR_REVERSE", "BUTTON_A");
+      TRANSLATION_CONTROL = controls[this->get_parameter("TRANSLATION_CONTROL").as_string()];
+      ROTATION_CONTROL = controls[this->get_parameter("ROTATION_CONTROL").as_string()];
+      CONVEYOR_FORWARD = controls[this->get_parameter("CONVEYOR_FORWARD").as_string()];
+      CONVEYOR_REVERSE = controls[this->get_parameter("CONVEYOR_REVERSE").as_string()];
     }
 
   private:
@@ -46,6 +50,11 @@ class Distributor : public rclcpp::Node
     //this is where you can declare subscribers/publishers.
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher; 
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
+    int TRANSLATION_CONTROL;
+    int ROTATION_CONTROL;
+    int CONVEYOR_FORWARD;
+    int CONVEYOR_REVERSE;
+    
     
 };
 
