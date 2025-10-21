@@ -66,7 +66,6 @@
 #define CTRL_DRIVE_SPD BUTTON_A
 
 /* Indexes for each button on xbox controller, NEVER USE DIRECTLY */
-BUTTON_A = self.get_parameter("BUTTON_A").value
 #define BUTTON_A 0
 #define BUTTON_B 1
 #define BUTTON_X 2

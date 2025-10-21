@@ -21,6 +21,11 @@ class Distributor : public rclcpp::Node
 
       velocity_publisher = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10); // creates the publisher to the /joy topic
       // uses the joy_callback to recieve the message from the subscriber and publish it to the /joy topic
+
+      this->declare_parameter("TRANSLATION_CONTROL", "LSTICKY");
+      this->declare_parameter("ROTATION_CONTROL", "RSTICKX");
+      this->declare_parameter("CONVEYOR_FORWARD", "BUTTON_B");
+      this->declare_parameter("CONVEYOR_REVERSE", "BUTTON_A");
     }
 
   private:

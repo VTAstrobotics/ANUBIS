@@ -1,0 +1,6 @@
+distributorcontrols:
+  ros_parameters: 
+    TRANSLATION_CONTROL: "LSTICKY"
+    ROTATION_CONTROL: "RSTICKX"
+    CONVEYOR_FORWARD: "BUTTON_B"
+    CONVEYOR_REVERSE: "BUTTON_A"
