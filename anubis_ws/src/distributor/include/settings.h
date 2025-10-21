@@ -3,49 +3,45 @@
 
 
 /**
- * @defgroup drvMac Drive Macros
- * Macros and settings related to the drivetrain subsystem
+ * @defgroup drvMac Drive Constants
+ * Constants and settings related to the drivetrain subsystem
  */
 /**
- * @defgroup teleop Distributor Macros
- * Macros and settings related to the disributor nodes
+ * @defgroup teleop Distributor Constants
+ * Constants and settings related to the disributor nodes
  */
 
-/**
- * @ingroup distributor
- * @brief Amount of error to place in axis controls
- */
-#define DEADZONE_SIZE 0.1f
+ namespace DistributorConsts {
 
+    // General Settings
+    /**
+     * @ingroup distributor
+     * @brief Amount of error to place in axis controls
+     */
+    const float DEADZONE_SIZE = 0.1f;
 
-#define QOS 10
+    /**
+     * @brief Maximum forward/backward speed
+     */
+    const float MAX_LINEAR_VELOCITY = 1.0;
 
-/**
- * @ingroup drvMac
- * @brief Topic name given to drive communications
- */
-#define DRIVE_TOPIC "cmd_vel"
-/**
- * @ingroup drvMac
- * @brief Amount of motors used by the drive subsystem
- */
-#define DRIVE_M_COUNT 2
-/**
- * @ingroup drvMac
- * @brief Use when referring to the left drive motor
- */
-#define DRIVE_L_MOTOR 0
-/**
- * @ingroup drvMac
- * @brief Use when referring to the right drive motor
- */
-#define DRIVE_R_MOTOR 1
+    /**
+     * @brief Maximum rotational speed
+     */
+    const float MAX_ANGULAR_VELOCITY = 1.57;
 
-/**
- * @ingroup uart
- * @brief Topic name given to the UART node
- */
+    // Motor Configuration
+    /**
+     * @brief The number of motors in the drive system
+     */
+    const int DRIVE_M_COUNT = 2;
 
+    /**
+     * @brief Flag to invert the right drive motor logic
+     */
+    const bool INVERT_R_DRIVE = true; // Use 'bool' for clarity
+
+}
 
 #define DISTRIB_TOPIC "joy"
 
