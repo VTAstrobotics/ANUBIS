@@ -7,10 +7,31 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+add_executable(distributor_node src/distributor.cpp)
+target_include_directories(distributor_node PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+  
+)
+
+
+ament_target_dependencies(distributor_node
+  rclcpp
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+)
+
+install(TARGETS distributor_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
