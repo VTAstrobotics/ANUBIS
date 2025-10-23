@@ -162,9 +162,9 @@ void LibavStreamer::initialize(const cv::Mat & /* img */)
   video_stream_->time_base.den = 1000;
 
   // Set encoder timebase based on desired FPS
-  // <-- ADAPT: ensure this member exists in your class (e.g. int output_fps_ = 30;)
+  // <-- ADAPT: ensure this member exists in your class if you want a non-1 timebase
   codec_context_->time_base.num = 1;
-  codec_context_->time_base.den = 1; // e.g. 30
+  codec_context_->time_base.den = 1; // keep same semantics as your current code
 
   codec_context_->gop_size = gop_;
   codec_context_->pix_fmt = AV_PIX_FMT_YUV420P; // keep as you had
@@ -179,26 +179,106 @@ void LibavStreamer::initialize(const cv::Mat & /* img */)
   // Allow subclass to set private options (x264 preset/crf etc.)
   initializeEncoder();
 
-  // IMPORTANT: open the codec BEFORE copying codec params into stream so encoder can
-  // fill extradata (SPS/PPS) into codec_context_->extradata.
+  // If the container format expects global headers, request them from the encoder
+  if (format_context_->oformat && (format_context_->oformat->flags & AVFMT_GLOBALHEADER)) {
+    codec_context_->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+  }
+
+  // Open the codec FIRST so encoder can populate extradata (SPS/PPS) into codec_context_
   if (avcodec_open2(codec_context_, codec_, NULL) < 0) {
     async_web_server_cpp::HttpReply::stock_reply(
       async_web_server_cpp::HttpReply::internal_server_error)(request_, connection_, NULL, NULL);
     throw std::runtime_error("Could not open video codec");
   }
 
-  // Now copy codec params into the stream (this copies extradata too).
+  // Copy codec params into the stream (this may copy extradata if the encoder filled it)
   if (avcodec_parameters_from_context(video_stream_->codecpar, codec_context_) < 0) {
     throw std::runtime_error("Failed to copy codec parameters to stream");
   }
 
-  // Diagnostic: check extradata (SPS/PPS) presence
-  if (video_stream_->codecpar->extradata && video_stream_->codecpar->extradata_size > 0) {
+  // Buffer to hold any probe packets (if needed)
+  std::vector<AVPacket *> buffered_pkts;
+
+  // If extradata is missing, try to force the encoder to emit SPS/PPS by encoding a probe frame
+  if (!(video_stream_->codecpar->extradata && video_stream_->codecpar->extradata_size > 0)) {
+    RCLCPP_WARN(node_->get_logger(),
+                "No extradata found in codecpar — attempting to force encoder to emit SPS/PPS");
+
+    // Prepare a simple black probe frame matching codec dimensions and pix_fmt
+    AVFrame *probe_frame = av_frame_alloc();
+    if (!probe_frame) {
+      RCLCPP_ERROR(node_->get_logger(), "Failed to alloc probe frame");
+    } else {
+      probe_frame->format = codec_context_->pix_fmt;
+      probe_frame->width  = codec_context_->width;
+      probe_frame->height = codec_context_->height;
+      if (av_frame_get_buffer(probe_frame, 32) < 0) {
+        RCLCPP_ERROR(node_->get_logger(), "Failed to allocate probe frame buffer");
+      } else {
+        // zero the frame (black)
+        if (av_frame_make_writable(probe_frame) == 0) {
+          for (int i = 0; i < AV_NUM_DATA_POINTERS; ++i) {
+            if (probe_frame->data[i] && probe_frame->linesize[i] > 0) {
+              // write height lines worth of zeros for each plane
+              memset(probe_frame->data[i], 0x00,
+                     static_cast<size_t>(probe_frame->linesize[i]) * codec_context_->height);
+            }
+          }
+        }
+
+        // Give it a pts (in codec timebase)
+        static int64_t probe_pts = 0;
+        probe_frame->pts = probe_pts++;
+
+        // Send frame and collect any output packets (SPS/PPS often emitted as side-data or first packet)
+        int ret = avcodec_send_frame(codec_context_, probe_frame);
+        if (ret < 0) {
+          char errbuf[AV_ERROR_MAX_STRING_SIZE];
+          av_strerror(ret, errbuf, sizeof(errbuf));
+          RCLCPP_ERROR(node_->get_logger(), "avcodec_send_frame (probe) failed: %s", errbuf);
+        } else {
+          while (true) {
+            AVPacket *pkt = av_packet_alloc();
+            if (!pkt) break;
+            ret = avcodec_receive_packet(codec_context_, pkt);
+            if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+              av_packet_free(&pkt);
+              break;
+            } else if (ret < 0) {
+              char errbuf[AV_ERROR_MAX_STRING_SIZE];
+              av_strerror(ret, errbuf, sizeof(errbuf));
+              RCLCPP_ERROR(node_->get_logger(), "avcodec_receive_packet (probe) error: %s", errbuf);
+              av_packet_free(&pkt);
+              break;
+            } else {
+              // keep packet for writing after header
+              buffered_pkts.push_back(pkt);
+            }
+          }
+        }
+      }
+      av_frame_free(&probe_frame);
+    }
+
+    // Copy codec params again (encoder may have populated extradata during probe)
+    if (avcodec_parameters_from_context(video_stream_->codecpar, codec_context_) < 0) {
+      char errbuf[AV_ERROR_MAX_STRING_SIZE];
+      av_strerror(AVERROR_UNKNOWN, errbuf, sizeof(errbuf));
+      RCLCPP_ERROR(node_->get_logger(), "Failed to copy codec parameters to stream after probe: %s", errbuf);
+    } else {
+      if (video_stream_->codecpar->extradata && video_stream_->codecpar->extradata_size > 0) {
+        RCLCPP_INFO(node_->get_logger(),
+                    "Extradata created after probe (size=%d bytes)",
+                    video_stream_->codecpar->extradata_size);
+      } else {
+        RCLCPP_WARN(node_->get_logger(),
+                    "Still no extradata after probe; buffered packets: %zu",
+                    buffered_pkts.size());
+      }
+    }
+  } else {
     RCLCPP_INFO(node_->get_logger(),
                 "H264 extradata present (size=%d bytes)", video_stream_->codecpar->extradata_size);
-  } else {
-    RCLCPP_WARN(node_->get_logger(),
-                "No extradata found in codecpar — MP4/Firefox may consider stream corrupt");
   }
 
   // Allocate frame buffers AFTER codec is opened
@@ -238,13 +318,28 @@ void LibavStreamer::initialize(const cv::Mat & /* img */)
   .header("Access-Control-Allow-Origin", "*")
   .write(connection_);
 
-  // Send video stream header NOW that codecpar contains extradata.
+  // Send video stream header NOW that codecpar hopefully contains extradata.
   if (avformat_write_header(format_context_, &opt_) < 0) {
     async_web_server_cpp::HttpReply::stock_reply(
       async_web_server_cpp::HttpReply::internal_server_error)(request_, connection_, NULL, NULL);
     throw std::runtime_error("Error opening dynamic buffer (avformat_write_header failed)");
   }
+
+  // If we buffered any probe packets, write them now (rescale timestamps first)
+  for (AVPacket *pkt : buffered_pkts) {
+    av_packet_rescale_ts(pkt, codec_context_->time_base, video_stream_->time_base);
+    pkt->stream_index = video_stream_->index;
+    int wret = av_interleaved_write_frame(format_context_, pkt);
+    if (wret < 0) {
+      char errbuf[AV_ERROR_MAX_STRING_SIZE];
+      av_strerror(wret, errbuf, sizeof(errbuf));
+      RCLCPP_ERROR(node_->get_logger(), "Failed to write buffered probe packet: %s", errbuf);
+    }
+    av_packet_free(&pkt);
+  }
+  buffered_pkts.clear();
 }
+
 
 void LibavStreamer::initializeEncoder()
 {
