@@ -44,6 +44,7 @@ def generate_launch_description():
                 package='camera_streamer',
                 executable='usbCamStreamerParam',
                 name=f'usbcam_node_{get_serial(cam_path)}',
+                namespace=f'camera/Serial_{get_serial(cam_path)}',
                 parameters=[{'camera_path': cam_path}],
                 # you can also set output='screen' if you want logs on stdout
             )

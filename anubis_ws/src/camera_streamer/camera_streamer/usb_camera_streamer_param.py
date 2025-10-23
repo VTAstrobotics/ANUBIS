@@ -16,7 +16,7 @@ class CameraNode(Node):
         self.declare_parameter("camera_path", "/dev/v4l/by-id/usb-046d_Brio_101_2441AP7CHQV8-video-index0")
         
         self.frame_rate = 30
-        self.publisher_ = self.create_publisher(Image, f'usbcam_image_camera' , 3)  # Create a publisher for the camera so that the topic name has the camera number
+        self.publisher_ = self.create_publisher(Image, f'image_raw' , 3)  # Create a publisher for the camera so that the topic name has the camera number
         cam = self.get_parameter("camera_path").value
         self.timer = self.create_timer(self.frame_rate**-1, self.timer_callback)  # Create a timer to call camera such that the framerate is 30
         self.cap = cv2.VideoCapture(cam ,cv2.CAP_V4L)  # Open the specified webcam // V4L gives 6x the framerate compared to the default
