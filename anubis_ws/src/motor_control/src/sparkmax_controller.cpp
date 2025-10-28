@@ -13,6 +13,7 @@ void SparkMaxController::control_callback(const motor_messages::msg::Command::Sh
     RCLCPP_INFO(this->get_logger(), "SparkMax set duty cycle: %f", duty);
     if (motor) {
       motor->SetDutyCycle(duty);
+      motor->Heartbeat();
     } else {
       RCLCPP_WARN(this->get_logger(), "No SparkMax motor");
     }
@@ -21,6 +22,7 @@ void SparkMaxController::control_callback(const motor_messages::msg::Command::Sh
     RCLCPP_INFO(this->get_logger(), "SparkMax set velocity: %f", vel);
     if (motor) {
       motor->SetVelocity(vel);
+      motor->Heartbeat();
     } else {
       RCLCPP_WARN(this->get_logger(), "No SparkMax motor");
     }
@@ -29,6 +31,7 @@ void SparkMaxController::control_callback(const motor_messages::msg::Command::Sh
     RCLCPP_INFO(this->get_logger(), "SparkMax set position: %f", pos);
     if (motor) {
       motor->SetPosition(pos);
+      motor->Heartbeat();
     } else {
       RCLCPP_WARN(this->get_logger(), "No SparkMax motor");
     }
@@ -37,6 +40,7 @@ void SparkMaxController::control_callback(const motor_messages::msg::Command::Sh
     RCLCPP_INFO(this->get_logger(), "SparkMax set current: %f", cur);
     if (motor) {
       motor->SetCurrent(cur);
+      motor->Heartbeat();
     } else {
       RCLCPP_WARN(this->get_logger(), "No SparkMax motor");
     }

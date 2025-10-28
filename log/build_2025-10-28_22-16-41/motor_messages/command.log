@@ -1,6 +1,0 @@
-Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_messages -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_messages
-Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_messages -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_messages
-Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_messages -- -j4 -l4
-Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_messages -- -j4 -l4
-Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /workspaces/ANUBIS/build/motor_messages
-Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /workspaces/ANUBIS/build/motor_messages

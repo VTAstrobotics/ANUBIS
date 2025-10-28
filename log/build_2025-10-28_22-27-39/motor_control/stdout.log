@@ -1,3 +1,0 @@
-[ 50%] Built target kraken_control_node
-[ 66%] [32mBuilding CXX object CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller.cpp.o[0m
-[ 83%] [32m[1mLinking CXX executable sparkmax_control_node[0m

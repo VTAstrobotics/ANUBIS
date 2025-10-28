@@ -13,8 +13,8 @@ public:
 
     RCLCPP_INFO(this->get_logger(), "SparkMaxController node has been initialized.");
 
-    this->declare_parameter<std::string>("can_interface", "can1");
-    this->declare_parameter<int>("can_id", 21);
+    this->declare_parameter<std::string>("can_interface", "can0");
+    this->declare_parameter<int>("can_id", 22);
 
     control_subscription_ = this->create_subscription<motor_messages::msg::Command>(
       this->get_parameter("control_topic").as_string(),
