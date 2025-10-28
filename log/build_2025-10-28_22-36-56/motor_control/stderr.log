@@ -1,0 +1,9 @@
+[01m[K/workspaces/ANUBIS/anubis_ws/src/motor_control/src/spark_base.cpp:7:11:[m[K [01;31m[Kfatal error: [m[KSparkBase.hpp: No such file or directory
+    7 |  #include [01;31m[K"SparkBase.hpp"[m[K
+      |           [01;31m[K^~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [CMakeFiles/sparkmax_control_node.dir/build.make:104: CMakeFiles/sparkmax_control_node.dir/src/spark_base.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/sparkmax_control_node.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2

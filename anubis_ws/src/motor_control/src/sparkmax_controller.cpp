@@ -1,7 +1,8 @@
 #include "motor_control/motor_controller_base.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include "motor_control/sparkmax_controller.hpp"
-#include 
+#include "motor_control/SparkBase.hpp"
+#include "motor_control/SparkMax.hpp"
 
 void SparkMaxController::control_callback(const motor_messages::msg::Command::SharedPtr msg)
 {
@@ -89,4 +90,3 @@ void SparkMaxController::publish_health()
   health_publisher->publish(health);
 }
 
-RCLCPP_COMPONENTS_REGISTER_NODE(SparkMaxController)

@@ -1,0 +1,209 @@
+[0.136s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.136s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x74cdd7225ca0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x74cdd737a150>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x74cdd737a150>>, mixin_verb=('build',))
+[0.184s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.184s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.184s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.184s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.184s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.184s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.184s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/workspaces/ANUBIS'
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.185s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extensions ['ignore', 'ignore_ament_install']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'ignore'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'ignore_ament_install'
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extensions ['colcon_pkg']
+[0.219s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'colcon_pkg'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extensions ['colcon_meta']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'colcon_meta'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extensions ['ros']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'ros'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extensions ['cmake', 'python']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'cmake'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'python'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extensions ['python_setup_py']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws) by extension 'python_setup_py'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extensions ['ignore', 'ignore_ament_install']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'ignore'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'ignore_ament_install'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extensions ['colcon_pkg']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'colcon_pkg'
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extensions ['colcon_meta']
+[0.220s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'colcon_meta'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extensions ['ros']
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'ros'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extensions ['cmake', 'python']
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'cmake'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'python'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extensions ['python_setup_py']
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src) by extension 'python_setup_py'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extensions ['ignore', 'ignore_ament_install']
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extension 'ignore'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extension 'ignore_ament_install'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extensions ['colcon_pkg']
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extension 'colcon_pkg'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extensions ['colcon_meta']
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extension 'colcon_meta'
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extensions ['ros']
+[0.221s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_control) by extension 'ros'
+[0.224s] DEBUG:colcon.colcon_core.package_identification:Package 'anubis_ws/src/motor_control' with type 'ros.ament_cmake' and name 'motor_control'
+[0.224s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extensions ['ignore', 'ignore_ament_install']
+[0.224s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extension 'ignore'
+[0.225s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extension 'ignore_ament_install'
+[0.225s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extensions ['colcon_pkg']
+[0.225s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extension 'colcon_pkg'
+[0.225s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extensions ['colcon_meta']
+[0.225s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extension 'colcon_meta'
+[0.225s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extensions ['ros']
+[0.225s] Level 1:colcon.colcon_core.package_identification:_identify(anubis_ws/src/motor_messages) by extension 'ros'
+[0.225s] DEBUG:colcon.colcon_core.package_identification:Package 'anubis_ws/src/motor_messages' with type 'ros.ament_cmake' and name 'motor_messages'
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.226s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.226s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.226s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.226s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.227s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.227s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'cmake_args' from command line to 'None'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'cmake_target' from command line to 'None'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'cmake_clean_cache' from command line to 'False'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'cmake_clean_first' from command line to 'False'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'cmake_force_configure' from command line to 'False'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'ament_cmake_args' from command line to 'None'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'catkin_cmake_args' from command line to 'None'
+[0.248s] Level 5:colcon.colcon_core.verb:set package 'motor_messages' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.248s] DEBUG:colcon.colcon_core.verb:Building package 'motor_messages' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspaces/ANUBIS/build/motor_messages', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspaces/ANUBIS/install/motor_messages', 'merge_install': False, 'path': '/workspaces/ANUBIS/anubis_ws/src/motor_messages', 'symlink_install': False, 'test_result_base': None}
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'cmake_args' from command line to 'None'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'cmake_target' from command line to 'None'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'cmake_clean_cache' from command line to 'False'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'cmake_clean_first' from command line to 'False'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'cmake_force_configure' from command line to 'False'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'ament_cmake_args' from command line to 'None'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'catkin_cmake_args' from command line to 'None'
+[0.249s] Level 5:colcon.colcon_core.verb:set package 'motor_control' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.249s] DEBUG:colcon.colcon_core.verb:Building package 'motor_control' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspaces/ANUBIS/build/motor_control', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspaces/ANUBIS/install/motor_control', 'merge_install': False, 'path': '/workspaces/ANUBIS/anubis_ws/src/motor_control', 'symlink_install': False, 'test_result_base': None}
+[0.249s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.251s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.251s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspaces/ANUBIS/anubis_ws/src/motor_messages' with build type 'ament_cmake'
+[0.251s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspaces/ANUBIS/anubis_ws/src/motor_messages'
+[0.254s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.254s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.254s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.268s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_messages -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_messages
+[5.160s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_messages -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_messages
+[5.161s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_messages -- -j4 -l4
+[14.011s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_messages -- -j4 -l4
+[14.027s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /workspaces/ANUBIS/build/motor_messages
+[14.158s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(motor_messages)
+[14.158s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /workspaces/ANUBIS/build/motor_messages
+[14.163s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages' for CMake module files
+[14.164s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages' for CMake config files
+[14.165s] Level 1:colcon.colcon_core.shell:create_environment_hook('motor_messages', 'cmake_prefix_path')
+[14.165s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/cmake_prefix_path.ps1'
+[14.166s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/cmake_prefix_path.dsv'
+[14.166s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/cmake_prefix_path.sh'
+[14.168s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/lib'
+[14.168s] Level 1:colcon.colcon_core.shell:create_environment_hook('motor_messages', 'ld_library_path_lib')
+[14.168s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/ld_library_path_lib.ps1'
+[14.169s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/ld_library_path_lib.dsv'
+[14.170s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/ld_library_path_lib.sh'
+[14.171s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/bin'
+[14.171s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/lib/pkgconfig/motor_messages.pc'
+[14.175s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages'
+[14.175s] Level 1:colcon.colcon_core.shell:create_environment_hook('motor_messages', 'pythonpath')
+[14.176s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/pythonpath.ps1'
+[14.177s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/pythonpath.dsv'
+[14.178s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/pythonpath.sh'
+[14.179s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/bin'
+[14.179s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.ps1'
+[14.181s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.dsv'
+[14.182s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.sh'
+[14.183s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.bash'
+[14.184s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.zsh'
+[14.185s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspaces/ANUBIS/install/motor_messages/share/colcon-core/packages/motor_messages)
+[14.186s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(motor_messages)
+[14.186s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages' for CMake module files
+[14.187s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages' for CMake config files
+[14.188s] Level 1:colcon.colcon_core.shell:create_environment_hook('motor_messages', 'cmake_prefix_path')
+[14.188s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/cmake_prefix_path.ps1'
+[14.188s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/cmake_prefix_path.dsv'
+[14.189s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/cmake_prefix_path.sh'
+[14.190s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/lib'
+[14.190s] Level 1:colcon.colcon_core.shell:create_environment_hook('motor_messages', 'ld_library_path_lib')
+[14.190s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/ld_library_path_lib.ps1'
+[14.190s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/ld_library_path_lib.dsv'
+[14.191s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/ld_library_path_lib.sh'
+[14.191s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/bin'
+[14.191s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/lib/pkgconfig/motor_messages.pc'
+[14.192s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages'
+[14.192s] Level 1:colcon.colcon_core.shell:create_environment_hook('motor_messages', 'pythonpath')
+[14.192s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/pythonpath.ps1'
+[14.192s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/pythonpath.dsv'
+[14.193s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/hook/pythonpath.sh'
+[14.194s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_messages/bin'
+[14.194s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.ps1'
+[14.195s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.dsv'
+[14.195s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.sh'
+[14.196s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.bash'
+[14.196s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.zsh'
+[14.197s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspaces/ANUBIS/install/motor_messages/share/colcon-core/packages/motor_messages)
+[14.197s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspaces/ANUBIS/anubis_ws/src/motor_control' with build type 'ament_cmake'
+[14.198s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspaces/ANUBIS/anubis_ws/src/motor_control'
+[14.198s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[14.198s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[14.213s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspaces/ANUBIS/build/motor_control': AMENT_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/workspaces/ANUBIS/install/motor_messages/lib:/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6 PYTHONPATH=/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_control -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_control
+[16.261s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspaces/ANUBIS/build/motor_control' returned '1': AMENT_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/workspaces/ANUBIS/install/motor_messages/lib:/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6 PYTHONPATH=/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_control -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_control
+[16.283s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(motor_control)
+[16.283s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_control' for CMake module files
+[16.284s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_control' for CMake config files
+[16.284s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_control/bin'
+[16.284s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_control/lib/pkgconfig/motor_control.pc'
+[16.285s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_control/lib/python3.12/site-packages'
+[16.285s] Level 1:colcon.colcon_core.environment:checking '/workspaces/ANUBIS/install/motor_control/bin'
+[16.285s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_control/share/motor_control/package.ps1'
+[16.286s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspaces/ANUBIS/install/motor_control/share/motor_control/package.dsv'
+[16.287s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_control/share/motor_control/package.sh'
+[16.288s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_control/share/motor_control/package.bash'
+[16.290s] INFO:colcon.colcon_core.shell:Creating package script '/workspaces/ANUBIS/install/motor_control/share/motor_control/package.zsh'
+[16.291s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspaces/ANUBIS/install/motor_control/share/colcon-core/packages/motor_control)
+[16.302s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[16.302s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[16.302s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '1'
+[16.302s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[16.312s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[16.312s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[16.312s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[16.312s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[16.315s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.Spawn.ExecFailed: /usr/bin/dbus-launch terminated abnormally without any error message
+[16.315s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[16.316s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspaces/ANUBIS/install/local_setup.ps1'
+[16.317s] INFO:colcon.colcon_core.shell:Creating prefix util module '/workspaces/ANUBIS/install/_local_setup_util_ps1.py'
+[16.319s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspaces/ANUBIS/install/setup.ps1'
+[16.320s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspaces/ANUBIS/install/local_setup.sh'
+[16.321s] INFO:colcon.colcon_core.shell:Creating prefix util module '/workspaces/ANUBIS/install/_local_setup_util_sh.py'
+[16.322s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspaces/ANUBIS/install/setup.sh'
+[16.324s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspaces/ANUBIS/install/local_setup.bash'
+[16.325s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspaces/ANUBIS/install/setup.bash'
+[16.327s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspaces/ANUBIS/install/local_setup.zsh'
+[16.328s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspaces/ANUBIS/install/setup.zsh'

@@ -1,6 +1,7 @@
 #pragma once
 #include "motor_control/motor_controller_base.hpp"
 #include "motor_control/SparkMax.hpp"
+#include "motor_control/SparkBase.hpp"
 
 #include <rclcpp/rclcpp.hpp>
 

@@ -1,0 +1,60 @@
+[0.014s] Invoking command in '/workspaces/ANUBIS/build/motor_control': AMENT_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/workspaces/ANUBIS/install/motor_messages/lib:/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6 PYTHONPATH=/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_control -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_control
+[0.111s] -- The C compiler identification is GNU 13.3.0
+[0.196s] -- The CXX compiler identification is GNU 13.3.0
+[0.219s] -- Detecting C compiler ABI info
+[0.348s] -- Detecting C compiler ABI info - done
+[0.370s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.371s] -- Detecting C compile features
+[0.371s] -- Detecting C compile features - done
+[0.388s] -- Detecting CXX compiler ABI info
+[0.543s] -- Detecting CXX compiler ABI info - done
+[0.567s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.568s] -- Detecting CXX compile features
+[0.569s] -- Detecting CXX compile features - done
+[0.579s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.838s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.087s] -- Found rclcpp: 28.1.12 (/opt/ros/jazzy/share/rclcpp/cmake)
+[1.189s] -- Found rosidl_generator_c: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[1.225s] -- Found rosidl_generator_cpp: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[1.269s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.307s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.491s] -- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[1.500s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[1.679s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[1.707s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[1.739s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.900s] -- Found motor_messages: 0.0.0 (/workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake)
+[1.968s] -- Found rclcpp_components: 28.1.12 (/opt/ros/jazzy/share/rclcpp_components/cmake)
+[2.074s] -- Found ament_lint_auto: 0.17.3 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[2.276s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.276s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/workspaces/ANUBIS/anubis_ws/src/motor_control/include>
+[2.276s] -- Configured cppcheck exclude dirs and/or files: 
+[2.278s] -- Added test 'flake8' to check Python code syntax and style conventions
+[2.278s] -- Configured 'flake8' exclude dirs and/or files: 
+[2.279s] -- Added test 'lint_cmake' to check CMake code style
+[2.281s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[2.285s] -- Added test 'uncrustify' to check C / C++ code style
+[2.286s] -- Configured uncrustify additional arguments: 
+[2.287s] -- Added test 'xmllint' to check XML markup files
+[2.290s] -- Configuring done (2.3s)
+[2.313s] -- Generating done (0.0s)
+[2.326s] -- Build files have been written to: /workspaces/ANUBIS/build/motor_control
+[2.337s] Invoked command in '/workspaces/ANUBIS/build/motor_control' returned '0': AMENT_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/workspaces/ANUBIS/install/motor_messages/lib:/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6 PYTHONPATH=/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_control -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_control
+[2.338s] Invoking command in '/workspaces/ANUBIS/build/motor_control': AMENT_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/workspaces/ANUBIS/install/motor_messages/lib:/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6 PYTHONPATH=/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_control -- -j4 -l4
+[2.431s] [ 37%] [32mBuilding CXX object CMakeFiles/sparkmax_control_node.dir/src/spark_base.cpp.o[0m
+[2.431s] [ 37%] [32mBuilding CXX object CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller.cpp.o[0m
+[2.432s] [ 37%] [32mBuilding CXX object CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller_executable.cpp.o[0m
+[2.437s] [ 50%] [32mBuilding CXX object CMakeFiles/kraken_control_node.dir/src/kraken_controller_executable.cpp.o[0m
+[2.458s] [01m[K/workspaces/ANUBIS/anubis_ws/src/motor_control/src/spark_base.cpp:7:11:[m[K [01;31m[Kfatal error: [m[KSparkBase.hpp: No such file or directory
+[2.458s]     7 |  #include [01;31m[K"SparkBase.hpp"[m[K
+[2.458s]       |           [01;31m[K^~~~~~~~~~~~~~~[m[K
+[2.458s] compilation terminated.
+[2.461s] gmake[2]: *** [CMakeFiles/sparkmax_control_node.dir/build.make:104: CMakeFiles/sparkmax_control_node.dir/src/spark_base.cpp.o] Error 1
+[2.461s] gmake[2]: *** Waiting for unfinished jobs....
+[2.484s] [ 62%] [32mBuilding CXX object CMakeFiles/kraken_control_node.dir/src/kraken_controller.cpp.o[0m
+[29.806s] gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/sparkmax_control_node.dir/all] Error 2
+[29.806s] gmake[1]: *** Waiting for unfinished jobs....
+[33.784s] [ 75%] [32m[1mLinking CXX executable kraken_control_node[0m
+[34.608s] [ 75%] Built target kraken_control_node
+[34.610s] gmake: *** [Makefile:146: all] Error 2
+[34.613s] Invoked command in '/workspaces/ANUBIS/build/motor_control' returned '2': AMENT_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/workspaces/ANUBIS/install/motor_messages/lib:/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6 PYTHONPATH=/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_control -- -j4 -l4

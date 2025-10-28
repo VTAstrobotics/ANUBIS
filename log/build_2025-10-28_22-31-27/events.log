@@ -1,0 +1,397 @@
+[0.000000] (-) TimerEvent: {}
+[0.000299] (motor_messages) JobQueued: {'identifier': 'motor_messages', 'dependencies': OrderedDict()}
+[0.000884] (motor_control) JobQueued: {'identifier': 'motor_control', 'dependencies': OrderedDict({'motor_messages': '/workspaces/ANUBIS/install/motor_messages'})}
+[0.001075] (motor_messages) JobStarted: {'identifier': 'motor_messages'}
+[0.013237] (motor_messages) JobProgress: {'identifier': 'motor_messages', 'progress': 'cmake'}
+[0.014292] (motor_messages) JobProgress: {'identifier': 'motor_messages', 'progress': 'build'}
+[0.015255] (motor_messages) Command: {'cmd': ['/usr/bin/cmake', '--build', '/workspaces/ANUBIS/build/motor_messages', '--', '-j4', '-l4'], 'cwd': '/workspaces/ANUBIS/build/motor_messages', 'env': OrderedDict({'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'HOSTNAME': 'astrobotics-desktop', 'GIT_ASKPASS': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/extensions/git/dist/askpass.sh', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6:', 'BROWSER': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/bin/helpers/browser.sh', 'HOME': '/home/astro-dev', 'TERM_PROGRAM_VERSION': '1.98.0', 'VSCODE_IPC_HOOK_CLI': '/tmp/vscode-ipc-db9ba748-137a-4202-b0a5-84e01950b58b.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/node', 'COLORTERM': 'truecolor', 'REMOTE_CONTAINERS': 'true', 'ROS_DISTRO': 'jazzy', 'REMOTE_CONTAINERS_IPC': '/tmp/vscode-remote-containers-ipc-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': ':/opt/ros/jazzy/share/turtlebot3_gazebo/models', 'PATH': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/bin/remote-cli:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'REMOTE_CONTAINERS_SOCKETS': '["/tmp/vscode-ssh-auth-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock","/tmp/.X11-unix/X0","/home/astro-dev/.gnupg/S.gpg-agent"]', 'DISPLAY': ':0', 'LANG': 'C.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'VSCODE_GIT_IPC_HANDLE': '/tmp/vscode-git-bb2b682c33.sock', 'TERM_PROGRAM': 'vscode', 'SSH_AUTH_SOCK': '/tmp/vscode-ssh-auth-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'REMOTE_CONTAINERS_DISPLAY_SOCK': '/tmp/.X11-unix/X0', 'SHELL': '/bin/bash', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/workspaces/ANUBIS/build/motor_messages', 'TURTLEBOT3_MODEL': 'waffle', 'LC_ALL': 'C.UTF-8', 'PICO_SDK_PATH': '/pico-sdk', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[0.098990] (motor_messages) StdoutLine: {'line': b'[  1%] Built target motor_messages__rosidl_generator_type_description\n'}
+[0.099772] (-) TimerEvent: {}
+[0.118618] (motor_messages) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_copy_motor_messages\n'}
+[0.165531] (motor_messages) StdoutLine: {'line': b'[ 20%] Built target motor_messages__cpp\n'}
+[0.165877] (motor_messages) StdoutLine: {'line': b'[ 24%] Built target motor_messages__rosidl_generator_c\n'}
+[0.201700] (-) TimerEvent: {}
+[0.224725] (motor_messages) StdoutLine: {'line': b'[ 33%] Built target motor_messages__rosidl_typesupport_fastrtps_cpp\n'}
+[0.269299] (motor_messages) StdoutLine: {'line': b'[ 42%] Built target motor_messages__rosidl_typesupport_fastrtps_c\n'}
+[0.269641] (motor_messages) StdoutLine: {'line': b'[ 51%] Built target motor_messages__rosidl_typesupport_introspection_c\n'}
+[0.301808] (-) TimerEvent: {}
+[0.334014] (motor_messages) StdoutLine: {'line': b'[ 61%] Built target motor_messages__rosidl_typesupport_c\n'}
+[0.348887] (motor_messages) StdoutLine: {'line': b'[ 70%] Built target motor_messages__rosidl_typesupport_cpp\n'}
+[0.355104] (motor_messages) StdoutLine: {'line': b'[ 79%] Built target motor_messages__rosidl_typesupport_introspection_cpp\n'}
+[0.401606] (motor_messages) StdoutLine: {'line': b'[ 79%] Built target motor_messages\n'}
+[0.401920] (-) TimerEvent: {}
+[0.454317] (motor_messages) StdoutLine: {'line': b'[ 81%] Built target motor_messages__py\n'}
+[0.502208] (-) TimerEvent: {}
+[0.525251] (motor_messages) StdoutLine: {'line': b'[ 88%] Built target motor_messages__rosidl_generator_py\n'}
+[0.604904] (-) TimerEvent: {}
+[0.622024] (motor_messages) StdoutLine: {'line': b'[ 92%] Built target motor_messages_s__rosidl_typesupport_introspection_c\n'}
+[0.637064] (motor_messages) StdoutLine: {'line': b'[ 96%] Built target motor_messages_s__rosidl_typesupport_fastrtps_c\n'}
+[0.654795] (motor_messages) StdoutLine: {'line': b'[100%] Built target motor_messages_s__rosidl_typesupport_c\n'}
+[0.671971] (motor_messages) StdoutLine: {'line': b'running egg_info\n'}
+[0.706678] (-) TimerEvent: {}
+[0.732052] (motor_messages) StdoutLine: {'line': b'writing motor_messages.egg-info/PKG-INFO\n'}
+[0.733030] (motor_messages) StdoutLine: {'line': b'writing dependency_links to motor_messages.egg-info/dependency_links.txt\n'}
+[0.733331] (motor_messages) StdoutLine: {'line': b'writing top-level names to motor_messages.egg-info/top_level.txt\n'}
+[0.806753] (-) TimerEvent: {}
+[0.867734] (motor_messages) StdoutLine: {'line': b"reading manifest file 'motor_messages.egg-info/SOURCES.txt'\n"}
+[0.869065] (motor_messages) StdoutLine: {'line': b"writing manifest file 'motor_messages.egg-info/SOURCES.txt'\n"}
+[0.906859] (-) TimerEvent: {}
+[0.921098] (motor_messages) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_motor_messages_egg\n'}
+[0.948535] (motor_messages) CommandEnded: {'returncode': 0}
+[0.949572] (motor_messages) JobProgress: {'identifier': 'motor_messages', 'progress': 'install'}
+[0.964468] (motor_messages) Command: {'cmd': ['/usr/bin/cmake', '--install', '/workspaces/ANUBIS/build/motor_messages'], 'cwd': '/workspaces/ANUBIS/build/motor_messages', 'env': OrderedDict({'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'HOSTNAME': 'astrobotics-desktop', 'GIT_ASKPASS': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/extensions/git/dist/askpass.sh', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6:', 'BROWSER': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/bin/helpers/browser.sh', 'HOME': '/home/astro-dev', 'TERM_PROGRAM_VERSION': '1.98.0', 'VSCODE_IPC_HOOK_CLI': '/tmp/vscode-ipc-db9ba748-137a-4202-b0a5-84e01950b58b.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/node', 'COLORTERM': 'truecolor', 'REMOTE_CONTAINERS': 'true', 'ROS_DISTRO': 'jazzy', 'REMOTE_CONTAINERS_IPC': '/tmp/vscode-remote-containers-ipc-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': ':/opt/ros/jazzy/share/turtlebot3_gazebo/models', 'PATH': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/bin/remote-cli:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'REMOTE_CONTAINERS_SOCKETS': '["/tmp/vscode-ssh-auth-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock","/tmp/.X11-unix/X0","/home/astro-dev/.gnupg/S.gpg-agent"]', 'DISPLAY': ':0', 'LANG': 'C.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'VSCODE_GIT_IPC_HANDLE': '/tmp/vscode-git-bb2b682c33.sock', 'TERM_PROGRAM': 'vscode', 'SSH_AUTH_SOCK': '/tmp/vscode-ssh-auth-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'REMOTE_CONTAINERS_DISPLAY_SOCK': '/tmp/.X11-unix/X0', 'SHELL': '/bin/bash', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/workspaces/ANUBIS/build/motor_messages', 'TURTLEBOT3_MODEL': 'waffle', 'LC_ALL': 'C.UTF-8', 'PICO_SDK_PATH': '/pico-sdk', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[0.980351] (motor_messages) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[0.980870] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/rosidl_interfaces/motor_messages\n'}
+[0.981235] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Command.json\n'}
+[0.981439] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Feedback.json\n'}
+[0.981627] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Health.json\n'}
+[0.981814] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages\n'}
+[0.982002] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg\n'}
+[0.982329] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/feedback.h\n'}
+[0.982568] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_generator_c__visibility_control.h\n'}
+[0.982809] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/health.h\n'}
+[0.982989] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail\n'}
+[0.983208] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__struct.h\n'}
+[0.983391] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__functions.h\n'}
+[0.983635] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__description.c\n'}
+[0.983814] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__functions.h\n'}
+[0.983994] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__functions.c\n'}
+[0.984180] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.c\n'}
+[0.984384] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.h\n'}
+[0.984577] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__functions.c\n'}
+[0.984814] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.h\n'}
+[0.985041] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__struct.h\n'}
+[0.985549] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.h\n'}
+[0.985756] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.c\n'}
+[0.985941] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__description.c\n'}
+[0.986118] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__functions.h\n'}
+[0.986806] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__struct.h\n'}
+[0.987057] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.c\n'}
+[0.987251] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__functions.c\n'}
+[0.987439] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__description.c\n'}
+[0.987604] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/command.h\n'}
+[0.987772] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/library_path.sh\n'}
+[0.989620] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/library_path.dsv\n'}
+[0.990026] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_generator_c.so\n'}
+[0.991037] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages\n'}
+[0.992149] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg\n'}
+[0.993218] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail\n'}
+[0.993536] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_fastrtps_c.h\n'}
+[0.993699] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_fastrtps_c.h\n'}
+[0.993844] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_fastrtps_c.h\n'}
+[0.993988] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[0.994154] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_fastrtps_c.so\n'}
+[0.994330] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages\n'}
+[0.994471] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg\n'}
+[0.994609] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/command.hpp\n'}
+[0.994747] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/feedback.hpp\n'}
+[0.994896] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail\n'}
+[0.995051] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__builder.hpp\n'}
+[0.995230] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__traits.hpp\n'}
+[0.995385] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.hpp\n'}
+[0.995545] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__traits.hpp\n'}
+[0.995707] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__traits.hpp\n'}
+[0.995875] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__struct.hpp\n'}
+[0.996051] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.hpp\n'}
+[0.996254] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.hpp\n'}
+[0.996434] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__builder.hpp\n'}
+[0.996599] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__builder.hpp\n'}
+[0.996770] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__struct.hpp\n'}
+[0.996932] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__struct.hpp\n'}
+[0.997337] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[0.997514] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/health.hpp\n'}
+[0.997675] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages\n'}
+[0.997837] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg\n'}
+[0.997994] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail\n'}
+[0.998161] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/dds_fastrtps\n'}
+[0.998741] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[0.998925] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[0.999088] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[0.999303] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[0.999703] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_fastrtps_cpp.so\n'}
+[0.999986] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages\n'}
+[1.000176] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg\n'}
+[1.000365] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[1.000532] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail\n'}
+[1.002364] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.c\n'}
+[1.002684] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_introspection_c.h\n'}
+[1.002888] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_introspection_c.h\n'}
+[1.003074] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_introspection_c.h\n'}
+[1.003286] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.c\n'}
+[1.003454] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.c\n'}
+[1.003624] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_introspection_c.so\n'}
+[1.003772] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_c.so\n'}
+[1.004205] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages\n'}
+[1.004352] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg\n'}
+[1.004484] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail\n'}
+[1.004624] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.004781] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.cpp\n'}
+[1.004943] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.cpp\n'}
+[1.005105] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.005294] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.005457] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.cpp\n'}
+[1.005633] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_introspection_cpp.so\n'}
+[1.005797] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_cpp.so\n'}
+[1.005959] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/pythonpath.sh\n'}
+[1.006119] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/pythonpath.dsv\n'}
+[1.006390] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info\n'}
+[1.006565] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/top_level.txt\n'}
+[1.006728] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/dependency_links.txt\n'}
+[1.006891] (-) TimerEvent: {}
+[1.007022] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/SOURCES.txt\n'}
+[1.008083] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/PKG-INFO\n'}
+[1.008362] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages\n'}
+[1.008532] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_c.so\n'}
+[1.008700] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/__init__.py\n'}
+[1.008908] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/_motor_messages_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[1.009066] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/_motor_messages_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[1.009254] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_introspection_c.so\n'}
+[1.009417] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg\n'}
+[1.009585] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_command_s.c\n'}
+[1.009744] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/__init__.py\n'}
+[1.009934] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_feedback_s.c\n'}
+[1.010108] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_command.py\n'}
+[1.010298] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_health.py\n'}
+[1.010460] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_health_s.c\n'}
+[1.010631] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_feedback.py\n'}
+[1.010798] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_fastrtps_c.so\n'}
+[1.010961] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/_motor_messages_s.ep.rosidl_typesupport_c.c\n'}
+[1.075932] (motor_messages) StdoutLine: {'line': b"Listing '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages'...\n"}
+[1.076232] (motor_messages) StdoutLine: {'line': b"Listing '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg'...\n"}
+[1.087050] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_fastrtps_c.so\n'}
+[1.088554] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_introspection_c.so\n'}
+[1.090219] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_c.so\n'}
+[1.091006] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_generator_py.so\n'}
+[1.091871] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Command.idl\n'}
+[1.092222] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Feedback.idl\n'}
+[1.092593] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Health.idl\n'}
+[1.093227] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Command.msg\n'}
+[1.093764] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Feedback.msg\n'}
+[1.094583] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Health.msg\n'}
+[1.095720] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/package_run_dependencies/motor_messages\n'}
+[1.096756] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/parent_prefix_path/motor_messages\n'}
+[1.097742] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/ament_prefix_path.sh\n'}
+[1.098060] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/ament_prefix_path.dsv\n'}
+[1.098286] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/path.sh\n'}
+[1.098456] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/path.dsv\n'}
+[1.098616] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.bash\n'}
+[1.098766] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.sh\n'}
+[1.098918] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.zsh\n'}
+[1.099070] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.dsv\n'}
+[1.099249] (motor_messages) StdoutLine: {'line': b'-- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.dsv\n'}
+[1.099399] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/packages/motor_messages\n'}
+[1.099536] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_cExport.cmake\n'}
+[1.099669] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_cExport-noconfig.cmake\n'}
+[1.099803] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[1.100968] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[1.101271] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_cppExport.cmake\n'}
+[1.101478] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[1.101650] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[1.101851] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cExport.cmake\n'}
+[1.102047] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[1.102268] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cExport.cmake\n'}
+[1.102476] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[1.102661] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[1.102850] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[1.103034] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cppExport.cmake\n'}
+[1.103243] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[1.103429] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_pyExport.cmake\n'}
+[1.106907] (-) TimerEvent: {}
+[1.111335] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_pyExport-noconfig.cmake\n'}
+[1.111964] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/rosidl_cmake-extras.cmake\n'}
+[1.112200] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[1.112392] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[1.114288] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[1.114465] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[1.114615] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[1.114763] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[1.114908] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messagesConfig.cmake\n'}
+[1.115070] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messagesConfig-version.cmake\n'}
+[1.116737] (motor_messages) StdoutLine: {'line': b'-- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.xml\n'}
+[1.116990] (motor_messages) CommandEnded: {'returncode': 0}
+[1.166198] (motor_messages) JobEnded: {'identifier': 'motor_messages', 'rc': 0}
+[1.167429] (motor_control) JobStarted: {'identifier': 'motor_control'}
+[1.185387] (motor_control) JobProgress: {'identifier': 'motor_control', 'progress': 'cmake'}
+[1.185463] (motor_control) JobProgress: {'identifier': 'motor_control', 'progress': 'build'}
+[1.185500] (motor_control) Command: {'cmd': ['/usr/bin/cmake', '--build', '/workspaces/ANUBIS/build/motor_control', '--', '-j4', '-l4'], 'cwd': '/workspaces/ANUBIS/build/motor_control', 'env': OrderedDict({'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'HOSTNAME': 'astrobotics-desktop', 'GIT_ASKPASS': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/extensions/git/dist/askpass.sh', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/workspaces/ANUBIS/install/motor_messages/lib:/usr/lib/phoenix6:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/lib/phoenix6', 'BROWSER': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/bin/helpers/browser.sh', 'HOME': '/home/astro-dev', 'TERM_PROGRAM_VERSION': '1.98.0', 'VSCODE_IPC_HOOK_CLI': '/tmp/vscode-ipc-db9ba748-137a-4202-b0a5-84e01950b58b.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/node', 'COLORTERM': 'truecolor', 'REMOTE_CONTAINERS': 'true', 'ROS_DISTRO': 'jazzy', 'REMOTE_CONTAINERS_IPC': '/tmp/vscode-remote-containers-ipc-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': ':/opt/ros/jazzy/share/turtlebot3_gazebo/models', 'PATH': '/vscode/vscode-server/bin/linux-x64/6609ac3d66f4eade5cf376d1cb76f13985724bcb/bin/remote-cli:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'REMOTE_CONTAINERS_SOCKETS': '["/tmp/vscode-ssh-auth-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock","/tmp/.X11-unix/X0","/home/astro-dev/.gnupg/S.gpg-agent"]', 'DISPLAY': ':0', 'LANG': 'C.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'VSCODE_GIT_IPC_HANDLE': '/tmp/vscode-git-bb2b682c33.sock', 'TERM_PROGRAM': 'vscode', 'SSH_AUTH_SOCK': '/tmp/vscode-ssh-auth-c13d61ee-b952-49a3-8d22-2a066c5e3205.sock', 'AMENT_PREFIX_PATH': '/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy', 'REMOTE_CONTAINERS_DISPLAY_SOCK': '/tmp/.X11-unix/X0', 'SHELL': '/bin/bash', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/workspaces/ANUBIS/build/motor_control', 'TURTLEBOT3_MODEL': 'waffle', 'LC_ALL': 'C.UTF-8', 'PICO_SDK_PATH': '/pico-sdk', 'PYTHONPATH': '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/workspaces/ANUBIS/install/motor_messages:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[1.207206] (-) TimerEvent: {}
+[1.308091] (-) TimerEvent: {}
+[1.367081] (motor_control) StdoutLine: {'line': b'[ 16%] \x1b[32mBuilding CXX object CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller.cpp.o\x1b[0m\n'}
+[1.381684] (motor_control) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller_executable.cpp.o\x1b[0m\n'}
+[1.383467] (motor_control) StdoutLine: {'line': b'[ 83%] Built target kraken_control_node\n'}
+[1.412212] (-) TimerEvent: {}
+[1.512562] (-) TimerEvent: {}
+[1.612955] (-) TimerEvent: {}
+[1.715627] (-) TimerEvent: {}
+[1.816108] (-) TimerEvent: {}
+[1.918005] (-) TimerEvent: {}
+[2.018371] (-) TimerEvent: {}
+[2.119520] (-) TimerEvent: {}
+[2.219964] (-) TimerEvent: {}
+[2.320652] (-) TimerEvent: {}
+[2.421031] (-) TimerEvent: {}
+[2.521428] (-) TimerEvent: {}
+[2.621846] (-) TimerEvent: {}
+[2.722793] (-) TimerEvent: {}
+[2.823664] (-) TimerEvent: {}
+[2.924016] (-) TimerEvent: {}
+[3.024370] (-) TimerEvent: {}
+[3.125365] (-) TimerEvent: {}
+[3.226832] (-) TimerEvent: {}
+[3.329408] (-) TimerEvent: {}
+[3.430099] (-) TimerEvent: {}
+[3.530917] (-) TimerEvent: {}
+[3.631315] (-) TimerEvent: {}
+[3.731912] (-) TimerEvent: {}
+[3.834723] (-) TimerEvent: {}
+[3.935177] (-) TimerEvent: {}
+[4.035770] (-) TimerEvent: {}
+[4.136197] (-) TimerEvent: {}
+[4.236908] (-) TimerEvent: {}
+[4.337418] (-) TimerEvent: {}
+[4.437813] (-) TimerEvent: {}
+[4.538206] (-) TimerEvent: {}
+[4.638743] (-) TimerEvent: {}
+[4.739146] (-) TimerEvent: {}
+[4.839518] (-) TimerEvent: {}
+[4.939881] (-) TimerEvent: {}
+[5.040301] (-) TimerEvent: {}
+[5.140682] (-) TimerEvent: {}
+[5.241087] (-) TimerEvent: {}
+[5.341452] (-) TimerEvent: {}
+[5.441815] (-) TimerEvent: {}
+[5.542189] (-) TimerEvent: {}
+[5.642551] (-) TimerEvent: {}
+[5.743349] (-) TimerEvent: {}
+[5.844165] (-) TimerEvent: {}
+[5.944928] (-) TimerEvent: {}
+[6.045544] (-) TimerEvent: {}
+[6.145931] (-) TimerEvent: {}
+[6.246300] (-) TimerEvent: {}
+[6.346666] (-) TimerEvent: {}
+[6.447036] (-) TimerEvent: {}
+[6.547396] (-) TimerEvent: {}
+[6.647765] (-) TimerEvent: {}
+[6.748134] (-) TimerEvent: {}
+[6.848581] (-) TimerEvent: {}
+[6.948934] (-) TimerEvent: {}
+[7.049580] (-) TimerEvent: {}
+[7.149971] (-) TimerEvent: {}
+[7.250537] (-) TimerEvent: {}
+[7.350944] (-) TimerEvent: {}
+[7.451599] (-) TimerEvent: {}
+[7.551986] (-) TimerEvent: {}
+[7.652393] (-) TimerEvent: {}
+[7.752984] (-) TimerEvent: {}
+[7.853375] (-) TimerEvent: {}
+[7.953924] (-) TimerEvent: {}
+[8.054326] (-) TimerEvent: {}
+[8.154725] (-) TimerEvent: {}
+[8.255113] (-) TimerEvent: {}
+[8.355623] (-) TimerEvent: {}
+[8.456295] (-) TimerEvent: {}
+[8.556687] (-) TimerEvent: {}
+[8.657050] (-) TimerEvent: {}
+[8.757414] (-) TimerEvent: {}
+[8.857814] (-) TimerEvent: {}
+[8.958221] (-) TimerEvent: {}
+[9.059243] (-) TimerEvent: {}
+[9.159887] (-) TimerEvent: {}
+[9.260302] (-) TimerEvent: {}
+[9.360684] (-) TimerEvent: {}
+[9.461057] (-) TimerEvent: {}
+[9.561439] (-) TimerEvent: {}
+[9.661961] (-) TimerEvent: {}
+[9.762522] (-) TimerEvent: {}
+[9.863077] (-) TimerEvent: {}
+[9.963493] (-) TimerEvent: {}
+[10.063930] (-) TimerEvent: {}
+[10.164330] (-) TimerEvent: {}
+[10.264663] (-) TimerEvent: {}
+[10.364979] (-) TimerEvent: {}
+[10.465220] (-) TimerEvent: {}
+[10.565508] (-) TimerEvent: {}
+[10.665801] (-) TimerEvent: {}
+[10.766115] (-) TimerEvent: {}
+[10.866451] (-) TimerEvent: {}
+[10.966759] (-) TimerEvent: {}
+[11.067048] (-) TimerEvent: {}
+[11.167457] (-) TimerEvent: {}
+[11.267788] (-) TimerEvent: {}
+[11.368101] (-) TimerEvent: {}
+[11.468445] (-) TimerEvent: {}
+[11.568773] (-) TimerEvent: {}
+[11.669107] (-) TimerEvent: {}
+[11.769467] (-) TimerEvent: {}
+[11.869793] (-) TimerEvent: {}
+[11.970119] (-) TimerEvent: {}
+[12.070471] (-) TimerEvent: {}
+[12.170831] (-) TimerEvent: {}
+[12.271297] (-) TimerEvent: {}
+[12.371640] (-) TimerEvent: {}
+[12.471964] (-) TimerEvent: {}
+[12.572294] (-) TimerEvent: {}
+[12.672629] (-) TimerEvent: {}
+[12.772951] (-) TimerEvent: {}
+[12.873254] (-) TimerEvent: {}
+[12.973584] (-) TimerEvent: {}
+[13.073910] (-) TimerEvent: {}
+[13.174223] (-) TimerEvent: {}
+[13.274543] (-) TimerEvent: {}
+[13.376849] (-) TimerEvent: {}
+[13.477543] (-) TimerEvent: {}
+[13.578245] (-) TimerEvent: {}
+[13.678841] (-) TimerEvent: {}
+[13.779200] (-) TimerEvent: {}
+[13.879560] (-) TimerEvent: {}
+[13.979898] (-) TimerEvent: {}
+[14.080222] (-) TimerEvent: {}
+[14.180539] (-) TimerEvent: {}
+[14.280921] (-) TimerEvent: {}
+[14.381299] (-) TimerEvent: {}
+[14.481633] (-) TimerEvent: {}
+[14.581971] (-) TimerEvent: {}
+[14.682317] (-) TimerEvent: {}
+[14.782654] (-) TimerEvent: {}
+[14.882979] (-) TimerEvent: {}
+[14.983317] (-) TimerEvent: {}
+[15.083659] (-) TimerEvent: {}
+[15.183968] (-) TimerEvent: {}
+[15.284291] (-) TimerEvent: {}
+[15.384586] (-) TimerEvent: {}
+[15.484890] (-) TimerEvent: {}
+[15.585248] (-) TimerEvent: {}
+[15.685619] (-) TimerEvent: {}
+[15.785988] (-) TimerEvent: {}
+[15.886359] (-) TimerEvent: {}
+[15.986757] (-) TimerEvent: {}
+[16.022774] (motor_control) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable sparkmax_control_node\x1b[0m\n'}
+[16.086885] (-) TimerEvent: {}
+[16.187246] (-) TimerEvent: {}
+[16.287858] (-) TimerEvent: {}
+[16.388691] (-) TimerEvent: {}
+[16.489133] (-) TimerEvent: {}
+[16.554443] (motor_control) StderrLine: {'line': b"/usr/bin/ld: CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller_executable.cpp.o: in function `std::__detail::_MakeUniq<SparkMax>::__single_object std::make_unique<SparkMax, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, unsigned char>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, unsigned char&&)':\n"}
+[16.554754] (motor_control) StderrLine: {'line': b"sparkmax_controller_executable.cpp:(.text._ZSt11make_uniqueI8SparkMaxJRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEhEENSt8__detail9_MakeUniqIT_E15__single_objectEDpOT0_[_ZSt11make_uniqueI8SparkMaxJRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEhEENSt8__detail9_MakeUniqIT_E15__single_objectEDpOT0_]+0x57): undefined reference to `SparkMax::SparkMax(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned char)'\n"}
+[16.580051] (motor_control) StderrLine: {'line': b"/usr/bin/ld: CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller.cpp.o: in function `SparkMaxController::control_callback(std::shared_ptr<motor_messages::msg::Command_<std::allocator<void> > >)':\n"}
+[16.580681] (motor_control) StderrLine: {'line': b"sparkmax_controller.cpp:(.text+0x2b0): undefined reference to `SparkBase::SetDutyCycle(float)'\n"}
+[16.580850] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0x6e4): undefined reference to `SparkBase::SetVelocity(float)'\n"}
+[16.581006] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0xb1a): undefined reference to `SparkBase::SetPosition(float)'\n"}
+[16.581162] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0xf50): undefined reference to `SparkBase::SetCurrent(float)'\n"}
+[16.581319] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0x1323): undefined reference to `SparkBase::SetDutyCycle(float)'\n"}
+[16.581464] (motor_control) StderrLine: {'line': b"/usr/bin/ld: CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller.cpp.o: in function `SparkMaxController::publish_status()':\n"}
+[16.581609] (motor_control) StderrLine: {'line': b"sparkmax_controller.cpp:(.text+0x1992): undefined reference to `SparkBase::GetVelocity() const'\n"}
+[16.581768] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0x19b9): undefined reference to `SparkBase::GetCurrent() const'\n"}
+[16.581915] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0x19e0): undefined reference to `SparkBase::GetPosition() const'\n"}
+[16.582060] (motor_control) StderrLine: {'line': b"/usr/bin/ld: CMakeFiles/sparkmax_control_node.dir/src/sparkmax_controller.cpp.o: in function `SparkMaxController::publish_health()':\n"}
+[16.582214] (motor_control) StderrLine: {'line': b"sparkmax_controller.cpp:(.text+0x1d36): undefined reference to `SparkBase::GetCurrent() const'\n"}
+[16.582361] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0x1d5d): undefined reference to `SparkBase::GetTemperature() const'\n"}
+[16.582504] (motor_control) StderrLine: {'line': b"/usr/bin/ld: sparkmax_controller.cpp:(.text+0x1d84): undefined reference to `SparkBase::GetVoltage() const'\n"}
+[16.589218] (-) TimerEvent: {}
+[16.621661] (motor_control) StderrLine: {'line': b'collect2: error: ld returned 1 exit status\n'}
+[16.624584] (motor_control) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/sparkmax_control_node.dir/build.make:205: sparkmax_control_node] Error 1\n'}
+[16.626001] (motor_control) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/sparkmax_control_node.dir/all] Error 2\n'}
+[16.626389] (motor_control) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[16.630301] (motor_control) CommandEnded: {'returncode': 2}
+[16.637953] (motor_control) JobEnded: {'identifier': 'motor_control', 'rc': 2}
+[16.649063] (-) EventReactorShutdown: {}

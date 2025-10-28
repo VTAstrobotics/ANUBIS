@@ -1,0 +1,300 @@
+[0.014s] Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_messages -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_messages
+[0.101s] -- The C compiler identification is GNU 13.3.0
+[0.188s] -- The CXX compiler identification is GNU 13.3.0
+[0.209s] -- Detecting C compiler ABI info
+[0.356s] -- Detecting C compiler ABI info - done
+[0.375s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.376s] -- Detecting C compile features
+[0.376s] -- Detecting C compile features - done
+[0.391s] -- Detecting CXX compiler ABI info
+[0.655s] -- Detecting CXX compiler ABI info - done
+[0.690s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.690s] -- Detecting CXX compile features
+[0.690s] -- Detecting CXX compile features - done
+[0.706s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.977s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.210s] -- Found std_msgs: 5.3.6 (/opt/ros/jazzy/share/std_msgs/cmake)
+[1.321s] -- Found rosidl_generator_c: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[1.360s] -- Found rosidl_generator_cpp: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[1.398s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.446s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.516s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[1.558s] -- Found rosidl_adapter: 4.6.6 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[2.551s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+[3.813s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[4.365s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[4.377s] -- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+[4.588s] -- Found PythonExtra: /usr/bin/python3  
+[5.322s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+[5.410s] -- Found ament_lint_auto: 0.17.3 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[5.485s] -- Added test 'lint_cmake' to check CMake code style
+[5.487s] -- Added test 'xmllint' to check XML markup files
+[5.492s] -- Configuring done (5.5s)
+[5.567s] -- Generating done (0.1s)
+[5.582s] -- Build files have been written to: /workspaces/ANUBIS/build/motor_messages
+[5.597s] Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake /workspaces/ANUBIS/anubis_ws/src/motor_messages -DCMAKE_INSTALL_PREFIX=/workspaces/ANUBIS/install/motor_messages
+[5.599s] Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_messages -- -j4 -l4
+[5.690s] [  1%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[5.703s] [  1%] Built target ament_cmake_python_copy_motor_messages
+[6.218s] [  1%] Built target motor_messages__rosidl_generator_type_description
+[6.223s] running egg_info
+[6.227s] creating motor_messages.egg-info
+[6.246s] [  3%] [34m[1mGenerating C code for ROS interfaces[0m
+[6.281s] [  5%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[6.295s] writing motor_messages.egg-info/PKG-INFO
+[6.296s] writing dependency_links to motor_messages.egg-info/dependency_links.txt
+[6.296s] writing top-level names to motor_messages.egg-info/top_level.txt
+[6.297s] writing manifest file 'motor_messages.egg-info/SOURCES.txt'
+[6.440s] reading manifest file 'motor_messages.egg-info/SOURCES.txt'
+[6.446s] writing manifest file 'motor_messages.egg-info/SOURCES.txt'
+[6.508s] [  5%] Built target ament_cmake_python_build_motor_messages_egg
+[7.252s] [  5%] Built target motor_messages__cpp
+[7.336s] [  9%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/feedback__description.c.o[0m
+[7.336s] [ 11%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/command__functions.c.o[0m
+[7.336s] [  9%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/command__type_support.c.o[0m
+[7.339s] [ 12%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/command__description.c.o[0m
+[7.442s] [ 14%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/feedback__type_support.c.o[0m
+[7.451s] [ 16%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/feedback__functions.c.o[0m
+[7.459s] [ 18%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/health__description.c.o[0m
+[7.513s] [ 20%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/health__functions.c.o[0m
+[7.555s] [ 22%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_c.dir/rosidl_generator_c/motor_messages/msg/detail/health__type_support.c.o[0m
+[7.666s] [ 24%] [32m[1mLinking C shared library libmotor_messages__rosidl_generator_c.so[0m
+[7.736s] [ 24%] Built target motor_messages__rosidl_generator_c
+[7.765s] [ 25%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[7.770s] [ 27%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[7.790s] [ 31%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[7.790s] [ 31%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[8.800s] [ 33%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/motor_messages/msg/command__type_support.cpp.o[0m
+[8.920s] [ 35%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/motor_messages/msg/detail/dds_fastrtps/command__type_support.cpp.o[0m
+[8.956s] [ 37%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/motor_messages/msg/detail/command__type_support.c.o[0m
+[9.056s] [ 38%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/motor_messages/msg/detail/feedback__type_support.c.o[0m
+[9.151s] [ 40%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/motor_messages/msg/detail/command__type_support_c.cpp.o[0m
+[9.166s] [ 42%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/motor_messages/msg/detail/health__type_support.c.o[0m
+[9.269s] [ 44%] [32m[1mLinking C shared library libmotor_messages__rosidl_typesupport_introspection_c.so[0m
+[9.357s] [ 44%] Built target motor_messages__rosidl_typesupport_introspection_c
+[9.380s] [ 46%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/motor_messages/msg/detail/dds_fastrtps/feedback__type_support.cpp.o[0m
+[10.129s] [ 48%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/motor_messages/msg/feedback__type_support.cpp.o[0m
+[10.324s] [ 50%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/motor_messages/msg/detail/feedback__type_support_c.cpp.o[0m
+[10.822s] [ 51%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/motor_messages/msg/health__type_support.cpp.o[0m
+[10.905s] [ 53%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/motor_messages/msg/detail/dds_fastrtps/health__type_support.cpp.o[0m
+[11.365s] [ 55%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[11.975s] [ 57%] [32m[1mLinking CXX shared library libmotor_messages__rosidl_typesupport_cpp.so[0m
+[12.090s] [ 57%] Built target motor_messages__rosidl_typesupport_cpp
+[12.090s] [ 59%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/motor_messages/msg/detail/health__type_support_c.cpp.o[0m
+[12.102s] [ 61%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[12.543s] [ 62%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_c.dir/rosidl_typesupport_c/motor_messages/msg/command__type_support.cpp.o[0m
+[12.581s] [ 64%] [32m[1mLinking CXX shared library libmotor_messages__rosidl_typesupport_fastrtps_cpp.so[0m
+[12.699s] [ 66%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_c.dir/rosidl_typesupport_c/motor_messages/msg/feedback__type_support.cpp.o[0m
+[12.779s] [ 66%] Built target motor_messages__rosidl_typesupport_fastrtps_cpp
+[12.804s] [ 68%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_c.dir/rosidl_typesupport_c/motor_messages/msg/health__type_support.cpp.o[0m
+[12.919s] [ 70%] [32m[1mLinking CXX shared library libmotor_messages__rosidl_typesupport_c.so[0m
+[13.013s] [ 70%] Built target motor_messages__rosidl_typesupport_c
+[13.105s] [ 74%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/motor_messages/msg/detail/command__type_support.cpp.o[0m
+[13.106s] [ 74%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/motor_messages/msg/detail/feedback__type_support.cpp.o[0m
+[13.111s] [ 75%] [32mBuilding CXX object CMakeFiles/motor_messages__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/motor_messages/msg/detail/health__type_support.cpp.o[0m
+[13.506s] [ 77%] [32m[1mLinking CXX shared library libmotor_messages__rosidl_typesupport_fastrtps_c.so[0m
+[13.727s] [ 77%] Built target motor_messages__rosidl_typesupport_fastrtps_c
+[14.052s] [ 79%] [32m[1mLinking CXX shared library libmotor_messages__rosidl_typesupport_introspection_cpp.so[0m
+[14.163s] [ 79%] Built target motor_messages__rosidl_typesupport_introspection_cpp
+[14.196s] [ 79%] Built target motor_messages
+[14.228s] [ 81%] [34m[1mGenerating Python code for ROS interfaces[0m
+[14.960s] [ 81%] Built target motor_messages__py
+[14.996s] [ 83%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_py.dir/rosidl_generator_py/motor_messages/msg/_feedback_s.c.o[0m
+[14.999s] [ 85%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_py.dir/rosidl_generator_py/motor_messages/msg/_command_s.c.o[0m
+[14.999s] [ 87%] [32mBuilding C object CMakeFiles/motor_messages__rosidl_generator_py.dir/rosidl_generator_py/motor_messages/msg/_health_s.c.o[0m
+[15.372s] [ 88%] [32m[1mLinking C shared library libmotor_messages__rosidl_generator_py.so[0m
+[15.434s] [ 88%] Built target motor_messages__rosidl_generator_py
+[15.491s] [ 90%] [32mBuilding C object CMakeFiles/motor_messages_s__rosidl_typesupport_c.dir/rosidl_generator_py/motor_messages/_motor_messages_s.ep.rosidl_typesupport_c.c.o[0m
+[15.502s] [ 92%] [32mBuilding C object CMakeFiles/motor_messages_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/motor_messages/_motor_messages_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[15.513s] [ 94%] [32mBuilding C object CMakeFiles/motor_messages_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/motor_messages/_motor_messages_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[15.769s] [ 96%] [32m[1mLinking C shared module rosidl_generator_py/motor_messages/motor_messages_s__rosidl_typesupport_introspection_c.so[0m
+[15.772s] [ 98%] [32m[1mLinking C shared module rosidl_generator_py/motor_messages/motor_messages_s__rosidl_typesupport_fastrtps_c.so[0m
+[15.811s] [100%] [32m[1mLinking C shared module rosidl_generator_py/motor_messages/motor_messages_s__rosidl_typesupport_c.so[0m
+[15.844s] [100%] Built target motor_messages_s__rosidl_typesupport_fastrtps_c
+[15.855s] [100%] Built target motor_messages_s__rosidl_typesupport_introspection_c
+[15.884s] [100%] Built target motor_messages_s__rosidl_typesupport_c
+[15.902s] Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --build /workspaces/ANUBIS/build/motor_messages -- -j4 -l4
+[15.918s] Invoking command in '/workspaces/ANUBIS/build/motor_messages': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /workspaces/ANUBIS/build/motor_messages
+[15.930s] -- Install configuration: ""
+[15.930s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/rosidl_interfaces/motor_messages
+[15.931s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Command.json
+[15.931s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Feedback.json
+[15.931s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Health.json
+[15.931s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages
+[15.932s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg
+[15.932s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/feedback.h
+[15.932s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_generator_c__visibility_control.h
+[15.932s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/health.h
+[15.932s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail
+[15.933s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__struct.h
+[15.933s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__functions.h
+[15.933s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__description.c
+[15.933s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__functions.h
+[15.933s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__functions.c
+[15.934s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.c
+[15.934s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.h
+[15.934s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__functions.c
+[15.934s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.h
+[15.934s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__struct.h
+[15.935s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.h
+[15.935s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.c
+[15.935s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__description.c
+[15.935s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__functions.h
+[15.935s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__struct.h
+[15.936s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.c
+[15.936s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__functions.c
+[15.936s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__description.c
+[15.936s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/command.h
+[15.936s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/library_path.sh
+[15.937s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/library_path.dsv
+[15.937s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_generator_c.so
+[15.937s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_generator_c.so" to ""
+[15.938s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages
+[15.938s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg
+[15.938s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail
+[15.938s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_fastrtps_c.h
+[15.938s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_fastrtps_c.h
+[15.939s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_fastrtps_c.h
+[15.939s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[15.941s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_fastrtps_c.so
+[15.942s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_fastrtps_c.so" to ""
+[15.943s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages
+[15.943s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg
+[15.943s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/command.hpp
+[15.944s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/feedback.hpp
+[15.944s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail
+[15.944s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__builder.hpp
+[15.944s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__traits.hpp
+[15.944s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.hpp
+[15.945s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__traits.hpp
+[15.945s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__traits.hpp
+[15.945s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__struct.hpp
+[15.945s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.hpp
+[15.945s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.hpp
+[15.946s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__builder.hpp
+[15.946s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__builder.hpp
+[15.946s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__struct.hpp
+[15.946s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__struct.hpp
+[15.947s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_generator_cpp__visibility_control.hpp
+[15.947s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/health.hpp
+[15.948s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages
+[15.948s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg
+[15.949s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail
+[15.949s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/dds_fastrtps
+[15.950s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_fastrtps_cpp.hpp
+[15.950s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_fastrtps_cpp.hpp
+[15.950s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_fastrtps_cpp.hpp
+[15.950s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[15.950s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_fastrtps_cpp.so
+[15.950s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_fastrtps_cpp.so" to ""
+[15.951s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages
+[15.951s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg
+[15.954s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[15.954s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail
+[15.954s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.c
+[15.954s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_introspection_c.h
+[15.954s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_introspection_c.h
+[15.954s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_introspection_c.h
+[15.955s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.c
+[15.956s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.c
+[15.956s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_introspection_c.so
+[15.956s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_introspection_c.so" to ""
+[15.957s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_c.so
+[15.958s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_c.so" to ""
+[15.958s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages
+[15.959s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg
+[15.959s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail
+[15.959s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__rosidl_typesupport_introspection_cpp.hpp
+[15.960s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/feedback__type_support.cpp
+[15.960s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__type_support.cpp
+[15.961s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/command__rosidl_typesupport_introspection_cpp.hpp
+[15.961s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__rosidl_typesupport_introspection_cpp.hpp
+[15.961s] -- Installing: /workspaces/ANUBIS/install/motor_messages/include/motor_messages/motor_messages/msg/detail/health__type_support.cpp
+[15.961s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_introspection_cpp.so
+[15.961s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_introspection_cpp.so" to ""
+[15.961s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_cpp.so
+[15.962s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_typesupport_cpp.so" to ""
+[15.962s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/pythonpath.sh
+[15.962s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/pythonpath.dsv
+[15.962s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info
+[15.962s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/top_level.txt
+[15.962s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/dependency_links.txt
+[15.962s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/SOURCES.txt
+[15.963s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages-0.0.0-py3.12.egg-info/PKG-INFO
+[15.963s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages
+[15.963s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_c.so
+[15.963s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/__init__.py
+[15.963s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/_motor_messages_s.ep.rosidl_typesupport_introspection_c.c
+[15.963s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/_motor_messages_s.ep.rosidl_typesupport_fastrtps_c.c
+[15.963s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_introspection_c.so
+[15.969s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg
+[15.970s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_command_s.c
+[15.970s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/__init__.py
+[15.970s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_feedback_s.c
+[15.970s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_command.py
+[15.970s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_health.py
+[15.973s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_health_s.c
+[15.973s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_feedback.py
+[15.973s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_fastrtps_c.so
+[15.973s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/_motor_messages_s.ep.rosidl_typesupport_c.c
+[16.030s] Listing '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages'...
+[16.030s] Compiling '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/__init__.py'...
+[16.030s] Listing '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg'...
+[16.031s] Compiling '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/__init__.py'...
+[16.031s] Compiling '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_command.py'...
+[16.031s] Compiling '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_feedback.py'...
+[16.031s] Compiling '/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/msg/_health.py'...
+[16.037s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_fastrtps_c.so
+[16.038s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_fastrtps_c.so" to ""
+[16.038s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_introspection_c.so
+[16.039s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_introspection_c.so" to ""
+[16.039s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_c.so
+[16.040s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/python3.12/site-packages/motor_messages/motor_messages_s__rosidl_typesupport_c.so" to ""
+[16.040s] -- Installing: /workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_generator_py.so
+[16.041s] -- Set non-toolchain portion of runtime path of "/workspaces/ANUBIS/install/motor_messages/lib/libmotor_messages__rosidl_generator_py.so" to ""
+[16.041s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Command.idl
+[16.041s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Feedback.idl
+[16.041s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Health.idl
+[16.042s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Command.msg
+[16.042s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Feedback.msg
+[16.042s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/msg/Health.msg
+[16.042s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/package_run_dependencies/motor_messages
+[16.042s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/parent_prefix_path/motor_messages
+[16.042s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/ament_prefix_path.sh
+[16.042s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/ament_prefix_path.dsv
+[16.043s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/path.sh
+[16.043s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/environment/path.dsv
+[16.043s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.bash
+[16.043s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.sh
+[16.043s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.zsh
+[16.044s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/local_setup.dsv
+[16.044s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.dsv
+[16.044s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/ament_index/resource_index/packages/motor_messages
+[16.044s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_cExport.cmake
+[16.045s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_cExport-noconfig.cmake
+[16.045s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cExport.cmake
+[16.045s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[16.046s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_cppExport.cmake
+[16.046s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cppExport.cmake
+[16.046s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[16.047s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cExport.cmake
+[16.047s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[16.047s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cExport.cmake
+[16.048s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cExport-noconfig.cmake
+[16.048s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cppExport.cmake
+[16.048s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[16.049s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cppExport.cmake
+[16.049s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messages__rosidl_typesupport_cppExport-noconfig.cmake
+[16.049s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_pyExport.cmake
+[16.050s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/export_motor_messages__rosidl_generator_pyExport-noconfig.cmake
+[16.050s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/rosidl_cmake-extras.cmake
+[16.052s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_dependencies-extras.cmake
+[16.052s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_include_directories-extras.cmake
+[16.053s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_libraries-extras.cmake
+[16.053s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/ament_cmake_export_targets-extras.cmake
+[16.053s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[16.053s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[16.055s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messagesConfig.cmake
+[16.055s] -- Installing: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/cmake/motor_messagesConfig-version.cmake
+[16.055s] -- Up-to-date: /workspaces/ANUBIS/install/motor_messages/share/motor_messages/package.xml
+[16.062s] Invoked command in '/workspaces/ANUBIS/build/motor_messages' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /usr/bin/cmake --install /workspaces/ANUBIS/build/motor_messages

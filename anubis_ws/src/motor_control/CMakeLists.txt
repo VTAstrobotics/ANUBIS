@@ -11,7 +11,6 @@ find_package(rclcpp REQUIRED)
 find_package(motor_messages REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(phoenix6 REQUIRED)
-find_package(sparkcan REQUIRED)
 add_definitions(-DUNIT_LIB_DISABLE_FMT -DUNIT_LIB_ENABLE_IOSTREAM)
 
 # uncomment the following section in order to fill in
@@ -22,17 +21,36 @@ add_definitions(-DUNIT_LIB_DISABLE_FMT -DUNIT_LIB_ENABLE_IOSTREAM)
 
 
 add_executable(kraken_control_node src/kraken_controller_executable.cpp src/kraken_controller.cpp)
+add_executable(sparkmax_control_node src/sparkmax_controller_executable.cpp src/sparkmax_controller.cpp src/spark_base.cpp src/spark_max.cpp)
 
-ament_target_dependencies(kraken_control_node rclcpp motor_messages rclcpp_components sparkcan)
+ament_target_dependencies(kraken_control_node rclcpp motor_messages rclcpp_components)
 target_include_directories(kraken_control_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
 
+ament_target_dependencies(sparkmax_control_node rclcpp motor_messages rclcpp_components)
+target_include_directories(kraken_control_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+target_include_directories(sparkmax_control_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+
 target_link_libraries(kraken_control_node phoenix6)
+target_link_libraries(sparkmax_control_node)
+
 
 install(TARGETS
   kraken_control_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(TARGETS
+  sparkmax_control_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
