@@ -12,7 +12,7 @@ class ArmHardware(Node):
       super().__init__('listener')
       self.subscription_ = self.create_subscription(
             Float64MultiArray,
-            "/joint_pos"
+            "/joint_pos",
             self.listener_callback,
             10)
       self.subscription_  # prevent unused variable warning
