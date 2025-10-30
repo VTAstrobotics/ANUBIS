@@ -6,7 +6,7 @@ RUN apt update && apt install -y --no-install-recommends \
     python3 \
     python3-pip \
     && apt install python3-setuptools \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 # Add nonroot user with same UID and GID as your host system
 # (copied from https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user)
