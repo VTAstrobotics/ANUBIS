@@ -6,6 +6,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "motor_messages/msg/command.hpp"
 #include "motor_control/kraken_controller.hpp"
+#include "motor_control/sparkmax_controller.hpp"
 //need to include kraken once finished
 
  //change this
@@ -41,7 +42,7 @@ class Drive : public rclcpp::Node
                 .append_parameter_override("status_topic",  "/front_left/status")
                 .append_parameter_override("health_topic",  "/front_left/health");
 
-            auto left = std::make_shared<KrakenController>(left_motor);
+            auto left = std::make_shared<SparkMaxController>(left_motor);
             motors.push_back(left);
 
             auto right_motor = rclcpp::NodeOptions()
@@ -52,7 +53,7 @@ class Drive : public rclcpp::Node
                 .append_parameter_override("status_topic",  "/front_right/status")
                 .append_parameter_override("health_topic",  "/front_right/health");
 
-            auto right = std::make_shared<KrakenController>(right_motor);
+            auto right = std::make_shared<SparkMaxController>(right_motor);
             motors.push_back(right);
 
         }
