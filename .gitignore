@@ -5,7 +5,9 @@ anubis_ws/log/
 anubis_ws/src/build/
 anubis_ws/src/install/
 anubis_ws/src/log/
-
+build/
+log/
+install/
 # prevent accidental overwrites
 .vscode
 .devcontainer/build.log
