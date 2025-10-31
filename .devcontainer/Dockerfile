@@ -80,9 +80,9 @@ RUN sudo wget https://apt.llvm.org/llvm.sh \
     && sudo apt install -y clang-format clang-tidy
 
 # install sparkcan for sparkmax over can
-# RUN sudo add-apt-repository ppa:graysonarendt/sparkcan
-# RUN sudo apt update
-# RUN sudo apt install sparkcan
+#RUN sudo add-apt-repository ppa:graysonarendt/sparkcan
+#RUN sudo apt update
+#RUN sudo apt install sparkcan
 
 # Install dependencies for state messaging
 RUN sudo apt install python3-numpy 
