@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(motor_messages)
+project(motor_control)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,18 +7,43 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(motor_messages REQUIRED)
+find_package(rclcpp_components REQUIRED)
+find_package(phoenix6 REQUIRED)
+add_definitions(-DUNIT_LIB_DISABLE_FMT -DUNIT_LIB_ENABLE_IOSTREAM)
+
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Command.msg"
-  "msg/Feedback.msg"
-  "msg/Health.msg"
-  DEPENDENCIES std_msgs
+
+
+
+add_executable(kraken_control_node src/kraken_controller_executable.cpp src/kraken_controller.cpp)
+
+ament_target_dependencies(kraken_control_node rclcpp motor_messages rclcpp_components)
+target_include_directories(kraken_control_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
 )
+
+target_link_libraries(kraken_control_node phoenix6)
+
+install(TARGETS
+  kraken_control_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install launch files
+install(
+  DIRECTORY launch config
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+
+ament_export_include_directories(include)
+
 
 
 if(BUILD_TESTING)
