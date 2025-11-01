@@ -5,12 +5,10 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "motor_messages/msg/command.hpp"
-#include "motor_control/kraken_controller.hpp"
-#include "motor_control/sparkmax_controller.hpp"
+#include "motor_control/sparkmax_controller.hpp" 
 //need to include kraken once finished
 
  //change this
-
 #define reaper_wheelbase 0.5
 
 using std::placeholders::_1;
@@ -47,15 +45,13 @@ class Drive : public rclcpp::Node
 
             auto right_motor = rclcpp::NodeOptions()
                 .append_parameter_override("motor_name", "right_motor")
-                .append_parameter_override("can_interface", "can1")
+                .append_parameter_override("can_interface", "can0")
                 .append_parameter_override("can_id", 1)
                 .append_parameter_override("control_topic", "/front_right/control")
                 .append_parameter_override("status_topic",  "/front_right/status")
                 .append_parameter_override("health_topic",  "/front_right/health");
-
             auto right = std::make_shared<SparkMaxController>(right_motor);
             motors.push_back(right);
-
         }
         else if(robot_name == "ANUBIS"){
           //fill this in after ANUBIS has been constructed
