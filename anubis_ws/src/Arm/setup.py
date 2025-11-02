@@ -24,7 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-        'armHardware = Arm.ArmHardware:main'
+        'arm_node = Arm.ArmHardwareNode:main',
         ],
     },
 )

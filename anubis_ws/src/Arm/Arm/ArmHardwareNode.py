@@ -2,7 +2,7 @@ import rclpy
 import serial
 from std_msgs.msg import Float64MultiArray
 from rclpy.node import Node
-
+import time
 from std_msgs.msg import String
 
 
@@ -16,14 +16,19 @@ class ArmHardware(Node):
             self.listener_callback,
             10)
       self.subscription_  # prevent unused variable warning
-      self.arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1) 
-      
+      self.arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
+
    def listener_callback(self, msg):
       self.get_logger().info('I heard: "%s"' % msg.data)
       serial_message = ""
       for position in msg.data:
-         serial_message += str(position) + ","
-      self.arduino.write(bytes(serial_message, 'utf-8')) 
+         serial_message += str(int(position)) + ","
+      print(serial_message)
+      self.arduino.write(bytes(serial_message, 'utf-8'))
+      time.sleep(0.05)
+      data = self.arduino.readline()
+      print(data)
+
 
 
 def main(args=None):
