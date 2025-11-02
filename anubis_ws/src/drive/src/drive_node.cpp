@@ -38,7 +38,8 @@ class Drive : public rclcpp::Node
                 .append_parameter_override("can_id", 22)
                 .append_parameter_override("control_topic", "/front_left/control")
                 .append_parameter_override("status_topic",  "/front_left/status")
-                .append_parameter_override("health_topic",  "/front_left/health");
+                .append_parameter_override("health_topic",  "/front_left/health")
+                .arguments({"--ros-args", "-r", "__node:=left_motor_controller"}); //should prevent naming overlap
 
             auto left = std::make_shared<SparkMaxController>(left_motor);
             motors.push_back(left);
@@ -49,7 +50,8 @@ class Drive : public rclcpp::Node
                 .append_parameter_override("can_id", 21)
                 .append_parameter_override("control_topic", "/front_right/control")
                 .append_parameter_override("status_topic",  "/front_right/status")
-                .append_parameter_override("health_topic",  "/front_right/health");
+                .append_parameter_override("health_topic",  "/front_right/health")
+                .arguments({"--ros-args", "-r", "__node:=right_motor_controller"});
             auto right = std::make_shared<SparkMaxController>(right_motor);
             motors.push_back(right);
         }
