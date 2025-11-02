@@ -78,17 +78,17 @@ class Drive : public rclcpp::Node
         float lin_x = msg->linear.x;
         float ang_z = msg->angular.z;
 
-        float left_vel = lin_x - 0.5*ang_z * wheelbase;
-        float right_vel = lin_x + 0.5*ang_z * wheelbase;
+        float left_vel = lin_x - 0.5*ang_z * wheelbase * 50;
+        float right_vel = lin_x + 0.5*ang_z * wheelbase * 50;
 
         motor_messages::msg::Command right_velocity_msg;
         motor_messages::msg::Command left_velocity_msg;
 
-        left_velocity_msg.dutycycle.data = left_vel;
+        left_velocity_msg.dutycycle.data = lin_x*1.0/0.6; //for testing
         right_velocity_msg.dutycycle.data = right_vel;
 
         left_velocity_publisher->publish(left_velocity_msg);
-        right_velocity_publisher->publish(right_velocity_msg);
+        // right_velocity_publisher->publish(right_velocity_msg);
     }
 
     //----------------------publishers/subscribers
