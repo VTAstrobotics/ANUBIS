@@ -30,7 +30,6 @@ class Drive : public rclcpp::Node
 
         if(robot_name == "REAPER"){
 
-          //Might have name overlap with left and right motor nodes.
             wheelbase = reaper_wheelbase;
             auto left_motor = rclcpp::NodeOptions()
                 .append_parameter_override("motor_name", "left_motor")
@@ -77,20 +76,22 @@ class Drive : public rclcpp::Node
      * reacts to /cmd_velocity message, and distrubutes velocity to left_right topics
      */
     void cmd_vel_callback(geometry_msgs::msg::Twist::SharedPtr msg){
-        float lin_x = msg->linear.x;
-        float ang_z = msg->angular.z;
+        double lin_x = msg->linear.x;
+        double ang_z = msg->angular.z;
 
-        float left_vel = lin_x - 0.5*ang_z * wheelbase * 50;
-        float right_vel = lin_x + 0.5*ang_z * wheelbase * 50;
+        // float left_vel = lin_x - 0.5*ang_z * wheelbase; // use when velocity is implemented
+        // float right_vel = lin_x + 0.5*ang_z * wheelbase;
+        double left_vel = lin_x - ang_z;
+        double right_vel = lin_x + ang_z;
 
         motor_messages::msg::Command right_velocity_msg;
         motor_messages::msg::Command left_velocity_msg;
 
-        left_velocity_msg.dutycycle.data = lin_x*1.0/0.6; //for testing
-        right_velocity_msg.dutycycle.data = right_vel;
+        left_velocity_msg.dutycycle.data = std::min(std::max(left_vel, -1.), 1.);
+        right_velocity_msg.dutycycle.data = std::min(std::max(right_vel, -1.), 1.);
 
         left_velocity_publisher->publish(left_velocity_msg);
-        // right_velocity_publisher->publish(right_velocity_msg);
+        right_velocity_publisher->publish(right_velocity_msg);
     }
 
     //----------------------publishers/subscribers
