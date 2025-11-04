@@ -154,6 +154,16 @@ private:
   {
     pose2d new_pose;
     double dt = (this->now() - current_pose.time).seconds();
+    if (dt < 0)
+    {
+      RCLCPP_ERROR(this->get_logger(), "Time went backwards somehow in odometry integration");
+      dt = 0; // just dont change the state estimate
+    }
+    if(dt > 0.1)
+    {
+      RCLCPP_WARN(this->get_logger(), "Large dt detected in odometry integration: %f seconds", dt);
+    }
+    
     double linear_x = vel.linear * cos(current_pose.theta);
     double linear_y = vel.linear * sin(current_pose.theta);
     new_pose.x = current_pose.x +  linear_x * dt;
