@@ -26,18 +26,27 @@ class Distributor : public rclcpp::Node
       this->declare_parameter("ROTATION_CONTROL", "RSTICKX");
       this->declare_parameter("CONVEYOR_FORWARD", "BUTTON_B");
       this->declare_parameter("CONVEYOR_REVERSE", "BUTTON_A");
-      TRANSLATION_CONTROL = controls[this->get_parameter("TRANSLATION_CONTROL").as_string()];
-      ROTATION_CONTROL = controls[this->get_parameter("ROTATION_CONTROL").as_string()];
-      CONVEYOR_FORWARD = controls[this->get_parameter("CONVEYOR_FORWARD").as_string()];
-      CONVEYOR_REVERSE = controls[this->get_parameter("CONVEYOR_REVERSE").as_string()];
+      this->declare_parameter("LINEAR_SCALE", 0.6);
+      this->declare_parameter("ANGULAR_SCALE", 1.8);
+      TRANSLATION_CONTROL = this->get_parameter("TRANSLATION_CONTROL").as_string();
+      ROTATION_CONTROL = this->get_parameter("ROTATION_CONTROL").as_string();
+      CONVEYOR_FORWARD = this->get_parameter("CONVEYOR_FORWARD").as_string();
+      CONVEYOR_REVERSE = this->get_parameter("CONVEYOR_REVERSE").as_string();
+      linear_scale = this->get_parameter("LINEAR_SCALE").as_double();
+      angular_scale = this->get_parameter("ANGULAR_SCALE").as_double();
+
+      RCLCPP_DEBUG(distributor->get_logger(), "Translation Control parameter: %d", TRANSLATION_CONTROL);
+      RCLCPP_DEBUG(disributor->get_logger(), "Rotation Control parameter: %d", ROTATION_CONTROL);
+      RCLCPP_DEBUG(distributor->get_logger(), "Conveyor Forward parameter: %d", CONVEYOR_FORWARD);
+      RCLCPP_DEBUG(distributor->get_logger(), "Conveyor Reverse parameter: %d", CONVEYOR_REVERSE);
     }
 
   private:
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
 
-        double lin = msg->axes[AXIS_LEFTY] * linear_scale; 
-        double ang = msg->axes[AXIS_LEFTX] * angular_scale; 
+        double lin = msg->axes[controls.at(TRANSLATION_CONTROL)] * linear_scale; 
+        double ang = msg->buttons[controls.at(ROTATION_CONTROL)] * angular_scale;
 
         geometry_msgs::msg::Twist cmd; //create a variable of type Twist to hold the velocity
         cmd.linear.x = lin; //assigning the linear x vlaue to lin
