@@ -58,7 +58,7 @@ public:
       wheelbase = reaper_wheelbase;
       auto left_motor = rclcpp::NodeOptions()
                             .append_parameter_override("motor_name", "left_motor")
-                            .append_parameter_override("can_interface", "can0")
+                            .append_parameter_override("can_interface", "can1")
                             .append_parameter_override("can_id", 22)
                             .append_parameter_override("control_topic", "/front_left/control")
                             .append_parameter_override("status_topic", "/front_left/status")
@@ -71,7 +71,7 @@ public:
 
       auto right_motor = rclcpp::NodeOptions()
                              .append_parameter_override("motor_name", "right_motor")
-                             .append_parameter_override("can_interface", "can0")
+                             .append_parameter_override("can_interface", "can1")
                              .append_parameter_override("can_id", 21)
                              .append_parameter_override("control_topic", "/front_right/control")
                              .append_parameter_override("status_topic", "/front_right/status")
@@ -79,6 +79,7 @@ public:
                              .arguments({"--ros-args", "-r", "__node:=right_motor_controller"});
       auto right = std::make_shared<SparkMaxController>(right_motor);
       right_motors.push_back(right);
+      RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     }
     else if (robot_name == "ANUBIS")
     {
@@ -153,7 +154,12 @@ private:
   pose2d integrate_velocity(pose2d current_pose, velocity2d vel)
   {
     pose2d new_pose;
+    new_pose.x = 0;
+    new_pose.y = 0;
+    new_pose.theta = 0;
+    new_pose.time = this->now();
     double dt = (this->now() - current_pose.time).seconds();
+      RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     if (dt < 0)
     {
       RCLCPP_ERROR(this->get_logger(), "Time went backwards somehow in odometry integration");
@@ -191,10 +197,13 @@ private:
 
   void update_odometry()
   {
+    velocity2d current_velocity{0.0, 0.0};
     odom_mutex.lock(); 
+    if((last_left_feedback != nullptr) && (last_right_feedback != nullptr)){
     current_velocity.linear = (last_left_feedback->velocity.data + last_right_feedback->velocity.data )/ 2.0;
     current_velocity.angular_z = (last_right_feedback->velocity.data - last_left_feedback->velocity.data) / wheelbase;
     current_pose = integrate_velocity(current_pose, current_velocity);
+    }
 
     odom_mutex.unlock();
     
@@ -265,7 +274,7 @@ private:
 
   std::mutex odom_mutex;
   pose2d current_pose;
-  velocity2d current_velocity;
+  velocity2d current_velocity {0.0, 0.0};
   double odom_update_rate; // Hz
 
 };
