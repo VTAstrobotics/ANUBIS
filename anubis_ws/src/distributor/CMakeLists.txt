@@ -32,6 +32,14 @@ ament_target_dependencies(distributor_node
 install(TARGETS distributor_node
   DESTINATION lib/${PROJECT_NAME}
 )
+install(DIRECTORY launch/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
+install(PROGRAMS
+  scripts/can_startup.sh
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
@@ -44,12 +52,5 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install(TARGETS distributor_node
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(DIRECTORY launch/
-  DESTINATION share/${PROJECT_NAME}/launch
-)
 
 ament_package()
