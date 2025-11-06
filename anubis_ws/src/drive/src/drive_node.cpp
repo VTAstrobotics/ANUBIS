@@ -48,7 +48,7 @@ public:
     this->wheel_diameter = this->get_parameter("wheel_diameter").as_double();
 
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
-    double odom_update_rate = this->get_parameter("odom_update_rate").as_double();
+    this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
 
 
@@ -159,7 +159,7 @@ private:
       RCLCPP_ERROR(this->get_logger(), "Time went backwards somehow in odometry integration");
       dt = 0; // just dont change the state estimate
     }
-    if(dt > 0.1)
+    if(dt > 2 * (1/odom_update_rate))
     {
       RCLCPP_WARN(this->get_logger(), "Large dt detected in odometry integration: %f seconds", dt);
     }
@@ -266,6 +266,7 @@ private:
   std::mutex odom_mutex;
   pose2d current_pose;
   velocity2d current_velocity;
+  double odom_update_rate; // Hz
 
 };
 
