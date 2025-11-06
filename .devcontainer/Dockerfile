@@ -6,7 +6,7 @@ RUN apt update && apt install -y --no-install-recommends \
     python3 \
     python3-pip \
     && apt install python3-setuptools \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 # Add nonroot user with same UID and GID as your host system
 # (copied from https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user)
@@ -80,9 +80,9 @@ RUN sudo wget https://apt.llvm.org/llvm.sh \
     && sudo apt install -y clang-format clang-tidy
 
 # install sparkcan for sparkmax over can
-#RUN sudo add-apt-repository ppa:graysonarendt/sparkcan
-#RUN sudo apt update
-#RUN sudo apt install sparkcan
+# RUN sudo add-apt-repository ppa:graysonarendt/sparkcan
+# RUN sudo apt update
+# RUN sudo apt install sparkcan
 
 # Install dependencies for state messaging
 RUN sudo apt install python3-numpy 
@@ -99,6 +99,11 @@ RUN sudo apt-get update && sudo apt-get install -y \
     ros-jazzy-joint-state-publisher-gui \
     ros-jazzy-xacro \
  && sudo rm -rf /var/lib/apt/lists/*
+
+#for Image Transporta
+RUN sudo apt update
+RUN sudo apt install -y \
+    ros-jazzy-ffmpeg-image-transport
 
 # install turtlebot demo, including gz, unless on a Jetson
 # i swear that it worked before but it doesnt anymore. So basically install this manually if you want nav stuff until i can figure this out.
