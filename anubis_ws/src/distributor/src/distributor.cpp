@@ -46,7 +46,7 @@ class Distributor : public rclcpp::Node
     {
 
         double lin = msg->axes[controls.at(TRANSLATION_CONTROL)] * linear_scale; 
-        double ang = msg->buttons[controls.at(ROTATION_CONTROL)] * angular_scale;
+        double ang = msg->axes[controls.at(ROTATION_CONTROL)] * angular_scale;
 
         geometry_msgs::msg::Twist cmd; //create a variable of type Twist to hold the velocity
         cmd.linear.x = lin; //assigning the linear x vlaue to lin
