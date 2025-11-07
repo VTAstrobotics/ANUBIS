@@ -35,10 +35,10 @@ class Distributor : public rclcpp::Node
       linear_scale = this->get_parameter("LINEAR_SCALE").as_double();
       angular_scale = this->get_parameter("ANGULAR_SCALE").as_double();
 
-      RCLCPP_DEBUG(distributor->get_logger(), "Translation Control parameter: %d", TRANSLATION_CONTROL);
-      RCLCPP_DEBUG(disributor->get_logger(), "Rotation Control parameter: %d", ROTATION_CONTROL);
-      RCLCPP_DEBUG(distributor->get_logger(), "Conveyor Forward parameter: %d", CONVEYOR_FORWARD);
-      RCLCPP_DEBUG(distributor->get_logger(), "Conveyor Reverse parameter: %d", CONVEYOR_REVERSE);
+      RCLCPP_DEBUG(this->get_logger(), "Translation Control parameter: %s", TRANSLATION_CONTROL.c_str());
+      RCLCPP_DEBUG(this->get_logger(), "Rotation Control parameter: %s", ROTATION_CONTROL.c_str());
+      RCLCPP_DEBUG(this->get_logger(), "Conveyor Forward parameter: %s", CONVEYOR_FORWARD.c_str());
+      RCLCPP_DEBUG(this->get_logger(), "Conveyor Reverse parameter: %s", CONVEYOR_REVERSE.c_str());
     }
 
   private:
@@ -46,7 +46,7 @@ class Distributor : public rclcpp::Node
     {
 
         double lin = msg->axes[controls.at(TRANSLATION_CONTROL)] * linear_scale; 
-        double ang = msg->buttons[controls.at(ROTATION_CONTROL)] * angular_scale;
+        double ang = msg->axes[controls.at(ROTATION_CONTROL)] * angular_scale;
 
         geometry_msgs::msg::Twist cmd; //create a variable of type Twist to hold the velocity
         cmd.linear.x = lin; //assigning the linear x vlaue to lin
@@ -59,10 +59,10 @@ class Distributor : public rclcpp::Node
     //this is where you can declare subscribers/publishers.
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher; 
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
-    int TRANSLATION_CONTROL;
-    int ROTATION_CONTROL;
-    int CONVEYOR_FORWARD;
-    int CONVEYOR_REVERSE;
+    std::string TRANSLATION_CONTROL;
+    std::string ROTATION_CONTROL;
+    std::string CONVEYOR_FORWARD;
+    std::string CONVEYOR_REVERSE;
     
     
 };
