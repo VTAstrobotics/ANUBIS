@@ -61,6 +61,7 @@ def main(args=None):
 
    minimal_subscriber.destroy_node()
    rclpy.shutdown()
+   #
 
 
 if __name__ == '__main__':
