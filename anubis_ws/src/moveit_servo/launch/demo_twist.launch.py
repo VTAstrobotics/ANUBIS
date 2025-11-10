@@ -8,9 +8,9 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     moveit_config = (
-        MoveItConfigsBuilder("moveit_resources_panda")
+        MoveItConfigsBuilder("moveit_resources_braccio")
         .robot_description(file_path="config/urdf/braccio.urdf")
-        .joint_limits(file_path="config/hard_joint_limits.yaml")
+        #.joint_limits(file_path="config/hard_joint_limits.yaml") # need to find this file
         .robot_description_kinematics()
         .to_moveit_configs()
     )
@@ -18,13 +18,13 @@ def generate_launch_description():
     # Get parameters for the Servo node
     servo_params = {
         "moveit_servo": ParameterBuilder("moveit_servo")
-        .yaml("config/panda_simulated_config.yaml")
+        .yaml("config/braccio_simulated_config.yaml")
         .to_dict()
     }
 
     # This sets the update rate and planning group name for the acceleration limiting filter.
     acceleration_filter_update_period = {"update_period": 0.01}
-    planning_group_name = {"planning_group_name": "panda_arm"}
+    planning_group_name = {"planning_group_name": "braccio_arm"}
 
     # RViz
     # rviz_config_file = (
@@ -43,38 +43,38 @@ def generate_launch_description():
     # )
 
     # ros2_control using FakeSystem as hardware
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("moveit_resources_panda_moveit_config"),
-        "config",
-        "ros2_controllers.yaml",
-    )
-    ros2_control_node = launch_ros.actions.Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[ros2_controllers_path],
-        remappings=[
-            ("/controller_manager/robot_description", "/robot_description"),
-        ],
-        output="screen",
-    )
+    # ros2_controllers_path = os.path.join(
+    #     get_package_share_directory("moveit_resources_panda_moveit_config"),
+    #     "config",
+    #     "ros2_controllers.yaml",
+    # )
+    # ros2_control_node = launch_ros.actions.Node(
+    #     package="controller_manager",
+    #     executable="ros2_control_node",
+    #     parameters=[ros2_controllers_path],
+    #     remappings=[
+    #         ("/controller_manager/robot_description", "/robot_description"),
+    #     ],
+    #     output="screen",
+    # )
 
-    joint_state_broadcaster_spawner = launch_ros.actions.Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "joint_state_broadcaster",
-            "--controller-manager-timeout",
-            "300",
-            "--controller-manager",
-            "/controller_manager",
-        ],
-    )
+    # joint_state_broadcaster_spawner = launch_ros.actions.Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=[
+    #         "joint_state_broadcaster",
+    #         "--controller-manager-timeout",
+    #         "300",
+    #         "--controller-manager",
+    #         "/controller_manager",
+    #     ],
+    # )
 
-    panda_arm_controller_spawner = launch_ros.actions.Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["panda_arm_controller", "-c", "/controller_manager"],
-    )
+    # panda_arm_controller_spawner = launch_ros.actions.Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["panda_arm_controller", "-c", "/controller_manager"],
+    # )
 
     # Launch as much as possible in components
     container = launch_ros.actions.ComposableNodeContainer(
