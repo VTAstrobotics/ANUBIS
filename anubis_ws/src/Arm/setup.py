@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'Arm'
+package_name = 'arm'
 
 setup(
     name=package_name,
@@ -24,7 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-        'arm_node = Arm.ArmHardwareNode:main',
+        'arm_node = arm.ArmHardwareNode:main',
         ],
     },
 )
