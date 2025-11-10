@@ -149,7 +149,7 @@ servo:
   command_out_topic: {
     type: string,
     read_only: true,
-    default_value: "/panda_arm_controller/joint_trajectory",
+    default_value: "/braccio_arm_controller/joint_trajectory",
     description: "The topic on which servo will publish the joint trajectory \
                   Change this to the topic your controller requires."
   }
@@ -157,7 +157,7 @@ servo:
   command_out_type: {
     type: string,
     read_only: true,
-    default_value: "trajectory_msgs/JointTrajectory",
+    default_value: "std_msgs/Float64MultiArray",
     description: "The type of command that servo will publish",
     validation: {
       one_of<>: [["trajectory_msgs/JointTrajectory", "std_msgs/Float64MultiArray"]]
@@ -172,7 +172,7 @@ servo:
 
   publish_joint_velocities: {
     type: bool,
-    default_value: true,
+    default_value: false,
     description: "If true servo will publish joint velocities in the output command"
   }
 
@@ -209,7 +209,7 @@ servo:
   is_primary_planning_scene_monitor: {
     type: bool,
     read_only: true,
-    default_value: true,
+    default_value: false,
     description: "If is_primary_planning_scene_monitor is set to true, \
                   the Servo server's PlanningScene advertises the /get_planning_scene service, \
                   which other nodes can use to get information about the planning environment. \
@@ -237,7 +237,7 @@ servo:
 
   check_collisions: {
     type: bool,
-    default_value: true,
+    default_value: false,
     description: "If true, servo will check for collision using the planning scene monitor."
   }
 

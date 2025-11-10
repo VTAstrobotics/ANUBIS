@@ -9,7 +9,7 @@ from moveit_configs_utils import MoveItConfigsBuilder
 def generate_launch_description():
     moveit_config = (
         MoveItConfigsBuilder("moveit_resources_panda")
-        .robot_description(file_path="config/panda.urdf.xacro")
+        .robot_description(file_path="config/urdf/braccio.urdf")
         .joint_limits(file_path="config/hard_joint_limits.yaml")
         .robot_description_kinematics()
         .to_moveit_configs()
@@ -27,20 +27,20 @@ def generate_launch_description():
     planning_group_name = {"planning_group_name": "panda_arm"}
 
     # RViz
-    rviz_config_file = (
-        get_package_share_directory("moveit_servo") + "/config/demo_rviz_config.rviz"
-    )
-    rviz_node = launch_ros.actions.Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_config_file],
-        parameters=[
-            moveit_config.robot_description,
-            moveit_config.robot_description_semantic,
-        ],
-    )
+    # rviz_config_file = (
+    #     get_package_share_directory("moveit_servo") + "/config/demo_rviz_config.rviz"
+    # )
+    # rviz_node = launch_ros.actions.Node(
+    #     package="rviz2",
+    #     executable="rviz2",
+    #     name="rviz2",
+    #     output="log",
+    #     arguments=["-d", rviz_config_file],
+    #     parameters=[
+    #         moveit_config.robot_description,
+    #         moveit_config.robot_description_semantic,
+    #     ],
+    # )
 
     # ros2_control using FakeSystem as hardware
     ros2_controllers_path = os.path.join(
