@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot name="visual">
+
+  <!-- Virtual joint to attach the robot to the world -->
+  <virtual_joint
+      name="fixed_base"
+      type="fixed"
+      parent_frame="world"
+      child_link="base_link" />
+
+  <!-- Planning groups -->
+  <group name="arm">
+    <joint name="base"/>
+    <joint name="shoulder"/>
+    <joint name="elbow"/>
+    <joint name="wrist_pitch"/>
+    <joint name="wrist_roll"/>
+  </group>
+
+  <group name="gripper">
+    <joint name="gripper_movable"/>
+  </group>
+
+  <end_effector
+      name="gripper_eef"
+      parent_link="gripper_fix"
+      group="gripper"
+      parent_group="arm" />
+
+  <group_state name="arm_home" group="arm">
+    <joint name="base"         value="1.5707963267948966"/>  
+    <joint name="shoulder"     value="1.5707963267948966"/>  
+    <joint name="elbow"        value="1.5707963267948966"/> 
+    <joint name="wrist_pitch"  value="1.5707963267948966"/>  
+    <joint name="wrist_roll"   value="1.5707963267948966"/> 
+  </group_state>
+
+  <group_state name="gripper_home" group="gripper">
+    <!-- midpoint of [0.17453, 1.27409] -->
+    <joint name="gripper_movable" value="0.7243116395776468"/>
+  </group_state>
+
+
+</robot>

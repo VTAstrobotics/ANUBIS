@@ -8,7 +8,7 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     moveit_config = (
-        MoveItConfigsBuilder("moveit_resources_braccio")
+        MoveItConfigsBuilder(robot_name="braccio", package_name="moveit_servo")
         .robot_description(file_path="config/urdf/braccio.urdf")
         #.joint_limits(file_path="config/hard_joint_limits.yaml") # need to find this file
         .robot_description_kinematics()
@@ -117,10 +117,10 @@ def generate_launch_description():
 
     return launch.LaunchDescription(
         [
-            rviz_node,
-            ros2_control_node,
-            joint_state_broadcaster_spawner,
-            panda_arm_controller_spawner,
+            # rviz_node,
+            # ros2_control_node,
+            # joint_state_broadcaster_spawner,
+            # panda_arm_controller_spawner,
             servo_node,
             container,
         ]
