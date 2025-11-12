@@ -77,27 +77,27 @@ def generate_launch_description():
     # )
 
     # Launch as much as possible in components
-    container = launch_ros.actions.ComposableNodeContainer(
-        name="moveit_servo_demo_container",
-        namespace="/",
-        package="rclcpp_components",
-        executable="component_container_mt",
-        composable_node_descriptions=[
-            launch_ros.descriptions.ComposableNode(
-                package="robot_state_publisher",
-                plugin="robot_state_publisher::RobotStatePublisher",
-                name="robot_state_publisher",
-                parameters=[moveit_config.robot_description],
-            ),
-            launch_ros.descriptions.ComposableNode(
-                package="tf2_ros",
-                plugin="tf2_ros::StaticTransformBroadcasterNode",
-                name="static_tf2_broadcaster",
-                parameters=[{"child_frame_id": "/panda_link0", "frame_id": "/world"}],
-            ),
-        ],
-        output="screen",
-    )
+    # container = launch_ros.actions.ComposableNodeContainer(
+    #     name="moveit_servo_demo_container",
+    #     namespace="/",
+    #     package="rclcpp_components",
+    #     executable="component_container_mt",
+    #     composable_node_descriptions=[
+    #         launch_ros.descriptions.ComposableNode(
+    #             package="robot_state_publisher",
+    #             plugin="robot_state_publisher::RobotStatePublisher",
+    #             name="robot_state_publisher",
+    #             parameters=[moveit_config.robot_description],
+    #         ),
+    #         launch_ros.descriptions.ComposableNode(
+    #             package="tf2_ros",
+    #             plugin="tf2_ros::StaticTransformBroadcasterNode",
+    #             name="static_tf2_broadcaster",
+    #             parameters=[{"child_frame_id": "/panda_link0", "frame_id": "/world"}],
+    #         ),
+    #     ],
+    #     output="screen",
+    # )
     # Launch a standalone Servo node.
     # As opposed to a node component, this may be necessary (for example) if Servo is running on a different PC
     servo_node = launch_ros.actions.Node(
@@ -122,6 +122,6 @@ def generate_launch_description():
             # joint_state_broadcaster_spawner,
             # panda_arm_controller_spawner,
             servo_node,
-            container,
+            # container,
         ]
     )
