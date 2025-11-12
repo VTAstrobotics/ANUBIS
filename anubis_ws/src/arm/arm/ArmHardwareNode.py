@@ -33,12 +33,12 @@ class ArmHardware(Node):
       print(data)
       js = JointState()
       js.header.stamp = self.get_clock().now().to_msg()
-      js.name.append("joint0")
-      js.name.append("joint1")
-      js.name.append("joint2")
-      js.name.append("joint3")
-      js.name.append("joint4")
-      js.name.append("joint5")
+      js.name.append("base_joint")
+      js.name.append("shoulder_joint")
+      js.name.append("elbow_joint")
+      js.name.append("wrist_pitch_joint")
+      js.name.append("wrist_roll_joint")
+      js.name.append("gripper_joint")
       positions_rad = []
       positions_degree = []
       for p in msg.data:

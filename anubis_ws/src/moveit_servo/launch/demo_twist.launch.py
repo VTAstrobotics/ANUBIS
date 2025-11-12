@@ -102,7 +102,7 @@ def generate_launch_description():
     # As opposed to a node component, this may be necessary (for example) if Servo is running on a different PC
     servo_node = launch_ros.actions.Node(
         package="moveit_servo",
-        executable="demo_twist",
+        executable="servo_node",
         parameters=[
             servo_params,
             acceleration_filter_update_period,
