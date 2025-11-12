@@ -8,9 +8,9 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     moveit_config = (
-        MoveItConfigsBuilder(robot_name="braccio", package_name="moveit_servo")
-        .robot_description(file_path="config/urdf/braccio.urdf")
-        #.joint_limits(file_path="config/hard_joint_limits.yaml") # need to find this file
+        MoveItConfigsBuilder(robot_name="visual", package_name="moveit_servo")
+        .robot_description(file_path="config/urdf/braccio_arm.urdf")
+        .joint_limits(file_path="config/joint_limits.yaml") # need to find this file
         .robot_description_kinematics()
         .to_moveit_configs()
     )
