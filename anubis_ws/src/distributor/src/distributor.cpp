@@ -1,4 +1,5 @@
 #include <memory>
+#include <chrono>
 #include "settings.h"
 
 #include "rclcpp/rclcpp.hpp"
@@ -7,6 +8,27 @@
 #include "sensor_msgs/msg/joy.hpp"
 #include "map.h"
 
+class Stopwatch {
+public:
+void start() {
+start_time = std::chrono::high_resolution_clock::now();
+}
+
+void stop() {
+end_time = std::chrono::high_resolution_clock::now();
+}
+
+double elapsedMilliseconds() {
+return std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+}
+double reset(){
+  start_time = std::chrono::high_resolution_clock::now();
+  end_time = std::chrono::high_resolution_clock::now();
+}
+
+private:
+std::chrono::time_point<std::chrono::high_resolution_clock> start_time, end_time;
+};
 
 using std::placeholders::_1;
 class Distributor : public rclcpp::Node
@@ -21,6 +43,11 @@ class Distributor : public rclcpp::Node
 
       velocity_publisher = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10); // creates the publisher to the /joy topic
       // uses the joy_callback to recieve the message from the subscriber and publish it to the /joy topic
+      timer_ = this->create_wall_timer(
+            500ms,  // period
+            std::bind(&Distributor::timer_callback, this)
+      );
+      stopwatch = new Stopwatch();
 
       this->declare_parameter("TRANSLATION_CONTROL", "LSTICKY");
       this->declare_parameter("ROTATION_CONTROL", "RSTICKX");
@@ -52,10 +79,22 @@ class Distributor : public rclcpp::Node
         cmd.linear.x = lin; //assigning the linear x vlaue to lin
         cmd.angular.z = ang; //assigning the angular z value to ang
         velocity_publisher->publish(cmd); //publishing the cmd variable to the /cmd_vel topic
+        stopwatch.reset;
  
+    }
+    void timer_callback(){
+      if(stopwatch.elapsedMilliseconds() > 5000){
+        geometry_msgs::msg::Twist cmd; //create a variable of type Twist to hold the velocity
+        cmd.linear.x = 0; //assigning the linear x vlaue to lin
+        cmd.angular.z = 0; //assigning the angular z value to ang
+        velocity_publisher->publish(cmd); //publishing the cmd variable to the /cmd_vel topic
+      }
+
     }
     double linear_scale = 0.6;
     double angular_scale = 1.8;
+    Stopwatch stopwatch;
+    
     //this is where you can declare subscribers/publishers.
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher; 
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
@@ -66,6 +105,7 @@ class Distributor : public rclcpp::Node
     
     
 };
+
 
 int main(int argc, char * argv[])
 {
