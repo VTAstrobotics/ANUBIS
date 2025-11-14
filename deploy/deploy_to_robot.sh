@@ -21,4 +21,4 @@ Dest="$Dest_IP":/Deployments/ANUBIS
 
 ssh "$Dest_IP" "mkdir -p /Deployments/ANUBIS"
 
-rsync -avz --delete "$ANUBIS_DIR" "$Dest"
+rsync -avz --delete "$ANUBIS_DIR/" "$Dest/"
