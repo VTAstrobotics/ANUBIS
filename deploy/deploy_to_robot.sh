@@ -5,7 +5,7 @@
 # This means that you do not need to connect the robot to the internet or to a monitor 
 # unless you are adding external dependencies. The syncing should handle any amount of changes you may be making
 # note that the ANUBIS directory on the robot will be replaced with your local copy.
-# and the Anubis Directory on the robot will be located at /Deployments/ANUBIS
+# and the Anubis Directory on the robot will be located at ~/Deployments/ANUBIS
 # The normal Anubis directory will be left alone for any potential edge cases.
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -25,8 +25,8 @@ fi
 
 
 
-Dest="$Dest_IP":/Deployments/ANUBIS
+Dest="$Dest_IP":/home/astrobotics/Deployments/ANUBIS
 
-ssh "$Dest_IP" "mkdir -p /Deployments/ANUBIS"
+ssh "$Dest_IP" "mkdir -p /home/astrobotics/Deployments/ANUBIS"
 
-rsync -avz --delete "$ANUBIS_DIR/" "$Dest/"
+rsync -avz --delete --exclude "build/" --exclude "log/" --exclude "install/" "$ANUBIS_DIR/" "$Dest/"
