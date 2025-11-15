@@ -65,20 +65,20 @@ def generate_launch_description():
         output="screen"
     )
 
-    # remappings=[
-    #         ('rgb/image', 'zed/rgb/color/rect/image'),
-    #         ('rgb/camera_info', '/camera/camera_info'),
-    #         ('depth/image', '/zed/point_clout/cloud_registered'),
-    #         ('odom', '/odom'),
-    #         # ('gps/fix', '/gps/data')
-    #       ]
+    remappings=[
+            ('rgb/image', 'zed/rgb/color/rect/image'),
+            ('rgb/camera_info', '/zed/zed_node/camera_info'),
+            ('depth/image', '/zed/zed_node/point_clout/cloud_registered'),
+            ('odom', '/odom'),
+            # ('gps/fix', '/gps/data')
+          ]
 
         # SLAM mode:
-    # slam = Node(
-    #         package='rtabmap_slam', executable='rtabmap', output='screen',
-    #         parameters=[parameters],
-    #         remappings=remappings,
-    #         arguments=['-d'])
+    slam = Node(
+            package='rtabmap_slam', executable='rtabmap', output='screen',
+            parameters=[parameters],
+            remappings=remappings,
+            arguments=['-d'])
 
     web_video_server_node = Node(
         package="web_video_server",
@@ -87,10 +87,20 @@ def generate_launch_description():
         output="screen"
     )
 
+    base_link_to_camera_link = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='base_to_camera_link_publisher',
+        arguments=[
+            '0.2', '0', '0.3', '0', '0', '0', 'base_link', 'camera_link'
+        ]
+    )
+
     return LaunchDescription([
         distributor_node,
         drive_node,
         joy_node,
         # slam
-        web_video_server_node
+        web_video_server_node,
+        base_link_to_camera_link
     ])
