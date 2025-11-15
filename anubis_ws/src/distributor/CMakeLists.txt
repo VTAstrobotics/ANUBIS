@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(motor_messages)
+project(distributor)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,19 +7,31 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
+find_package(sensor_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Command.msg"
-  "msg/Feedback.msg"
-  "msg/Health.msg"
-  DEPENDENCIES std_msgs
+add_executable(distributor_node src/distributor.cpp)
+target_include_directories(distributor_node PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+  
 )
 
+
+ament_target_dependencies(distributor_node
+  rclcpp
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+)
+
+install(TARGETS distributor_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
