@@ -13,21 +13,16 @@ public:
 void start() {
 start_time = std::chrono::high_resolution_clock::now();
 }
-
-void stop() {
-end_time = std::chrono::high_resolution_clock::now();
-}
-
 double elapsedMilliseconds() {
-return std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+auto now = std::chrono::high_resolution_clock::now();
+return std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time).count();
 }
-double reset(){
+void reset(){
   start_time = std::chrono::high_resolution_clock::now();
-  end_time = std::chrono::high_resolution_clock::now();
 }
 
 private:
-std::chrono::time_point<std::chrono::high_resolution_clock> start_time, end_time;
+std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
 };
 
 using std::placeholders::_1;
@@ -37,18 +32,16 @@ class Distributor : public rclcpp::Node
     Distributor()
     : Node("Distributor_node") //name of the node
     {
-
       joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>( // Creating the subscriber to the Joy topic
       "/joy", 10, std::bind(&Distributor::joy_callback, this, _1)); 
 
       velocity_publisher = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10); // creates the publisher to the /joy topic
       // uses the joy_callback to recieve the message from the subscriber and publish it to the /joy topic
       timer_ = this->create_wall_timer(
-            500ms,  // period
+            std::chrono::milliseconds(500),  
             std::bind(&Distributor::timer_callback, this)
-      );
-      stopwatch = new Stopwatch();
-
+        );
+      stopwatch.start();
       this->declare_parameter("TRANSLATION_CONTROL", "LSTICKY");
       this->declare_parameter("ROTATION_CONTROL", "RSTICKX");
       this->declare_parameter("CONVEYOR_FORWARD", "BUTTON_B");
@@ -71,7 +64,6 @@ class Distributor : public rclcpp::Node
   private:
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
-
         double lin = msg->axes[controls.at(TRANSLATION_CONTROL)] * linear_scale; 
         double ang = msg->axes[controls.at(ROTATION_CONTROL)] * angular_scale;
 
@@ -79,8 +71,8 @@ class Distributor : public rclcpp::Node
         cmd.linear.x = lin; //assigning the linear x vlaue to lin
         cmd.angular.z = ang; //assigning the angular z value to ang
         velocity_publisher->publish(cmd); //publishing the cmd variable to the /cmd_vel topic
-        stopwatch.reset;
- 
+        stopwatch.reset();
+        RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "reset timer %d", 4);
     }
     void timer_callback(){
       if(stopwatch.elapsedMilliseconds() > 5000){
@@ -88,9 +80,11 @@ class Distributor : public rclcpp::Node
         cmd.linear.x = 0; //assigning the linear x vlaue to lin
         cmd.angular.z = 0; //assigning the angular z value to ang
         velocity_publisher->publish(cmd); //publishing the cmd variable to the /cmd_vel topic
+        RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "CONNECTION LOST %d", 4);
       }
 
     }
+
     double linear_scale = 0.6;
     double angular_scale = 1.8;
     Stopwatch stopwatch;
@@ -98,12 +92,12 @@ class Distributor : public rclcpp::Node
     //this is where you can declare subscribers/publishers.
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher; 
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
+    rclcpp::TimerBase::SharedPtr timer_;
     std::string TRANSLATION_CONTROL;
     std::string ROTATION_CONTROL;
     std::string CONVEYOR_FORWARD;
     std::string CONVEYOR_REVERSE;
-    
-    
+    // rclcpp::Timer timer_
 };
 
 
