@@ -65,9 +65,9 @@ void SparkMaxController::publish_status()
     return;
   }
 
-  feedback.velocity.data = motor->GetVelocity();
+  feedback.velocity.data = motor->GetVelocity()/4096;
   feedback.current.data = motor->GetCurrent();
-  feedback.position.data = motor->GetPosition();
+  feedback.position.data = motor->GetPosition()/4096;
   feedback.is_disabled.data = false;
 
   status_publisher->publish(feedback);

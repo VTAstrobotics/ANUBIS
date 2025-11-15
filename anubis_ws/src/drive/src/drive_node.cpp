@@ -137,6 +137,8 @@ private:
     double lin_x = msg->linear.x;
     double ang_z = msg->angular.z;
 
+    RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
+
     // float left_vel = lin_x - 0.5*ang_z * wheelbase; // use when velocity is implemented
     // float right_vel = lin_x + 0.5*ang_z * wheelbase;
     double left_vel = lin_x - ang_z;
@@ -146,7 +148,7 @@ private:
     motor_messages::msg::Command left_velocity_msg;
 
     left_velocity_msg.dutycycle.data = std::min(std::max(left_vel, -1.), 1.);
-    right_velocity_msg.dutycycle.data = std::min(std::max(right_vel, -1.), 1.);
+    right_velocity_msg.dutycycle.data = -std::min(std::max(right_vel, -1.), 1.);
 
     left_velocity_publisher->publish(left_velocity_msg);
     right_velocity_publisher->publish(right_velocity_msg);
@@ -202,7 +204,7 @@ private:
     RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
     odom_mutex.lock();
     last_right_feedback = msg;
-    right_velocity[motor_name] = msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
+    right_velocity[motor_name] = -msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
     odom_mutex.unlock();
   }
 
@@ -215,8 +217,8 @@ private:
     {
       if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
       {
-        current_velocity.linear = (last_left_feedback->velocity.data + last_right_feedback->velocity.data) / 2.0;
-        current_velocity.angular_z = (last_right_feedback->velocity.data - last_left_feedback->velocity.data) / wheelbase;
+        current_velocity.linear = (last_left_feedback->velocity.data + (-last_right_feedback->velocity.data)) / 2.0;
+        current_velocity.angular_z = ((-last_right_feedback->velocity.data) - last_left_feedback->velocity.data) / wheelbase;
         current_pose = integrate_velocity(current_pose, current_velocity);
       }
       publish_odometry();
