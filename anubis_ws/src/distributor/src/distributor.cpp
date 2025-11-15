@@ -72,7 +72,6 @@ class Distributor : public rclcpp::Node
         cmd.angular.z = ang; //assigning the angular z value to ang
         velocity_publisher->publish(cmd); //publishing the cmd variable to the /cmd_vel topic
         stopwatch.reset();
-        RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "reset timer %d", 4);
     }
     void timer_callback(){
       if(stopwatch.elapsedMilliseconds() > 5000){
@@ -80,7 +79,7 @@ class Distributor : public rclcpp::Node
         cmd.linear.x = 0; //assigning the linear x vlaue to lin
         cmd.angular.z = 0; //assigning the angular z value to ang
         velocity_publisher->publish(cmd); //publishing the cmd variable to the /cmd_vel topic
-        RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "CONNECTION LOST %d", 4);
+        RCLCPP_ERROR(this->get_logger(), "CONNECTION LOST %d", 4);
       }
 
     }
