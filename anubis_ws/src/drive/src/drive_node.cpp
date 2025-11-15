@@ -17,7 +17,7 @@
 // need to include kraken once finished
 
 // change this
-#define reaper_wheelbase 0.5
+#define reaper_wheelbase 0.7
 
 using std::placeholders::_1;
 class Drive : public rclcpp::Node
@@ -48,7 +48,7 @@ public:
     this->declare_parameter<double>("motor_gear_ratio", 125.0);
     this->motor_gear_ratio = this->get_parameter("motor_gear_ratio").as_double();
 
-    this->declare_parameter<double>("wheel_diameter", 0.1524);
+    this->declare_parameter<double>("wheel_diameter", 0.31);
     this->wheel_diameter = this->get_parameter("wheel_diameter").as_double();
 
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
