@@ -15,8 +15,6 @@ def generate_launch_description():
 
     config_file_distributor = os.path.join(pkg_share_distributor, "config", "distributorconfig.yaml")
 
-
-
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
     our_nav_shar = get_package_share_directory('navigation')
     nav2_params = os.path.join(our_nav_shar, 'config', 'nav2_params.yaml')
@@ -67,6 +65,21 @@ def generate_launch_description():
         output="screen"
     )
 
+    remappings=[
+            ('rgb/image', 'zed/rgb/color/rect/image'),
+            ('rgb/camera_info', '/camera/camera_info'),
+            ('depth/image', '/zed/point_clout/cloud_registered')
+            ('odom', '/odom'),
+            # ('gps/fix', '/gps/data')
+          ]
+
+        # SLAM mode:
+    slam = Node(
+            package='rtabmap_slam', executable='rtabmap', output='screen',
+            parameters=[parameters],
+            remappings=remappings,
+            arguments=['-d'])
+
     # web_video_server_node = Node(
     #     package="web_video_server",
     #     executable="web_video_server_node",
@@ -74,12 +87,10 @@ def generate_launch_description():
     #     output="screen"
     # )
 
-
-
-
     return LaunchDescription([
         distributor_node,
         drive_node,
         joy_node,
+        slam
         # web_video_server_node
     ])
