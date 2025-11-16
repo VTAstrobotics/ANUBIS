@@ -17,8 +17,10 @@ class ArmHardware(Node):
             self.listener_callback,
             10)
       self.subscription_  # prevent unused variable warning
-      self.arduino = serial.Serial(port='/dev/ttyACM1', baudrate=9600, timeout=.1)
+      self.joint_states = [90,90,90,90,90]
+      self.arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
       self.joint_state_pub = self.create_publisher(JointState, '/joint_states', 10)
+      self.feedback_timer = self.create_timer(0.05, self.feedback_callback)
 
    def listener_callback(self, msg):
       print('Listens')
@@ -31,6 +33,9 @@ class ArmHardware(Node):
       time.sleep(0.05)
       data = self.arduino.readline()
       print(data)
+      self.joint_states = msg.data
+
+   def feedback_callback(self):
       js = JointState()
       js.header.stamp = self.get_clock().now().to_msg()
       js.name.append("base_joint")
@@ -38,10 +43,10 @@ class ArmHardware(Node):
       js.name.append("elbow_joint")
       js.name.append("wrist_pitch_joint")
       js.name.append("wrist_roll_joint")
-      js.name.append("gripper_joint")
+      # js.name.append("gripper_joint")
       positions_rad = []
       positions_degree = []
-      for p in msg.data:
+      for p in self.joint_states:
          # deg = float(p)
          # rad = deg * math.pi / 180.0
          # positions_rad.append(rad)
@@ -49,7 +54,7 @@ class ArmHardware(Node):
       js.position = positions_degree
       time.sleep(0.05)
       self.joint_state_pub.publish(js)
-
+      print(js.position)
 
 
 def main(args=None):
