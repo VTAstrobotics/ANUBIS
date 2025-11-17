@@ -209,7 +209,7 @@ servo:
   is_primary_planning_scene_monitor: {
     type: bool,
     read_only: true,
-    default_value: false,
+    default_value: true,
     description: "If is_primary_planning_scene_monitor is set to true, \
                   the Servo server's PlanningScene advertises the /get_planning_scene service, \
                   which other nodes can use to get information about the planning environment. \
