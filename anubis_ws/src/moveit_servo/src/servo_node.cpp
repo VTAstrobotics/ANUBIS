@@ -394,7 +394,8 @@ void ServoNode::servoLoop()
       robot_state->setJointGroupVelocities(joint_model_group, current_state.velocities);
 
       next_joint_state = std::nullopt;
-      const CommandType expected_type = servo_->getCommandType();
+      // const CommandType expected_type = servo_->getCommandType();
+      const CommandType expected_type = CommandType::TWIST;
 
       if (expected_type == CommandType::JOINT_JOG && new_joint_jog_msg_)
       {
@@ -414,6 +415,8 @@ void ServoNode::servoLoop()
         RCLCPP_WARN_STREAM(node_->get_logger(), "Command type has not been set, cannot accept input");
       }
 
+      
+      RCLCPP_WARN_STREAM(node_->get_logger(), "Made it here");
       if (next_joint_state && (servo_->getStatus() != StatusCode::INVALID) &&
           (servo_->getStatus() != StatusCode::HALT_FOR_COLLISION))
       {
@@ -429,6 +432,7 @@ void ServoNode::servoLoop()
         }
         else
         {
+          RCLCPP_WARN_STREAM(node_->get_logger(), "PUBLISHING ARRAY");
           multi_array_publisher_->publish(composeMultiArrayMessage(servo_->getParams(), next_joint_state.value()));
         }
         last_commanded_state_ = next_joint_state.value();

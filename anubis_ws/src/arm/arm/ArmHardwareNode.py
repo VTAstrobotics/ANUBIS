@@ -21,6 +21,7 @@ class ArmHardware(Node):
       # self.arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
       self.joint_state_pub = self.create_publisher(JointState, '/joint_states', 10)
       self.feedback_timer = self.create_timer(0.05, self.feedback_callback)
+      self.moving = False
 
    def listener_callback(self, msg):
       print('Listens')
@@ -53,11 +54,14 @@ class ArmHardware(Node):
          # rad = deg * math.pi / 180.0
          # positions_rad.append(rad)
          positions_degree.append(float(p))
+      # if self.moving:
+      #    positions_degree[3] = 100
       js.position = positions_degree
       time.sleep(0.05)
       self.joint_state_pub.publish(js)
       print(js.name)
       print(js.position)
+      self.moving = not self.moving
 
 
 
