@@ -17,7 +17,7 @@ class ArmHardware(Node):
             self.listener_callback,
             10)
       self.subscription_  # prevent unused variable warning
-      self.joint_states = [90,90,90,90,90,90,90]
+      self.joint_states = [90,90,90,90,90,90]
       # self.arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
       self.joint_state_pub = self.create_publisher(JointState, '/joint_states', 10)
       self.feedback_timer = self.create_timer(0.05, self.feedback_callback)
@@ -44,7 +44,7 @@ class ArmHardware(Node):
       js.name.append("wrist_pitch_joint")
       js.name.append("wrist_roll_joint")
       js.name.append("gripper_joint")
-      js.name.append("braccio_virtual_joint")
+      # js.name.append("braccio_virtual_joint")
       # js.name.append("gripper_joint")
       positions_rad = []
       positions_degree = []
@@ -56,7 +56,9 @@ class ArmHardware(Node):
       js.position = positions_degree
       time.sleep(0.05)
       self.joint_state_pub.publish(js)
+      print(js.name)
       print(js.position)
+
 
 
 def main(args=None):
