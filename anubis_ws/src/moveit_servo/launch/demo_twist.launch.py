@@ -48,6 +48,7 @@ def generate_launch_description():
     #     "config",
     #     "ros2_controllers.yaml",
     # )
+
     # ros2_control_node = launch_ros.actions.Node(
     #     package="controller_manager",
     #     executable="ros2_control_node",

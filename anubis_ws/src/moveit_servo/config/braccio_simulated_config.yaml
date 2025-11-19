@@ -40,6 +40,12 @@ check_octomap_collisions: false  # Check collision against the octomap (if a 3D 
 ## MoveIt properties
 move_group_name: braccio_arm  # Often 'manipulator' or 'arm'
 
+
+planning_frame: base_link               
+ee_frame_name: wrist_roll_link          
+
+robot_link_command_frame: base_link
+
 ## Configure handling of singularities and joint limits
 lower_singularity_threshold: 1e15  # Start decelerating when the condition number hits this (close to singularity)
 hard_stop_singularity_threshold: 1e20  # Stop when the condition number hits this
@@ -61,3 +67,5 @@ check_collisions: true  # Check collisions?
 collision_check_rate: 10.0  # [Hz] Collision-checking can easily bog down a CPU if done too often.
 self_collision_proximity_threshold: 0.01  # Start decelerating when a self-collision is this far [m]
 scene_collision_proximity_threshold: 0.02  # Start decelerating when a scene collision is this far [m]
+
+

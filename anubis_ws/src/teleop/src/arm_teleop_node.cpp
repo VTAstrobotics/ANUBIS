@@ -16,19 +16,18 @@ public:
   Teleop() : Node("teleop_twist_stamped")
   {
     publisher_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(
-      "/servo_node/delta_twist_cmds", 10);
+        "/servo_node/delta_twist_cmds", 10);
 
     joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
-      "/joy", 10, std::bind(&Teleop::joy_callback, this, _1));
+        "/joy", 10, std::bind(&Teleop::joy_callback, this, _1));
   }
 
 private:
-
   void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
   {
     geometry_msgs::msg::TwistStamped cmd;
     cmd.header.stamp = this->now();
-    cmd.header.frame_id = "base_link";  
+    cmd.header.frame_id = "base_link";
 
     cmd.twist.linear.x = msg->axes[axis_x] * linear_scale;
     cmd.twist.linear.y = msg->axes[axis_y] * linear_scale;
@@ -42,10 +41,10 @@ private:
   }
 
   // Scale and axis mappings
-  double linear_scale = 0.4;   
-  int axis_x = 0;              
-  int axis_y = 1;              
-  int axis_z = 4;              
+  double linear_scale = 0.4;
+  int axis_x = 0;
+  int axis_y = 1;
+  int axis_z = 4;
 
   rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr publisher_;
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
