@@ -10,11 +10,11 @@ from launch.conditions import IfCondition, UnlessCondition
 
 def generate_launch_description():
     # drive_share = get_package_share_directory('drive')
+
     # pkg_share_distributor = get_package_share_directory('distributor')
     # web_video_share = get_package_share_directory('web_video_server')
 
     # config_file_distributor = os.path.join(pkg_share_distributor, "include", "distributorconfig.yaml")
-
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
     # our_nav_shar = get_package_share_directory('navigation')
     # nav2_params = os.path.join(our_nav_shar, 'config', 'nav2_params.yaml')
