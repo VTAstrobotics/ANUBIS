@@ -13,11 +13,30 @@ find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 add_executable(teleop_node src/teleop_node.cpp)
-ament_target_dependencies(teleop_node rclcpp std_msgs geometry_msgs sensor_msgs) 
+add_executable(arm_teleop_node src/arm_teleop_node.cpp)
+
+ament_target_dependencies(teleop_node
+  rclcpp
+  std_msgs
+  geometry_msgs
+  sensor_msgs
+)
+
+ament_target_dependencies(arm_teleop_node
+  rclcpp
+  std_msgs
+  geometry_msgs
+  sensor_msgs
+)
 
 install(TARGETS teleop_node
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
+
+install(TARGETS arm_teleop_node
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
 
 
 if(BUILD_TESTING)

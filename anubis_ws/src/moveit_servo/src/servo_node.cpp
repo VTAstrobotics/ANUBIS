@@ -259,7 +259,6 @@ std::optional<KinematicState> ServoNode::processJointJogCommand(const moveit::co
       RCLCPP_DEBUG_STREAM(node_->get_logger(), "Joint jog command timed out. Halting to a stop.");
     }
   }
-
   return next_joint_state;
 }
 
@@ -271,8 +270,9 @@ std::optional<KinematicState> ServoNode::processTwistCommand(const moveit::core:
   // Reject any other command types that had arrived simultaneously.
   new_joint_jog_msg_ = new_pose_msg_ = false;
 
-  const bool command_stale = (node_->now() - latest_twist_.header.stamp) >=
-                             rclcpp::Duration::from_seconds(servo_params_.incoming_command_timeout);
+  // const bool command_stale = (node_->now() - latest_twist_.header.stamp) >=
+  //                            rclcpp::Duration::from_seconds(servo_params_.incoming_command_timeout);
+  const bool command_stale = false;
   if (!command_stale)
   {
     const Eigen::Vector<double, 6> velocities{ latest_twist_.twist.linear.x,  latest_twist_.twist.linear.y,
@@ -394,8 +394,8 @@ void ServoNode::servoLoop()
       robot_state->setJointGroupVelocities(joint_model_group, current_state.velocities);
 
       next_joint_state = std::nullopt;
-      // const CommandType expected_type = servo_->getCommandType();
-      const CommandType expected_type = CommandType::TWIST;
+      const CommandType expected_type = servo_->getCommandType();
+      // const CommandType expected_type = CommandType::TWIST;
 
       if (expected_type == CommandType::JOINT_JOG && new_joint_jog_msg_)
       {
@@ -415,8 +415,9 @@ void ServoNode::servoLoop()
         RCLCPP_WARN_STREAM(node_->get_logger(), "Command type has not been set, cannot accept input");
       }
 
-      
-      RCLCPP_WARN_STREAM(node_->get_logger(), "Made it here");
+
+      //RCLCPP_WARN_STREAM(node_->get_logger(), "Made it here");
+
       if (next_joint_state && (servo_->getStatus() != StatusCode::INVALID) &&
           (servo_->getStatus() != StatusCode::HALT_FOR_COLLISION))
       {
