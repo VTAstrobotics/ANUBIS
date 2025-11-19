@@ -34,9 +34,9 @@ class Teleop : public rclcpp::Node
     }
 
     double linear_scale  = 0.6;
-    double angular_scale = 1.8;  
+    double angular_scale = 0.5;  
     int axis_linear   = 1;         
-    int axis_angular  = 0;
+    int axis_angular  = 3;
     
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher;
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscription;

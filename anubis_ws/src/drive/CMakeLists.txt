@@ -9,9 +9,12 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(motor_messages REQUIRED)
 find_package(motor_control REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 add_executable(drive_node src/drive_node.cpp)
 
@@ -19,9 +22,12 @@ ament_target_dependencies(drive_node
   rclcpp
   geometry_msgs
   std_msgs
+  nav_msgs
   sensor_msgs
   motor_messages
   motor_control
+  tf2
+  tf2_geometry_msgs
 )
 
 target_link_libraries(drive_node motor_control::motor_control_nodes)
