@@ -21,7 +21,7 @@ class ArmHardware(Node):
       self.joint_states = [math.radians(deg) for deg in joint_states_deg]
       self.arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
       self.joint_state_pub = self.create_publisher(JointState, '/joint_states', 10)
-      self.feedback_timer = self.create_timer(0.05, self.feedback_callback)
+      self.feedback_timer = self.create_timer(0.01, self.feedback_callback)
       self.moving = False
 
    def listener_callback(self, msg):
