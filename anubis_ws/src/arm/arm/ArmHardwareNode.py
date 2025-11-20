@@ -17,9 +17,9 @@ class ArmHardware(Node):
             self.listener_callback,
             10)
       self.subscription_  # prevent unused variable warning
-      joint_states_deg = [90, 45, 180, 0, 90]
+      joint_states_deg = [90, 45, 180, 0, 90, 0.0]
       self.joint_states = [math.radians(deg) for deg in joint_states_deg]
-      self.arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
+      self.arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
       self.joint_state_pub = self.create_publisher(JointState, '/joint_states', 10)
       self.feedback_timer = self.create_timer(0.05, self.feedback_callback)
       self.moving = False
@@ -27,16 +27,18 @@ class ArmHardware(Node):
    def listener_callback(self, msg):
       print('Listens')
       self.get_logger().info('I heard: "%s"' % msg.data)
+      positions = list(msg.data)
       serial_message = ''
-      for position in msg.data:
-         serial_message += str(int(position * 180/ math.pi)) + ","
+      for position in positions[:5]:
+         serial_message += str(int(position * 180 / math.pi)) + ","
       print(serial_message)
-      if list(msg.data) != list(self.joint_states):
+      if positions[:5] != list(self.joint_states[:5]):
          self.arduino.write(bytes(serial_message, 'utf-8'))
       data = self.arduino.readline()
       print("FROM ARDUINO\n")
       print(data)
-      self.joint_states = msg.data
+      self.joint_states = positions
+
 
    def feedback_callback(self):
       js = JointState()
@@ -46,6 +48,7 @@ class ArmHardware(Node):
       js.name.append("elbow_joint")
       js.name.append("wrist_pitch_joint")
       js.name.append("wrist_roll_joint")
+      js.name.append("fake_wrist_joint")
       # js.name.append("gripper_joint")
       # js.name.append("braccio_virtual_joint")
       # js.name.append("gripper_joint")
@@ -59,7 +62,7 @@ class ArmHardware(Node):
       #    positions_degree[3] = 100
       # js.position = positions_degree
       js.position = positions_rad
-      time.sleep(0.05)
+      # time.sleep(0.05)
       self.joint_state_pub.publish(js)
       # print(js.name)
       # print(js.position)

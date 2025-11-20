@@ -275,7 +275,6 @@ std_msgs::msg::Float64MultiArray composeMultiArrayMessage(const servo::Params& s
       multi_array.data[i] = joint_state.velocities[i];
     }
   }
-
   return multi_array;
 }
 

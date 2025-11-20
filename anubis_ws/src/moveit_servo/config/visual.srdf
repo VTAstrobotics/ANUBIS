@@ -15,7 +15,11 @@
         <joint name="elbow_joint" />
         <joint name="wrist_pitch_joint" />
         <joint name="wrist_roll_joint" />
+        <joint name= "fake_wrist_joint"/>
     </group>
+
+
+    
     <!-- <group name="braccio_gripper">
         <joint name="gripper_joint" />
         <joint name="sub_gripper_joint" />
@@ -27,9 +31,12 @@
         <joint name="shoulder_joint" value="1.5708" />
         <joint name="wrist_pitch_joint" value="0" />
         <joint name="wrist_roll_joint" value="0" />
+        <joint name="fake_wrist_joint" value="0"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="braccio_eef" parent_link="wrist_roll_link" group="braccio_arm" />
+    <end_effector name="braccio_eef"
+              parent_link="fake_wrist_link"
+              group="braccio_arm" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <!-- <virtual_joint name="braccio_virtual_joint" type="planar" parent_frame="odom" child_link="base_link" /> -->
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->

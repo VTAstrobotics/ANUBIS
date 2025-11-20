@@ -79,6 +79,7 @@
             <origin rpy="0 1.5708 0" xyz="0 -0.012 0.010" />
         </visual>
     </link>
+    
 
     <joint name="base_joint" type="revolute">
         <axis xyz="0 0 -1" />
@@ -136,6 +137,25 @@
         <parent link="wrist_roll_link" />
         <child link="left_gripper_link" />
     </joint>
+
+    <!-- FAKE JOINT FOR 6DOF-->
+    <link name="fake_wrist_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+        </inertial>
+    </link>
+
+    <joint name="fake_wrist_joint" type="revolute">
+        <parent link="wrist_roll_link"/>
+        <child  link="fake_wrist_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-3.1416" upper="3.1416" effort="0.1" velocity="5.0"/>
+    </joint>
+
+    
 
     <material name="orange">
         <color rgba="0.57 0.17 0.0 1" />
