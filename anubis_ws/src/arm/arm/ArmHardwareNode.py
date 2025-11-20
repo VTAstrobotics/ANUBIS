@@ -32,10 +32,11 @@ class ArmHardware(Node):
       for position in positions[:5]:
          serial_message += str(int(position * 180 / math.pi)) + ","
       print(serial_message)
+      serial_message += "\n"
       if positions[:5] != list(self.joint_states[:5]):
          self.arduino.write(bytes(serial_message, 'utf-8'))
       data = self.arduino.readline()
-      print("FROM ARDUINO\n")
+      print("FROM ARDUINO")
       print(data)
       self.joint_states = positions
 
