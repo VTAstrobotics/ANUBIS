@@ -9,7 +9,7 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ANUBIS_DIR="$( dirname "$SCRIPT_DIR" )"   # parent of build
 
-colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Debug
+colcon build --symlink-install --parallel-workers 4 --cmake-args -DCMAKE_BUILD_TYPE=Debug
 
 source "$ANUBIS_DIR/install/setup.sh"
 
