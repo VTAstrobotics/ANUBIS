@@ -229,8 +229,8 @@ private:
       }
       publish_odometry();
 
-      odom_mutex.unlock();
     }
+    odom_mutex.unlock();
   }
 
   void publish_odometry()
