@@ -10,7 +10,7 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ANUBIS_DIR="$( dirname "$SCRIPT_DIR" )"   # parent of build
 
-colcon build --symlink-install 
+colcon build --parallel-workers 4 --symlink-install 
 
 source "$ANUBIS_DIR/install/setup.sh"
 
