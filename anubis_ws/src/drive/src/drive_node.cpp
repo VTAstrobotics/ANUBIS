@@ -54,6 +54,15 @@ public:
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
     this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
+
+    //------------------------Timers
+    int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
+    this->odom_timer = this->create_wall_timer(
+        std::chrono::milliseconds(odom_period_ms),
+        std::bind(&Drive::update_odometry, this));
+  }
+
+  void create_motors(const std::string& robot_name){
     if (robot_name == "REAPER")
     {
 
@@ -92,11 +101,8 @@ public:
     {
       RCLCPP_ERROR(this->get_logger(), "Robot name not recognized. Please set robot parameter");
     }
-    //------------------------Timers
-    int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
-    this->odom_timer = this->create_wall_timer(
-        std::chrono::milliseconds(odom_period_ms),
-        std::bind(&Drive::update_odometry, this));
+
+
   }
 
   /**
@@ -294,6 +300,7 @@ main(int argc, char *argv[])
   rclcpp::init(argc, argv);
   auto exec = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
   auto drive = std::make_shared<Drive>();
+  drive->create_motors(drive->get_parameter("robot").as_string());
   exec->add_node(drive);
   drive->add_motors(exec);
   exec->spin();
