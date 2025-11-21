@@ -73,7 +73,7 @@ def generate_launch_description():
     #         # ('gps/fix', '/gps/data')
     #       ]
 
-        # SLAM mode:
+    #     SLAM mode:
     # slam = Node(
     #         package='rtabmap_slam', executable='rtabmap', output='screen',
     #         parameters=[parameters],
