@@ -307,8 +307,10 @@ std::optional<KinematicState> ServoNode::processPoseCommand(const moveit::core::
   // Reject any other command types that had arrived simultaneously.
   new_joint_jog_msg_ = new_twist_msg_ = false;
 
-  const bool command_stale = (node_->now() - latest_pose_.header.stamp) >=
-                             rclcpp::Duration::from_seconds(servo_params_.incoming_command_timeout);
+  // const bool command_stale = (node_->now() - latest_pose_.header.stamp) >=
+  //                            rclcpp::Duration::from_seconds(servo_params_.incoming_command_timeout);
+
+  const bool command_stale = false;
   if (!command_stale)
   {
     const PoseCommand command = poseFromPoseStamped(latest_pose_);

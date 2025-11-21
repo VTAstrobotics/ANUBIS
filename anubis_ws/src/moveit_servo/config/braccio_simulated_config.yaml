@@ -56,6 +56,7 @@ joint_limit_margins: [0.12]
 ## Topic names
 cartesian_command_in_topic: ~/delta_twist_cmds  # Topic for incoming Cartesian twist commands
 joint_command_in_topic: ~/delta_joint_cmds  # Topic for incoming joint angle commands
+pose_command_in_topic: "~/pose_target_cmds"
 joint_topic: /joint_states  # Get joint states from this topic
 status_topic: ~/status  # Publish status to this topic
 command_out_topic: /cmd_joint_pos  # Publish outgoing commands here
