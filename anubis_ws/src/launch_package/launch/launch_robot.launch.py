@@ -13,6 +13,13 @@ def generate_launch_description():
 
     # pkg_share_distributor = get_package_share_directory('distributor')
     # web_video_share = get_package_share_directory('web_video_server')
+    ukf_dir = get_package_share_directory("ukf_launch")
+    ukf_launch =  os.path.join(ukf_dir, 'launch', 'ukf.launch.py')
+
+    urdf_dir = get_package_share_directory("reaper_description")
+    urdf_launch =  os.path.join(urdf_dir, 'launch', 'launch.py')
+
+
 
     # config_file_distributor = os.path.join(pkg_share_distributor, "include", "distributorconfig.yaml")
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
@@ -28,13 +35,13 @@ def generate_launch_description():
     #     output="screen"
     # )
 
-    # distributor_node = Node(
-    #     package="distributor",
-    #     executable="distributor_node",
-    #     name="distributor_node",
-    #     output="screen",
-    #     parameters=[config_file_distributor]
-    # )
+    distributor_node = Node(
+        package="distributor",
+        executable="distributor_node",
+        name="distributor_node",
+        output="screen",
+        # parameters=[config_file_distributor]
+    )
     teleop_node = Node(
         package="teleop",
         executable="teleop_node",
@@ -76,7 +83,10 @@ def generate_launch_description():
           'Cloud/DownsamplingStep': '4',
           'Rtabmap/DetectionRate': '1',
           'Kp/MaxFeatures': '400',
-          'Rtabmap/LoopThr': '0.11'
+          'Rtabmap/LoopThr': '0.11',
+          'RGBD/DepthDecimation' : 4,
+          "Mem/STMSize": "30",
+          "Mem/LTMSize": "200"
 
     }
     remappings=[
@@ -103,8 +113,9 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        teleop_node,
+        distributor_node,
         drive_node,
-        joy_node,
         slam,
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(urdf_launch)),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(ukf_launch))
     ])
