@@ -55,8 +55,6 @@ public:
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
     this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
-    odom_base_broadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
-
 
     //------------------------Timers
     int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
@@ -93,8 +91,8 @@ public:
                              .arguments({"--ros-args", "-r", "__node:=right_motor_controller"});
       auto right = std::make_shared<SparkMaxController>(right_motor);
       right_motors.push_back(right);
-      RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-      RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+      // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+      // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     }
     else if (robot_name == "ANUBIS")
     {
@@ -102,7 +100,7 @@ public:
     }
     else
     {
-      RCLCPP_ERROR(this->get_logger(), "Robot name not recognized. Please set robot parameter");
+      // RCLCPP_ERROR(this->get_logger(), "Robot name not recognized. Please set robot parameter");
     }
 
 
@@ -146,7 +144,7 @@ private:
     double lin_x = msg->linear.x;
     double ang_z = msg->angular.z;
 
-    RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
+    // RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
     // float left_vel = lin_x - 0.5*ang_z * wheelbase; // use when velocity is implemented
     // float right_vel = lin_x + 0.5*ang_z * wheelbase;
@@ -175,8 +173,8 @@ private:
     new_pose.theta = 0;
     new_pose.time = this->now();
     double dt = (this->now() - current_pose.time).seconds();
-    RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-    RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     if (dt < 0)
     {
       RCLCPP_ERROR(this->get_logger(), "Time went backwards somehow in odometry integration");
@@ -200,7 +198,7 @@ private:
   void left_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
   {
     std::string motor_name = "front_left";
-    RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
+    // RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
     odom_mutex.lock();
     last_left_feedback = msg;
     left_velocity[motor_name] = msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
@@ -210,7 +208,7 @@ private:
   void right_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
   {
     std::string motor_name = "front_right";
-    RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
+    // RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
     odom_mutex.lock();
     last_right_feedback = msg;
     right_velocity[motor_name] = -msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
@@ -219,7 +217,7 @@ private:
 
   void update_odometry()
   {
-    RCLCPP_INFO(this->get_logger(), "Updating Odom");
+    // RCLCPP_INFO(this->get_logger(), "Updating Odom");
     velocity2d current_velocity{0.0, 0.0};
     odom_mutex.lock();
     if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
@@ -231,7 +229,6 @@ private:
         current_pose = integrate_velocity(current_pose, current_velocity);
       }
       publish_odometry();
-
     }
     odom_mutex.unlock();
   }
@@ -253,8 +250,7 @@ private:
     odom_msg.twist.twist.linear.y = current_velocity.linear * sin(current_pose.theta);
     odom_msg.twist.twist.linear.z = 0.0; // no upwards movement
     odom_msg.twist.twist.angular.z = current_velocity.angular_z;
-
-
+    odom_publisher->publish(odom_msg);
   }
 
   //----------------------publishers/subscribers

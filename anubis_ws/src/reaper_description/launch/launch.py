@@ -20,10 +20,16 @@ def generate_launch_description():
     urdf_file = LaunchConfiguration('urdf_file')
     rviz_config_file = LaunchConfiguration('rviz_config_file')
 
+    base_link_to_camera_link = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='base_to_camera_link_publisher',
+        arguments=[
+            '0.2', '0', '0.3', '0', '0', '0', 'base_link', 'zed_camera_link'
+        ]
+    )
+
     return LaunchDescription([
-
-
-
         DeclareLaunchArgument(
             'use_robot_state_pub',
             default_value='True',
@@ -56,4 +62,5 @@ def generate_launch_description():
                 )
             }]
         ),
+        base_link_to_camera_link
     ])
