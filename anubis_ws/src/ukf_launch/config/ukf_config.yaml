@@ -1,6 +1,6 @@
-ukf_node_gps:
+ukf_node:
   ros__parameters:
-    frequency: 50
+    frequency: 50.0
     sensor_timeout: 1.9
     transform_timeout: 0.5
     publish_tf: true
