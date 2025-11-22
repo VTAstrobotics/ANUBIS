@@ -55,6 +55,8 @@ public:
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
     this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
+    odom_base_broadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+
 
     //------------------------Timers
     int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
@@ -268,7 +270,7 @@ private:
     t.transform.rotation.y = q.y();
     t.transform.rotation.z = q.z();
     t.transform.rotation.w = q.w();
-    odom_base_broadcaster.sendTransform(t);
+    odom_base_broadcaster->sendTransform(t);
 
 
     odom_publisher->publish(odom_msg);
@@ -313,7 +315,7 @@ private:
   velocity2d current_velocity{0.0, 0.0};
   double odom_update_rate; // Hz
 
-  tf2_ros::TransformBroadcaster odom_base_broadcaster{this};
+  std::unique_ptr<tf2_ros::TransformBroadcaster> odom_base_broadcaster;
 };
 
 int
