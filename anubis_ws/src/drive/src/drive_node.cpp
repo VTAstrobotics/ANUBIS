@@ -254,27 +254,7 @@ private:
     odom_msg.twist.twist.linear.z = 0.0; // no upwards movement
     odom_msg.twist.twist.angular.z = current_velocity.angular_z;
 
-    //TF2 Broadcaster
-    geometry_msgs::msg::TransformStamped t;
 
-    t.header.stamp = this->now();
-    t.header.frame_id = "odom";
-    t.child_frame_id = "base_link";
-    t.transform.translation.x = current_pose.x;
-    t.transform.translation.y = current_pose.y;
-    t.transform.translation.z = 0.0;
-
-    tf2::Quaternion q;
-    q.setRPY(0, 0, current_pose.theta);
-    t.transform.rotation.x = q.x();
-    t.transform.rotation.y = q.y();
-    t.transform.rotation.z = q.z();
-    t.transform.rotation.w = q.w();
-    odom_base_broadcaster->sendTransform(t);
-
-
-    odom_publisher->publish(odom_msg);
-    RCLCPP_INFO(this->get_logger(), "Publishing Odom");
   }
 
   //----------------------publishers/subscribers
@@ -315,7 +295,6 @@ private:
   velocity2d current_velocity{0.0, 0.0};
   double odom_update_rate; // Hz
 
-  std::unique_ptr<tf2_ros::TransformBroadcaster> odom_base_broadcaster;
 };
 
 int
