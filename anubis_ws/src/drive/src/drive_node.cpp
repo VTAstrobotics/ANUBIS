@@ -138,17 +138,18 @@ private:
     double ang_z = msg->angular.z;
 
     RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
+    std::cout << "MADE IT HERE" << std::endl;
 
-    // float left_vel = lin_x - 0.5*ang_z * wheelbase; // use when velocity is implemented
-    // float right_vel = lin_x + 0.5*ang_z * wheelbase;
-    double left_vel = lin_x - ang_z;
-    double right_vel = lin_x + ang_z;
+    float left_vel = (lin_x - 0.5*ang_z * wheelbase) * 0.1; // use when velocity is implemented
+    float right_vel = -(lin_x + 0.5*ang_z * wheelbase) * 0.1;
+    // double left_vel = lin_x - ang_z;
+    // double right_vel = lin_x + ang_z;
 
     motor_messages::msg::Command right_velocity_msg;
     motor_messages::msg::Command left_velocity_msg;
 
-    left_velocity_msg.dutycycle.data = std::min(std::max(left_vel, -1.), 1.);
-    right_velocity_msg.dutycycle.data = -std::min(std::max(right_vel, -1.), 1.);
+    left_velocity_msg.velocity.data = left_vel;
+    right_velocity_msg.velocity.data = right_vel;
 
     left_velocity_publisher->publish(left_velocity_msg);
     right_velocity_publisher->publish(right_velocity_msg);
