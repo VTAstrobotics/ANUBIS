@@ -139,11 +139,18 @@ private:
 
     RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
-    float left_vel = (lin_x - 0.5 * ang_z * wheelbase) * 0.1; // use when velocity is implemented
-    float right_vel = - (lin_x + 0.5 * ang_z * wheelbase) * 0.1;
 
+
+    
+    //velocity control
+    float left_vel = (lin_x - 0.5 * ang_z * wheelbase) ; 
+    float right_vel = - (lin_x + 0.5 * ang_z * wheelbase);
+    std::cout << "VELOCITY: " << left_vel << " " << right_vel << std::endl;
     float left_rpm = (left_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * 125;
     float right_rpm = (right_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * 125;
+
+    std::cout << "RPM :" << left_rpm << " " << right_rpm << std::endl;
+
     // double left_vel = lin_x - ang_z;
     // double right_vel = lin_x + ang_z;
 
