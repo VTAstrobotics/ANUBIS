@@ -147,11 +147,9 @@ private:
     
 
     std::cout << "VELOCITY: " << left_vel << " | " << right_vel << std::endl;
-    // float left_rpm = (left_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * motor_gear_ratio; // motor rpm
-    // float right_rpm = (right_vel / ((wheel_diameter) / 2)) * (60 / (2 * M_PI)) * motor_gear_ratio;
+    float left_rpm = (left_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * motor_gear_ratio; // motor rpm
+    float right_rpm = (right_vel / ((wheel_diameter) / 2)) * (60 / (2 * M_PI)) * motor_gear_ratio;
 
-    float left_rpm = (left_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI)/;
-    float right_rpm = (right_vel / ((wheel_diameter) / 2)) * (60 / (2 * M_PI));
 
 
     std::cout << "RPM: " << left_rpm << " | " << right_rpm << "\n"
