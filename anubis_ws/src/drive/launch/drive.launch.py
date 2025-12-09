@@ -18,8 +18,8 @@ def generate_launch_description():
     )
 
     spawn_left_motor = Node(package = "motor_control",
-    executable = "sparkmax_controller",
-    name = "sparkmax_controller",
+    executable = "sparkmax_control_node",
+    name = "sparkmax_control_node",
     parameters=[{"use_sim_time": True},
                 {"motor_name": "left_motor"},
                 {"can_interface": "can1"},
@@ -33,8 +33,8 @@ def generate_launch_description():
     )
 
     spawn_right_motor = Node(package = "motor_control",
-    executable = "sparkmax_controller",
-    name = "sparkmax_controller",
+    executable = "sparkmax_control_node",
+    name = "sparkmax_control_node",
     parameters=[{"use_sim_time": True},
                 {"motor_name": "front_right"},
                 {"can_interface": "can1"},
