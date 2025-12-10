@@ -51,8 +51,8 @@ public:
     this->declare_parameter("ROTATION_CONTROL", "RSTICKX");
     this->declare_parameter("CONVEYOR_FORWARD", "BUTTON_B");
     this->declare_parameter("CONVEYOR_REVERSE", "BUTTON_A");
-    this->declare_parameter("LINEAR_SCALE", 0.6);
-    this->declare_parameter("ANGULAR_SCALE", 1.8);
+    this->declare_parameter("LINEAR_SCALE", 0.3);
+    this->declare_parameter("ANGULAR_SCALE", 0.3);
     TRANSLATION_CONTROL = this->get_parameter("TRANSLATION_CONTROL").as_string();
     ROTATION_CONTROL = this->get_parameter("ROTATION_CONTROL").as_string();
     CONVEYOR_FORWARD = this->get_parameter("CONVEYOR_FORWARD").as_string();
