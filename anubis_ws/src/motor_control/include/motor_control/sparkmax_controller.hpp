@@ -32,11 +32,21 @@ public:
 
     motor = std::make_unique<SparkMax>(can_interface, static_cast<uint8_t>(can_id));
 
-    motor->SetP(0, 0.0000035);
+    motor->SetP(0, 0.00008);
     motor->SetI(0, 0.0);
-    motor->SetD(0, 0.0);
-    motor->SetF(0, 0.00025);
+    motor->SetD(0, 0.0001);
+    motor->SetF(0, 0.00017);
     motor->BurnFlash();
+
+    float velocityConversion = motor->GetVelocityConversionFactor();
+    float positionConversion = motor->GetPositionConversionFactor();
+
+    RCLCPP_INFO(this->get_logger(), "Velocity Conversion: %.6f", velocityConversion);
+
+    RCLCPP_INFO(this->get_logger(), "Position Conversion: %.6f", positionConversion);
+
+  
+    
 
     std::chrono::duration<double> status_period(1 / this->get_parameter("status_publish_frequency").as_double());
     this->status_timer = this->create_wall_timer(status_period, std::bind(&SparkMaxController::publish_status, this));
