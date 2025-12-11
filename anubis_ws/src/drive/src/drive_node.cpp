@@ -140,16 +140,25 @@ private:
 
     RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
-    // float left_vel = lin_x - 0.5*ang_z * wheelbase; // use when velocity is implemented
-    // float right_vel = lin_x + 0.5*ang_z * wheelbase;
-    double left_vel = lin_x - ang_z;
-    double right_vel = lin_x + ang_z;
+    // velocity control
+    float left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
+    float right_vel = (-(lin_x + 0.5 * ang_z * wheelbase));
+
+    std::cout << "VELOCITY: " << left_vel << " | " << right_vel << std::endl;
+    float left_rpm = (left_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * motor_gear_ratio; // motor rpm
+    float right_rpm = (right_vel / ((wheel_diameter) / 2)) * (60 / (2 * M_PI)) * motor_gear_ratio;
+
+    std::cout << "RPM: " << left_rpm << " | " << right_rpm << "\n"
+              << std::endl;
+
+    // double left_vel = lin_x - ang_z;
+    // double right_vel = lin_x + ang_z;
 
     motor_messages::msg::Command right_velocity_msg;
     motor_messages::msg::Command left_velocity_msg;
 
-    left_velocity_msg.dutycycle.data = std::min(std::max(left_vel, -1.), 1.);
-    right_velocity_msg.dutycycle.data = -std::min(std::max(right_vel, -1.), 1.);
+    left_velocity_msg.velocity.data = left_rpm;
+    right_velocity_msg.velocity.data = right_rpm;
 
     left_velocity_publisher->publish(left_velocity_msg);
     right_velocity_publisher->publish(right_velocity_msg);
@@ -289,8 +298,7 @@ private:
   double odom_update_rate; // Hz
 };
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
   auto exec = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();

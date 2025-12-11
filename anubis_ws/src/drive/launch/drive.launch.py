@@ -10,13 +10,12 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 def generate_launch_description():
-
     spawn_drive = Node(package="drive",            
         executable="drive_node",
         name="drive_node",
         parameters=[{"use_sim_time": True}]
     )
-
+    
     spawn_left_motor = Node(package = "motor_control",
     executable = "sparkmax_control_node",
     name = "sparkmax_control_node",
