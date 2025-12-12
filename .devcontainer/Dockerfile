@@ -101,9 +101,10 @@ RUN sudo apt-get update && sudo apt-get install -y \
  && sudo rm -rf /var/lib/apt/lists/*
 
 #for Image Transporta
-RUN sudo apt update
-RUN sudo apt install -y \
-    ros-jazzy-ffmpeg-image-transport
+ RUN sudo apt update
+ RUN sudo apt install -y \
+     ros-jazzy-ffmpeg-image-transport \
+     ros-jazzy-async-web-server-cpp
 
 # install turtlebot demo, including gz, unless on a Jetson
 # i swear that it worked before but it doesnt anymore. So basically install this manually if you want nav stuff until i can figure this out.
