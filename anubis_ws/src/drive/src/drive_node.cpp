@@ -54,37 +54,43 @@ public:
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
     this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
-    if (robot_name == "REAPER")
-    {
 
-      wheelbase = reaper_wheelbase;
-      auto left_motor = rclcpp::NodeOptions()
-                            .append_parameter_override("motor_name", "left_motor")
-                            .append_parameter_override("can_interface", "can1")
-                            .append_parameter_override("can_id", 11)
-                            .append_parameter_override("control_topic", "/front_left/control")
-                            .append_parameter_override("status_topic", "/front_left/status")
-                            .append_parameter_override("health_topic", "/front_left/health")
-                            .arguments({"--ros-args", "-r", "__node:=left_motor_controller"}); // should prevent naming overlap
+    //------------------------Timers
+    int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
+    this->odom_timer = this->create_wall_timer(
+        std::chrono::milliseconds(odom_period_ms),
+        std::bind(&Drive::update_odometry, this));
+  }
 
-      auto left = std::make_shared<SparkMaxController>(left_motor);
+  void create_motors(const std::string& robot_name){
+    // if (robot_name == "REAPER")
+    // {
+    //   wheelbase = reaper_wheelbase;
+    //   auto left_motor = rclcpp::NodeOptions()
+    //                         .append_parameter_override("motor_name", "left_motor")
+    //                         .append_parameter_override("can_interface", "can1")
+    //                         .append_parameter_override("can_id", 11)
+    //                         .append_parameter_override("control_topic", "/front_left/control")
+    //                         .append_parameter_override("status_topic", "/front_left/status")
+    //                         .append_parameter_override("health_topic", "/front_left/health")
+    //                         .arguments({"--ros-args", "-r", "__node:=left_motor_controller"}); // should prevent naming overlap
+    //   auto left = std::make_shared<SparkMaxController>(left_motor);
+    //   left_motors.push_back(left);
+    //   auto right_motor = rclcpp::NodeOptions()
+    //                          .append_parameter_override("motor_name", "right_motor")
+    //                          .append_parameter_override("can_interface", "can1")
+    //                          .append_parameter_override("can_id", 10)
+    //                          .append_parameter_override("control_topic", "/front_right/control")
+    //                          .append_parameter_override("status_topic", "/front_right/status")
+    //                          .append_parameter_override("health_topic", "/front_right/health")
+    //                          .arguments({"--ros-args", "-r", "__node:=right_motor_controller"});
+    //   auto right = std::make_shared<SparkMaxController>(right_motor);
+    //   right_motors.push_back(right);
+    //   RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    //   RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    // }
 
-      left_motors.push_back(left);
-
-      auto right_motor = rclcpp::NodeOptions()
-                             .append_parameter_override("motor_name", "right_motor")
-                             .append_parameter_override("can_interface", "can1")
-                             .append_parameter_override("can_id", 10)
-                             .append_parameter_override("control_topic", "/front_right/control")
-                             .append_parameter_override("status_topic", "/front_right/status")
-                             .append_parameter_override("health_topic", "/front_right/health")
-                             .arguments({"--ros-args", "-r", "__node:=right_motor_controller"});
-      auto right = std::make_shared<SparkMaxController>(right_motor);
-      right_motors.push_back(right);
-      RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-      RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-    }
-    else if (robot_name == "ANUBIS")
+    if (robot_name == "ANUBIS")
     {
       // fill this in after ANUBIS has been constructed
     }
@@ -92,11 +98,6 @@ public:
     {
       RCLCPP_ERROR(this->get_logger(), "Robot name not recognized. Please set robot parameter");
     }
-    //------------------------Timers
-    int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
-    this->odom_timer = this->create_wall_timer(
-        std::chrono::milliseconds(odom_period_ms),
-        std::bind(&Drive::update_odometry, this));
   }
 
   /**
@@ -139,16 +140,25 @@ private:
 
     RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
-    // float left_vel = lin_x - 0.5*ang_z * wheelbase; // use when velocity is implemented
-    // float right_vel = lin_x + 0.5*ang_z * wheelbase;
-    double left_vel = lin_x - ang_z;
-    double right_vel = lin_x + ang_z;
+    // velocity control
+    float left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
+    float right_vel = (-(lin_x + 0.5 * ang_z * wheelbase));
+
+    std::cout << "VELOCITY: " << left_vel << " | " << right_vel << std::endl;
+    float left_rpm = (left_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * motor_gear_ratio; // motor rpm
+    float right_rpm = (right_vel / ((wheel_diameter) / 2)) * (60 / (2 * M_PI)) * motor_gear_ratio;
+
+    std::cout << "RPM: " << left_rpm << " | " << right_rpm << "\n"
+              << std::endl;
+
+    // double left_vel = lin_x - ang_z;
+    // double right_vel = lin_x + ang_z;
 
     motor_messages::msg::Command right_velocity_msg;
     motor_messages::msg::Command left_velocity_msg;
 
-    left_velocity_msg.dutycycle.data = std::min(std::max(left_vel, -1.), 1.);
-    right_velocity_msg.dutycycle.data = -std::min(std::max(right_vel, -1.), 1.);
+    left_velocity_msg.velocity.data = left_rpm;
+    right_velocity_msg.velocity.data = right_rpm;
 
     left_velocity_publisher->publish(left_velocity_msg);
     right_velocity_publisher->publish(right_velocity_msg);
@@ -223,8 +233,8 @@ private:
       }
       publish_odometry();
 
-      odom_mutex.unlock();
     }
+    odom_mutex.unlock();
   }
 
   void publish_odometry()
@@ -288,12 +298,12 @@ private:
   double odom_update_rate; // Hz
 };
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
   auto exec = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
   auto drive = std::make_shared<Drive>();
+  drive->create_motors(drive->get_parameter("robot").as_string());
   exec->add_node(drive);
   drive->add_motors(exec);
   exec->spin();
