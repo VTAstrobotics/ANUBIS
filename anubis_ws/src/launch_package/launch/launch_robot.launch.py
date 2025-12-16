@@ -1,3 +1,4 @@
+import dis
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -19,8 +20,13 @@ def generate_launch_description():
     urdf_dir = get_package_share_directory("reaper_description")
     urdf_launch =  os.path.join(urdf_dir, 'launch', 'launch.py')
 
-
-
+    try: 
+        zed_wrapper_dir = get_package_share_directory("zed_wrapper")
+        zed_launch =  os.path.join(zed_wrapper_dir, 'launch', 'zed_camera.launch.py')
+        found_zed = True
+    except:
+        found_zed = False
+        
     # config_file_distributor = os.path.join(pkg_share_distributor, "include", "distributorconfig.yaml")
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
     # our_nav_shar = get_package_share_directory('navigation')
@@ -112,10 +118,21 @@ def generate_launch_description():
         output="screen"
     )
 
-    return LaunchDescription([
-        distributor_node,
-        drive_node,
-        slam,
-        IncludeLaunchDescription(PythonLaunchDescriptionSource(urdf_launch)),
-        IncludeLaunchDescription(PythonLaunchDescriptionSource(ukf_launch))
-    ])
+    nodes = [distributor_node, drive_node, slam, 
+             IncludeLaunchDescription(PythonLaunchDescriptionSource(urdf_launch)),
+             IncludeLaunchDescription(PythonLaunchDescriptionSource(ukf_launch))]
+    
+    if found_zed:
+        nodes.append(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(zed_launch),
+                launch_arguments={
+                    'camera_model': 'zedm'
+                }.items()
+            )
+    )
+
+    return LaunchDescription(
+        nodes
+        
+    )
