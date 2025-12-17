@@ -9,46 +9,33 @@ from launch.actions import ExecuteProcess
 from launch.conditions import IfCondition, UnlessCondition
 
 def generate_launch_description():
-    # drive_share = get_package_share_directory('drive')
 
-    # pkg_share_distributor = get_package_share_directory('distributor')
-    # web_video_share = get_package_share_directory('web_video_server')
+    ### Drive
+    drive_share = get_package_share_directory('drive')
+    drive_launch = os.path.join(drive_share, 'launch', 'drive.launch.py')
 
-    # config_file_distributor = os.path.join(pkg_share_distributor, "include", "distributorconfig.yaml")
+
+    ## Distributor
+    pkg_share_distributor = get_package_share_directory('distributor')
+    config_file_distributor = os.path.join(pkg_share_distributor, "include", "distributorconfig.yaml")
+    distributor_node = Node(
+        package="distributor",
+        executable="distributor_node",
+        name="distributor_node",
+        output="screen",
+        parameters=[config_file_distributor]
+    )
+
+
+    
+
+    ### NAV2
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
-    # our_nav_shar = get_package_share_directory('navigation')
-    # nav2_params = os.path.join(our_nav_shar, 'config', 'nav2_params.yaml')
+    our_nav_share = get_package_share_directory('navigation')
+    nav2_params = os.path.join(our_nav_share, 'config', 'nav2_params.yaml')
+    nav2_launch = os.path.join(nav2_bringup_share, 'launch', 'navigation_launch.py')
 
-    # nav2_launch = os.path.join(nav2_bringup_share, 'launch', 'navigation_launch.py')
-
-
-    # can_script = os.path.join(pkg_share_distributor, "scripts", "can_startup.sh")
-    # can_startup = ExecuteProcess(
-    #     cmd=["bash", can_script],
-    #     output="screen"
-    # )
-
-    # distributor_node = Node(
-    #     package="distributor",
-    #     executable="distributor_node",
-    #     name="distributor_node",
-    #     output="screen",
-    #     parameters=[config_file_distributor]
-    # )
-    teleop_node = Node(
-        package="teleop",
-        executable="teleop_node",
-        name="teleop_node",
-        output="screen"
-    )
-
-    drive_node = Node(
-        package="drive",
-        executable="drive_node",
-        name="drive_node",
-        output="screen"
-    )
-
+    ### JOY
     joy_node = Node(
         package="joy",
         executable="joy_node",
@@ -57,7 +44,7 @@ def generate_launch_description():
     )
 
 
-    ###RTABMAP
+    ### RTABMAP
     parameters={
           'frame_id':'base_link',
         #   'use_sim_time':True,
@@ -89,12 +76,6 @@ def generate_launch_description():
             remappings=remappings,
             arguments=['-d'])
 
-    web_video_server_node = Node(
-        package="web_video_server",
-        executable="web_video_server_node",
-        name="web_video_server",
-        output="screen"
-    )
 
     base_link_to_camera_link = Node(
         package='tf2_ros',
@@ -106,10 +87,9 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        teleop_node,
-        drive_node,
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(drive_launch)),
+        distributor_node,
         joy_node,
         slam,
-        web_video_server_node,
         base_link_to_camera_link
     ])
