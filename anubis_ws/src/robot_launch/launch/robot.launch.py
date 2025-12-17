@@ -86,10 +86,18 @@ def generate_launch_description():
         ]
     )
 
+    can_startup = '/home/astrobotics/launch_scripts/can_startup.sh'
+
+    run_can_startup = ExecuteProcess(
+        cmd=['bash', can_startup],
+        output='screen'
+    )
+
     return LaunchDescription([
         IncludeLaunchDescription(PythonLaunchDescriptionSource(drive_launch)),
         distributor_node,
         joy_node,
         slam,
-        base_link_to_camera_link
+        base_link_to_camera_link,
+        run_can_startup
     ])
