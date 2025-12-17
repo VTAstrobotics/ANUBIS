@@ -35,13 +35,6 @@ def generate_launch_description():
     nav2_params = os.path.join(our_nav_share, 'config', 'nav2_params.yaml')
     nav2_launch = os.path.join(nav2_bringup_share, 'launch', 'navigation_launch.py')
 
-    ### JOY
-    joy_node = Node(
-        package="joy",
-        executable="joy_node",
-        name="joy_node",
-        output="screen"
-    )
 
 
     ### RTABMAP
@@ -86,18 +79,16 @@ def generate_launch_description():
         ]
     )
 
-    can_startup = '/home/astrobotics/launch_scripts/can_startup.sh'
+    # can_startup = '/home/astrobotics/Deployments/ANUBIS/launch_scripts/can_startup.sh'
 
-    run_can_startup = ExecuteProcess(
-        cmd=['bash', can_startup],
-        output='screen'
-    )
+    # run_can_startup = ExecuteProcess(
+    #     cmd=['bash', can_startup],
+    #     output='screen'
+    # )
 
     return LaunchDescription([
         IncludeLaunchDescription(PythonLaunchDescriptionSource(drive_launch)),
         distributor_node,
-        joy_node,
         slam,
         base_link_to_camera_link,
-        run_can_startup
     ])
