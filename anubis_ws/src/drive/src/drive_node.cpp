@@ -54,7 +54,6 @@ public:
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
     this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
-
     //------------------------Timers
     int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
     this->odom_timer = this->create_wall_timer(
@@ -62,7 +61,8 @@ public:
         std::bind(&Drive::update_odometry, this));
   }
 
-  void create_motors(const std::string& robot_name){
+  void create_motors(const std::string &robot_name)
+  {
     // if (robot_name == "REAPER")
     // {
     //   wheelbase = reaper_wheelbase;
@@ -130,6 +130,23 @@ private:
     double angular_z; //(yaw) radian per second
   };
 
+  /*
+  Converts velocity into REAPER RPM
+  */
+  double vel_to_rpm(double velocity)
+  {
+    return (velocity / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * motor_gear_ratio;
+  }
+
+  /*
+  Converts REAPER drive RPM to velocity
+  */
+  double rpm_to_vel(double rpm)
+  {
+
+    return (rpm * (2 * M_PI) * wheel_diameter / 2) / (60 * motor_gear_ratio);
+  }
+
   /**
    * reacts to /cmd_velocity message, and distrubutes velocity to left_right topics
    */
@@ -141,18 +158,16 @@ private:
     RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
     // velocity control
-    float left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
-    float right_vel = (-(lin_x + 0.5 * ang_z * wheelbase));
+    double left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
+    double right_vel = (-(lin_x + 0.5 * ang_z * wheelbase));
 
     std::cout << "VELOCITY: " << left_vel << " | " << right_vel << std::endl;
-    float left_rpm = (left_vel / ((wheel_diameter) / 2)) * 60 / (2 * M_PI) * motor_gear_ratio; // motor rpm
-    float right_rpm = (right_vel / ((wheel_diameter) / 2)) * (60 / (2 * M_PI)) * motor_gear_ratio;
+    double left_rpm = vel_to_rpm(left_vel);
+    double right_rpm = vel_to_rpm(right_vel);
 
     std::cout << "RPM: " << left_rpm << " | " << right_rpm << "\n"
               << std::endl;
 
-    // double left_vel = lin_x - ang_z;
-    // double right_vel = lin_x + ang_z;
 
     motor_messages::msg::Command right_velocity_msg;
     motor_messages::msg::Command left_velocity_msg;
@@ -204,7 +219,7 @@ private:
     RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
     odom_mutex.lock();
     last_left_feedback = msg;
-    left_velocity[motor_name] = msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
+    left_velocity[motor_name] = rpm_to_vel (msg->velocity.data );
     odom_mutex.unlock();
   }
 
@@ -214,9 +229,10 @@ private:
     RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
     odom_mutex.lock();
     last_right_feedback = msg;
-    right_velocity[motor_name] = -msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
+    right_velocity[motor_name] = rpm_to_vel (-msg->velocity.data);
     odom_mutex.unlock();
   }
+
 
   void update_odometry()
   {
@@ -227,12 +243,11 @@ private:
     {
       if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
       {
-        current_velocity.linear = (last_left_feedback->velocity.data + (-last_right_feedback->velocity.data)) / 2.0;
-        current_velocity.angular_z = ((-last_right_feedback->velocity.data) - last_left_feedback->velocity.data) / wheelbase;
+        current_velocity.linear = (rpm_to_vel(last_left_feedback->velocity.data) + rpm_to_vel(-last_right_feedback->velocity.data)) / 2.0;
+        current_velocity.angular_z = (rpm_to_vel (-last_right_feedback->velocity.data) - rpm_to_vel(last_left_feedback->velocity.data)) / wheelbase;
         current_pose = integrate_velocity(current_pose, current_velocity);
       }
       publish_odometry();
-
     }
     odom_mutex.unlock();
   }
