@@ -78,10 +78,26 @@ def generate_launch_description():
             remappings=remappings,
             arguments=['-d'])
 
+    ukf_dir = get_package_share_directory("ukf_launch")
+    ukf_launch =  os.path.join(ukf_dir, 'launch', 'ukf.launch.py')
+
+    urdf_dir = get_package_share_directory("reaper_description")
+    urdf_launch =  os.path.join(urdf_dir, 'launch', 'launch.py')
+
+    try: 
+        zed_wrapper_dir = get_package_share_directory("zed_wrapper")
+        zed_launch =  os.path.join(zed_wrapper_dir, 'launch', 'zed_camera.launch.py')
+        found_zed = True
+    except:
+        found_zed = False
+
 
     return LaunchDescription([
         IncludeLaunchDescription(PythonLaunchDescriptionSource(drive_launch)),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(reaper_description_launch)),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(ukf_launch)),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(zed_launch)),
+
         # IncludeLaunchDescription(PythonLaunchDescriptionSource(nav2_launch), 
         #                          launch_arguments={
         #                             'use_sim_time': 'true',

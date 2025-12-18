@@ -106,9 +106,8 @@ private:
   */
   double rpm_to_vel(double rpm)
   {
-
     return (rpm * (2 * M_PI) * wheel_diameter / 2.0) / (60.0 * motor_gear_ratio);
-  }
+  }0
 
   /**
    * reacts to /cmd_velocity message, and distrubutes velocity to left_right topics
@@ -117,7 +116,6 @@ private:
   {
     double lin_x = msg->linear.x;
     double ang_z = msg->angular.z;
-
     // RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
     // velocity control
