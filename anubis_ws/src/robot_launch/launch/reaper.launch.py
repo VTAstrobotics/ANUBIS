@@ -61,13 +61,12 @@ def generate_launch_description():
           'RGBD/DepthDecimation' : 4,
           "Mem/STMSize": "30",
           "Mem/LTMSize": "200"
-
     }
     remappings=[
             ('rgb/image', 'zed/zed_node/rgb/color/rect/image'),
             ('rgb/camera_info', '/zed/zed_node/rgb/color/rect/camera_info'),
             ('depth/image', '/zed/zed_node/depth/depth_registered'),
-            ('odom', '/odom'),
+            ('odom', '/odometry/filtered'),
             # ('gps/fix', '/gps/data')
           ]
 
@@ -84,6 +83,7 @@ def generate_launch_description():
     urdf_dir = get_package_share_directory("reaper_description")
     urdf_launch =  os.path.join(urdf_dir, 'launch', 'launch.py')
 
+
     try: 
         zed_wrapper_dir = get_package_share_directory("zed_wrapper")
         zed_launch =  os.path.join(zed_wrapper_dir, 'launch', 'zed_camera.launch.py')
@@ -91,19 +91,28 @@ def generate_launch_description():
     except:
         found_zed = False
 
-
-    return LaunchDescription([
+    nodes = [slam,
         IncludeLaunchDescription(PythonLaunchDescriptionSource(drive_launch)),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(reaper_description_launch)),
         IncludeLaunchDescription(PythonLaunchDescriptionSource(ukf_launch)),
-        IncludeLaunchDescription(PythonLaunchDescriptionSource(zed_launch)),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(nav2_launch), 
+                                 launch_arguments={
+                                    'use_sim_time': 'false',
+                                    'params_file': nav2_params,
+                                }.items()
+                            )
+        ]
+    
+    if found_zed:
+        nodes.append(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(zed_launch),
+                launch_arguments={
+                    'camera_model': 'zedm'
+                }.items()
+            )
+    )
 
-        # IncludeLaunchDescription(PythonLaunchDescriptionSource(nav2_launch), 
-        #                          launch_arguments={
-        #                             'use_sim_time': 'true',
-        #                             'params_file': nav2_params,
-        #                         }.items()
-        #                     ),
-        distributor_node,
-        slam,
-    ])
+    return LaunchDescription(
+        nodes
+    )

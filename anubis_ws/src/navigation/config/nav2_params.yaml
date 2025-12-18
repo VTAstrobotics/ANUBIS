@@ -1,6 +1,6 @@
 amcl:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -44,7 +44,7 @@ bt_navigator:
     use_sim_time: True
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /odom
+    odom_topic: /odometry/filtered
     bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
@@ -210,7 +210,7 @@ local_costmap:
         mark_threshold: 4
         observation_sources: depth_camera
         depth_camera:
-          topic: /camera/points
+          topic: /zed/zed_node/point_cloud/cloud_registered
           max_obstacle_height: 2.0
           clearing: True
           marking: True

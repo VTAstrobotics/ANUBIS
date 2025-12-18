@@ -19,7 +19,7 @@ void SparkMaxController::control_callback(const motor_messages::msg::Command::Sh
     }
   } else if (std::fabs(msg->velocity.data) > EPS) {
     float vel = msg->velocity.data;
-    RCLCPP_INFO(this->get_logger(), "SparkMax set velocity: %f", vel);
+    // RCLCPP_INFO(this->get_logger(), "SparkMax set velocity: %f", vel);
     if (motor) {
       motor->SetVelocity(vel);
       motor->Heartbeat();
