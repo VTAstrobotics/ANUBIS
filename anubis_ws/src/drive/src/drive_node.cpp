@@ -13,6 +13,7 @@
 #include "nav_msgs/msg/odometry.hpp"
 #include "tf2/LinearMath/Quaternion.h"
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include "tf2_ros/transform_broadcaster.h"
 
 // need to include kraken once finished
 
@@ -60,7 +61,6 @@ public:
         std::chrono::milliseconds(odom_period_ms),
         std::bind(&Drive::update_odometry, this));
   }
-
 
 
   /**
@@ -118,7 +118,7 @@ private:
     double lin_x = msg->linear.x;
     double ang_z = msg->angular.z;
 
-    RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
+    // RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
     // velocity control
     double left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
@@ -154,8 +154,8 @@ private:
     new_pose.theta = 0;
     new_pose.time = this->now();
     double dt = (this->now() - current_pose.time).seconds();
-    RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-    RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     if (dt < 0)
     {
       RCLCPP_ERROR(this->get_logger(), "Time went backwards somehow in odometry integration");
@@ -179,7 +179,7 @@ private:
   void left_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
   {
     std::string motor_name = "front_left";
-    RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
+    // RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
     odom_mutex.lock();
     last_left_feedback = msg;
     left_velocity[motor_name] = rpm_to_vel (msg->velocity.data );
@@ -189,7 +189,7 @@ private:
   void right_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
   {
     std::string motor_name = "front_right";
-    RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
+    // RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
     odom_mutex.lock();
     last_right_feedback = msg;
     right_velocity[motor_name] = rpm_to_vel (-msg->velocity.data);
@@ -199,7 +199,7 @@ private:
 
   void update_odometry()
   {
-    RCLCPP_INFO(this->get_logger(), "Updating Odom");
+    // RCLCPP_INFO(this->get_logger(), "Updating Odom");
     velocity2d current_velocity{0.0, 0.0};
     odom_mutex.lock();
     if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
@@ -232,9 +232,7 @@ private:
     odom_msg.twist.twist.linear.y = current_velocity.linear * sin(current_pose.theta);
     odom_msg.twist.twist.linear.z = 0.0; // no upwards movement
     odom_msg.twist.twist.angular.z = current_velocity.angular_z;
-
     odom_publisher->publish(odom_msg);
-    RCLCPP_INFO(this->get_logger(), "Publishing Odom");
   }
 
   //----------------------publishers/subscribers
@@ -274,6 +272,7 @@ private:
   pose2d current_pose{0.0, 0.0, 0.0, this->now()};
   velocity2d current_velocity{0.0, 0.0};
   double odom_update_rate; // Hz
+
 };
 
 int main(int argc, char *argv[])
