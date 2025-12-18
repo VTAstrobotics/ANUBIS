@@ -13,6 +13,7 @@
 #include "nav_msgs/msg/odometry.hpp"
 #include "tf2/LinearMath/Quaternion.h"
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include "tf2_ros/transform_broadcaster.h"
 
 // need to include kraken once finished
 
@@ -63,40 +64,43 @@ public:
   }
 
   void create_motors(const std::string& robot_name){
-    // if (robot_name == "REAPER")
-    // {
-    //   wheelbase = reaper_wheelbase;
-    //   auto left_motor = rclcpp::NodeOptions()
-    //                         .append_parameter_override("motor_name", "left_motor")
-    //                         .append_parameter_override("can_interface", "can1")
-    //                         .append_parameter_override("can_id", 11)
-    //                         .append_parameter_override("control_topic", "/front_left/control")
-    //                         .append_parameter_override("status_topic", "/front_left/status")
-    //                         .append_parameter_override("health_topic", "/front_left/health")
-    //                         .arguments({"--ros-args", "-r", "__node:=left_motor_controller"}); // should prevent naming overlap
-    //   auto left = std::make_shared<SparkMaxController>(left_motor);
-    //   left_motors.push_back(left);
-    //   auto right_motor = rclcpp::NodeOptions()
-    //                          .append_parameter_override("motor_name", "right_motor")
-    //                          .append_parameter_override("can_interface", "can1")
-    //                          .append_parameter_override("can_id", 10)
-    //                          .append_parameter_override("control_topic", "/front_right/control")
-    //                          .append_parameter_override("status_topic", "/front_right/status")
-    //                          .append_parameter_override("health_topic", "/front_right/health")
-    //                          .arguments({"--ros-args", "-r", "__node:=right_motor_controller"});
-    //   auto right = std::make_shared<SparkMaxController>(right_motor);
-    //   right_motors.push_back(right);
-    //   RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-    //   RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-    // }
+    if (robot_name == "REAPER")
+    {
 
-    if (robot_name == "ANUBIS")
+      wheelbase = reaper_wheelbase;
+      auto left_motor = rclcpp::NodeOptions()
+                            .append_parameter_override("motor_name", "left_motor")
+                            .append_parameter_override("can_interface", "can1")
+                            .append_parameter_override("can_id", 11)
+                            .append_parameter_override("control_topic", "/front_left/control")
+                            .append_parameter_override("status_topic", "/front_left/status")
+                            .append_parameter_override("health_topic", "/front_left/health")
+                            .arguments({"--ros-args", "-r", "__node:=left_motor_controller"}); // should prevent naming overlap
+
+      auto left = std::make_shared<SparkMaxController>(left_motor);
+
+      left_motors.push_back(left);
+
+      auto right_motor = rclcpp::NodeOptions()
+                             .append_parameter_override("motor_name", "right_motor")
+                             .append_parameter_override("can_interface", "can1")
+                             .append_parameter_override("can_id", 10)
+                             .append_parameter_override("control_topic", "/front_right/control")
+                             .append_parameter_override("status_topic", "/front_right/status")
+                             .append_parameter_override("health_topic", "/front_right/health")
+                             .arguments({"--ros-args", "-r", "__node:=right_motor_controller"});
+      auto right = std::make_shared<SparkMaxController>(right_motor);
+      right_motors.push_back(right);
+      // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+      // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    }
+    else if (robot_name == "ANUBIS")
     {
       // fill this in after ANUBIS has been constructed
     }
     else
     {
-      RCLCPP_ERROR(this->get_logger(), "Robot name not recognized. Please set robot parameter");
+      // RCLCPP_ERROR(this->get_logger(), "Robot name not recognized. Please set robot parameter");
     }
   }
 
@@ -138,7 +142,7 @@ private:
     double lin_x = msg->linear.x;
     double ang_z = msg->angular.z;
 
-    RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
+    // RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
     // velocity control
     float left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
@@ -176,8 +180,8 @@ private:
     new_pose.theta = 0;
     new_pose.time = this->now();
     double dt = (this->now() - current_pose.time).seconds();
-    RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
-    RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
+    // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     if (dt < 0)
     {
       RCLCPP_ERROR(this->get_logger(), "Time went backwards somehow in odometry integration");
@@ -201,7 +205,7 @@ private:
   void left_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
   {
     std::string motor_name = "front_left";
-    RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
+    // RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
     odom_mutex.lock();
     last_left_feedback = msg;
     left_velocity[motor_name] = msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
@@ -211,7 +215,7 @@ private:
   void right_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
   {
     std::string motor_name = "front_right";
-    RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
+    // RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
     odom_mutex.lock();
     last_right_feedback = msg;
     right_velocity[motor_name] = -msg->velocity.data * (M_PI * wheel_diameter) / motor_gear_ratio;
@@ -220,7 +224,7 @@ private:
 
   void update_odometry()
   {
-    RCLCPP_INFO(this->get_logger(), "Updating Odom");
+    // RCLCPP_INFO(this->get_logger(), "Updating Odom");
     velocity2d current_velocity{0.0, 0.0};
     odom_mutex.lock();
     if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
@@ -232,7 +236,6 @@ private:
         current_pose = integrate_velocity(current_pose, current_velocity);
       }
       publish_odometry();
-
     }
     odom_mutex.unlock();
   }
@@ -254,9 +257,7 @@ private:
     odom_msg.twist.twist.linear.y = current_velocity.linear * sin(current_pose.theta);
     odom_msg.twist.twist.linear.z = 0.0; // no upwards movement
     odom_msg.twist.twist.angular.z = current_velocity.angular_z;
-
     odom_publisher->publish(odom_msg);
-    RCLCPP_INFO(this->get_logger(), "Publishing Odom");
   }
 
   //----------------------publishers/subscribers
@@ -296,6 +297,7 @@ private:
   pose2d current_pose{0.0, 0.0, 0.0, this->now()};
   velocity2d current_velocity{0.0, 0.0};
   double odom_update_rate; // Hz
+
 };
 
 int main(int argc, char *argv[])

@@ -1,3 +1,4 @@
+import dis
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -13,7 +14,19 @@ def generate_launch_description():
 
     # pkg_share_distributor = get_package_share_directory('distributor')
     # web_video_share = get_package_share_directory('web_video_server')
+    ukf_dir = get_package_share_directory("ukf_launch")
+    ukf_launch =  os.path.join(ukf_dir, 'launch', 'ukf.launch.py')
 
+    urdf_dir = get_package_share_directory("reaper_description")
+    urdf_launch =  os.path.join(urdf_dir, 'launch', 'launch.py')
+
+    try: 
+        zed_wrapper_dir = get_package_share_directory("zed_wrapper")
+        zed_launch =  os.path.join(zed_wrapper_dir, 'launch', 'zed_camera.launch.py')
+        found_zed = True
+    except:
+        found_zed = False
+        
     # config_file_distributor = os.path.join(pkg_share_distributor, "include", "distributorconfig.yaml")
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
     # our_nav_shar = get_package_share_directory('navigation')
@@ -28,13 +41,13 @@ def generate_launch_description():
     #     output="screen"
     # )
 
-    # distributor_node = Node(
-    #     package="distributor",
-    #     executable="distributor_node",
-    #     name="distributor_node",
-    #     output="screen",
-    #     parameters=[config_file_distributor]
-    # )
+    distributor_node = Node(
+        package="distributor",
+        executable="distributor_node",
+        name="distributor_node",
+        output="screen",
+        # parameters=[config_file_distributor]
+    )
     teleop_node = Node(
         package="teleop",
         executable="teleop_node",
@@ -72,12 +85,20 @@ def generate_launch_description():
           'Grid/MaxObstacleHeight':'0.4',  # All points over 1 meter are ignored
           'wait_for_transform_duration': 1,
           'Optimizer/GravitySigma':'0', # Disable imu constraints (we are already in 2D)
-          'Grid/FrameId':'map'
+          'Grid/FrameId':'map',
+          'Cloud/DownsamplingStep': '4',
+          'Rtabmap/DetectionRate': '1',
+          'Kp/MaxFeatures': '400',
+          'Rtabmap/LoopThr': '0.11',
+          'RGBD/DepthDecimation' : 4,
+          "Mem/STMSize": "30",
+          "Mem/LTMSize": "200"
+
     }
     remappings=[
-            ('rgb/image', 'zed/rgb/color/rect/image'),
-            ('rgb/camera_info', '/zed/zed_node/camera_info'),
-            ('depth/image', '/zed/zed_node/point_cloud/cloud_registered'),
+            ('rgb/image', 'zed/zed_node/rgb/color/rect/image'),
+            ('rgb/camera_info', '/zed/zed_node/rgb/color/rect/camera_info'),
+            ('depth/image', '/zed/zed_node/depth/depth_registered'),
             ('odom', '/odom'),
             # ('gps/fix', '/gps/data')
           ]
@@ -89,6 +110,7 @@ def generate_launch_description():
             remappings=remappings,
             arguments=['-d'])
 
+
     web_video_server_node = Node(
         package="web_video_server",
         executable="web_video_server_node",
@@ -96,20 +118,21 @@ def generate_launch_description():
         output="screen"
     )
 
-    base_link_to_camera_link = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='base_to_camera_link_publisher',
-        arguments=[
-            '0.2', '0', '0.3', '0', '0', '0', 'base_link', 'camera_link'
-        ]
+    nodes = [distributor_node, drive_node, slam, 
+             IncludeLaunchDescription(PythonLaunchDescriptionSource(urdf_launch)),
+             IncludeLaunchDescription(PythonLaunchDescriptionSource(ukf_launch))]
+    
+    if found_zed:
+        nodes.append(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(zed_launch),
+                launch_arguments={
+                    'camera_model': 'zedm'
+                }.items()
+            )
     )
 
-    return LaunchDescription([
-        teleop_node,
-        drive_node,
-        joy_node,
-        slam,
-        web_video_server_node,
-        base_link_to_camera_link
-    ])
+    return LaunchDescription(
+        nodes
+        
+    )
