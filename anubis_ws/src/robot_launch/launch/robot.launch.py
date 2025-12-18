@@ -1,3 +1,4 @@
+import dis
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -52,12 +53,20 @@ def generate_launch_description():
           'Grid/MaxObstacleHeight':'0.4',  # All points over 1 meter are ignored
           'wait_for_transform_duration': 1,
           'Optimizer/GravitySigma':'0', # Disable imu constraints (we are already in 2D)
-          'Grid/FrameId':'map'
+          'Grid/FrameId':'map',
+          'Cloud/DownsamplingStep': '4',
+          'Rtabmap/DetectionRate': '1',
+          'Kp/MaxFeatures': '400',
+          'Rtabmap/LoopThr': '0.11',
+          'RGBD/DepthDecimation' : 4,
+          "Mem/STMSize": "30",
+          "Mem/LTMSize": "200"
+
     }
     remappings=[
-            ('rgb/image', 'zed/rgb/color/rect/image'),
-            ('rgb/camera_info', '/zed/zed_node/camera_info'),
-            ('depth/image', '/zed/zed_node/point_cloud/cloud_registered'),
+            ('rgb/image', 'zed/zed_node/rgb/color/rect/image'),
+            ('rgb/camera_info', '/zed/zed_node/rgb/color/rect/camera_info'),
+            ('depth/image', '/zed/zed_node/depth/depth_registered'),
             ('odom', '/odom'),
             # ('gps/fix', '/gps/data')
           ]
