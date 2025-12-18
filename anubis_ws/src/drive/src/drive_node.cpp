@@ -98,7 +98,7 @@ private:
   */
   double vel_to_rpm(double velocity)
   {
-    return (velocity * 60  * motor_gear_ratio)  / ( ( (wheel_diameter) / 2)  * 2 * M_PI);
+    return (velocity * 60.0  * motor_gear_ratio)  / ( ( (wheel_diameter) / 2.0)  * 2 * M_PI);
   }
 
   /*
@@ -107,7 +107,7 @@ private:
   double rpm_to_vel(double rpm)
   {
 
-    return (rpm * (2 * M_PI) * wheel_diameter / 2) / (60 * motor_gear_ratio);
+    return (rpm * (2 * M_PI) * wheel_diameter / 2.0) / (60.0 * motor_gear_ratio);
   }
 
   /**
@@ -199,7 +199,7 @@ private:
 
   void update_odometry()
   {
-    // RCLCPP_INFO(this->get_logger(), "Updating Odom");
+    RCLCPP_INFO(this->get_logger(), "Updating Odom");
     velocity2d current_velocity{0.0, 0.0};
     odom_mutex.lock();
     if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
