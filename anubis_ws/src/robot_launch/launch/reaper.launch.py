@@ -30,7 +30,7 @@ def generate_launch_description():
         output="screen",
         parameters=[config_file_distributor]
     )
-    
+
 
     ### NAV2
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
@@ -105,5 +105,5 @@ def generate_launch_description():
         #                         }.items()
         #                     ),
         distributor_node,
-        # slam,
+        slam,
     ])

@@ -198,7 +198,6 @@ private:
   void update_odometry()
   {
     RCLCPP_INFO(this->get_logger(), "Updating Odom");
-    velocity2d current_velocity{0.0, 0.0};
     odom_mutex.lock();
     if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
     {
@@ -215,6 +214,7 @@ private:
 
   void publish_odometry()
   {
+    RCLCPP_INFO(this->get_logger(), "Publishing Odom");
     nav_msgs::msg::Odometry odom_msg;
     odom_msg.header.stamp = this->now();
     odom_msg.header.frame_id = "odom";
