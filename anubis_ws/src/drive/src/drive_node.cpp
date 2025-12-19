@@ -15,10 +15,7 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include "tf2_ros/transform_broadcaster.h"
 
-// need to include kraken once finished
-
-// change this
-#define reaper_wheelbase 0.7
+#define reaper_wheelbase 0.58
 
 using std::placeholders::_1;
 class Drive : public rclcpp::Node
@@ -98,7 +95,7 @@ private:
   */
   double vel_to_rpm(double velocity)
   {
-    return (velocity * 60  * motor_gear_ratio)  / ( ( (wheel_diameter) / 2)  * 2 * M_PI);
+    return (velocity * 60.0  * motor_gear_ratio) / ( ( (wheel_diameter) / 2.0)  * 2 * M_PI);
   }
 
   /*
@@ -106,8 +103,7 @@ private:
   */
   double rpm_to_vel(double rpm)
   {
-
-    return (rpm * (2 * M_PI) * wheel_diameter / 2) / (60 * motor_gear_ratio);
+    return (rpm * (2 * M_PI) * wheel_diameter / 2.0) / (60.0 * motor_gear_ratio);
   }
 
   /**
@@ -117,7 +113,6 @@ private:
   {
     double lin_x = msg->linear.x;
     double ang_z = msg->angular.z;
-
     // RCLCPP_INFO(this->get_logger(), "Driving With cmd_vel/");
 
     // velocity control
@@ -148,12 +143,12 @@ private:
     new_pose.x = 0;
     new_pose.y = 0;
     new_pose.theta = 0;
-    new_pose.time = this->now();
+    new_pose.time = this->get_clock()->now();
     new_pose.x = 0;
     new_pose.y = 0;
     new_pose.theta = 0;
-    new_pose.time = this->now();
-    double dt = (this->now() - current_pose.time).seconds();
+    new_pose.time = this->get_clock()->now();
+    double dt = (this->get_clock()->now() - current_pose.time).seconds();
     // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     // RCLCPP_INFO(this->get_logger(), "Creating Drive REAPER");
     if (dt < 0)
@@ -196,11 +191,9 @@ private:
     odom_mutex.unlock();
   }
 
-
   void update_odometry()
   {
     // RCLCPP_INFO(this->get_logger(), "Updating Odom");
-    velocity2d current_velocity{0.0, 0.0};
     odom_mutex.lock();
     if ((last_left_feedback != nullptr) && (last_right_feedback != nullptr))
     {
@@ -217,8 +210,10 @@ private:
 
   void publish_odometry()
   {
+    // RCLCPP_INFO(this->get_logger(), "Publishing Odom");
     nav_msgs::msg::Odometry odom_msg;
-    odom_msg.header.stamp = this->now();
+    odom_msg.header.stamp = this->get_clock()->now();
+    // RCLCPP_WARN(this->get_logger(), "Time: %f", this->get_clock()->now().seconds());
     odom_msg.header.frame_id = "odom";
     odom_msg.child_frame_id = "base_link";
     odom_msg.pose.pose.position.x = current_pose.x;
@@ -264,15 +259,13 @@ private:
    * These are used to update the odometry and ensure that things are synchronized ish hopefully
    * IDK i'm not a multithreading expert
    */
-
   motor_messages::msg::Feedback::SharedPtr last_left_feedback; // temps for the single motor config
   motor_messages::msg::Feedback::SharedPtr last_right_feedback;
 
   std::mutex odom_mutex;
-  pose2d current_pose{0.0, 0.0, 0.0, this->now()};
+  pose2d current_pose{0.0, 0.0, 0.0, this->get_clock()->now()};
   velocity2d current_velocity{0.0, 0.0};
   double odom_update_rate; // Hz
-
 };
 
 int main(int argc, char *argv[])

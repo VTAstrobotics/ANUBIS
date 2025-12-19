@@ -15,6 +15,10 @@ def generate_launch_description():
     drive_share = get_package_share_directory('drive')
     drive_launch = os.path.join(drive_share, 'launch', 'drive.launch.py')
 
+    ### Reaper Description
+    reaper_description_share = get_package_share_directory('reaper_description')
+    reaper_description_launch = os.path.join(reaper_description_share, 'launch', 'launch.py')
+
 
     ## Distributor
     pkg_share_distributor = get_package_share_directory('distributor')
@@ -28,8 +32,6 @@ def generate_launch_description():
     )
 
 
-    
-
     ### NAV2
     nav2_bringup_share = get_package_share_directory('nav2_bringup')
     our_nav_share = get_package_share_directory('navigation')
@@ -37,11 +39,9 @@ def generate_launch_description():
     nav2_launch = os.path.join(nav2_bringup_share, 'launch', 'navigation_launch.py')
 
 
-
     ### RTABMAP
     parameters={
           'frame_id':'base_link',
-        #   'use_sim_time':True,
           'subscribe_depth':True,
           'use_action_for_goal':True,
           'Reg/Force3DoF':'true',
@@ -61,13 +61,12 @@ def generate_launch_description():
           'RGBD/DepthDecimation' : 4,
           "Mem/STMSize": "30",
           "Mem/LTMSize": "200"
-
     }
     remappings=[
             ('rgb/image', 'zed/zed_node/rgb/color/rect/image'),
             ('rgb/camera_info', '/zed/zed_node/rgb/color/rect/camera_info'),
             ('depth/image', '/zed/zed_node/depth/depth_registered'),
-            ('odom', '/odom'),
+            ('odom', '/odometry/filtered'),
             # ('gps/fix', '/gps/data')
           ]
 
@@ -78,26 +77,42 @@ def generate_launch_description():
             remappings=remappings,
             arguments=['-d'])
 
+    ukf_dir = get_package_share_directory("ukf_launch")
+    ukf_launch =  os.path.join(ukf_dir, 'launch', 'ukf.launch.py')
 
-    base_link_to_camera_link = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='base_to_camera_link_publisher',
-        arguments=[
-            '0.2', '0', '0.3', '0', '0', '0', 'base_link', 'camera_link'
+    urdf_dir = get_package_share_directory("reaper_description")
+    urdf_launch =  os.path.join(urdf_dir, 'launch', 'launch.py')
+
+
+    try: 
+        zed_wrapper_dir = get_package_share_directory("zed_wrapper")
+        zed_launch =  os.path.join(zed_wrapper_dir, 'launch', 'zed_camera.launch.py')
+        found_zed = True
+    except:
+        found_zed = False
+
+    nodes = [slam,
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(drive_launch)),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(reaper_description_launch)),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(ukf_launch)),
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(nav2_launch), 
+                                 launch_arguments={
+                                    'use_sim_time': 'false',
+                                    'params_file': nav2_params,
+                                }.items()
+                            )
         ]
+    
+    if found_zed:
+        nodes.append(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(zed_launch),
+                launch_arguments={
+                    'camera_model': 'zedm'
+                }.items()
+            )
     )
 
-    # can_startup = '/home/astrobotics/Deployments/ANUBIS/launch_scripts/can_startup.sh'
-
-    # run_can_startup = ExecuteProcess(
-    #     cmd=['bash', can_startup],
-    #     output='screen'
-    # )
-
-    return LaunchDescription([
-        IncludeLaunchDescription(PythonLaunchDescriptionSource(drive_launch)),
-        distributor_node,
-        slam,
-        base_link_to_camera_link,
-    ])
+    return LaunchDescription(
+        nodes
+    )
