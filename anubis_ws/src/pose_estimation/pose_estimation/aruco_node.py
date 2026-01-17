@@ -48,6 +48,8 @@ class PosePublisher(Node):
             'usbcam_image',
             self.image_callback,
             10)
+
+        self.detected_publisher = self.create_publisher(Image, f"{self.get_name()}_detected_tags", 2)
             
         self.bridge = CvBridge()
         self.stop = False
@@ -94,6 +96,8 @@ class PosePublisher(Node):
         
         frame = self.bridge.imgmsg_to_cv2(msg, 'bgra8')
 
+
+
         if self.stop:
             return
         try:
@@ -123,6 +127,11 @@ class PosePublisher(Node):
                         self.pose_publisher.publish(pose_msg)
                         self.get_logger().info(str(pose_msg))
                         self.get_logger().info(f"Published pose")
+                        image_with_frame = self.bridge.imgmsg_to_cv2(msg)
+                        for i in range(len(ids)):
+                            cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, self.distCoeffs, rvec[i], tvec[i], 0.05)
+                        self.detected_publisher.publish(self.bridge.cv2_to_imgmsg)
+
 
         except Exception as e:
             self.get_logger().error(f'Error processing frame: {str(e)}')
