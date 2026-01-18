@@ -6,9 +6,10 @@ from std_msgs.msg import Bool
 from geometry_msgs.msg import Pose
 import cv2
 import os
-import imutils
 import numpy as np
 import math
+from packaging import version
+
 class Quaternion:
     w: float
     x: float
@@ -36,6 +37,7 @@ class PosePublisher(Node):
     def __init__(self):
         super().__init__('pose_publisher')
         
+        print(cv2.__version__)
 
         self.pose_publisher = self.create_publisher(Pose, 'pose', 10)
         self.stop_subscription = self.create_subscription(
@@ -43,9 +45,10 @@ class PosePublisher(Node):
             'stop_aruco',
             self.stop_callback,
             10)
+        
         self.image_subscription = self.create_subscription(
             Image,
-            'usbcam_image',
+            'image_raw',
             self.image_callback,
             10)
 
@@ -54,14 +57,20 @@ class PosePublisher(Node):
         self.bridge = CvBridge()
         self.stop = False
 
+    
+        if version.parse(cv2.__version__) >= version.parse("4.7.0"):
+            self.arucoDict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
+            self.arucoParams = cv2.aruco.DetectorParameters()
+            self.arucoDetector = cv2.aruco.ArucoDetector(self.arucoDict, self.arucoParams)
+        else:
+            self.arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
+            self.arucoParams = cv2.aruco.DetectorParameters_create()
 
-        self.arucoDict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_50)
-        self.arucoParams = cv2.aruco.DetectorParameters()
-        self.arucoDetector = cv2.aruco.ArucoDetector(self.arucoDict, self.arucoParams)
 
         # Load camera calibration data
-        datapath = "/home/astrobotics/ArucoTagROS/"
+        datapath = os.path.abspath(__file__).rsplit('/', 1)[0]
         paramPath = os.path.join(datapath, "matrixanddist.npz")
+        print(paramPath)
         if not os.path.exists(paramPath):
             self.get_logger().error(".npz path does not exist")
             return
@@ -94,18 +103,24 @@ class PosePublisher(Node):
             self.get_logger().error(f"Failed to convert image: {e}")
             return
         
-        frame = self.bridge.imgmsg_to_cv2(msg, 'bgra8')
+        # frame = self.bridge.imgmsg_to_cv2(msg, 'bgra8')
 
 
 
         if self.stop:
             return
         try:
-            frame = imutils.resize(frame, width=600)
-            corners, ids, _ = self.arucoDetector.detectMarkers(frame)
+            corners, ids = None, None
+            frame = cv2.resize(frame, (800,600))
+            frame = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY )
+            if version.parse(cv2.__version__) >= version.parse("4.7.0"):
+                corners, ids, _ = self.arucoDetector.detectMarkers(frame)
+            else:
+                corners, ids, _ = cv2.aruco.detectMarkers(frame, self.arucoDict, parameters = self.arucoParams)
 
             if ids is not None and len(corners) > 0:
                 for markerCorner, markerID in zip(corners, ids.flatten()):
+                    self.get_logger().info(f"Got ID {markerID}")
                     imagePoints = markerCorner.reshape((4, 2))
                     success, rvec, tvec = cv2.solvePnP(
                         self.objectPoints,
@@ -128,13 +143,21 @@ class PosePublisher(Node):
                         self.get_logger().info(str(pose_msg))
                         self.get_logger().info(f"Published pose")
                         image_with_frame = self.bridge.imgmsg_to_cv2(msg)
-                        for i in range(len(ids)):
-                            cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, self.distCoeffs, rvec[i], tvec[i], 0.05)
-                        self.detected_publisher.publish(self.bridge.cv2_to_imgmsg)
+                        
+                        # cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, self.distCoeffs, rvec, tvec, 0.05)
+                        cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, np.asarray(()), rvec, tvec, 0.05)
+            else:
+                self.get_logger().info("Nothing Detected in image")
+                image_with_frame = None
 
 
         except Exception as e:
             self.get_logger().error(f'Error processing frame: {str(e)}')
+        if image_with_frame is None:
+            self.detected_publisher.publish(self.bridge.cv2_to_imgmsg(frame))
+        else:
+            self.detected_publisher.publish(self.bridge.cv2_to_imgmsg(image_with_frame))
+
 
 def main(args=None):
     rclpy.init(args=args)
