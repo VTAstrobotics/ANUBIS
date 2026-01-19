@@ -12,6 +12,8 @@ def generate_launch_description():
     cameras = []
     # calibration command
     # ros2 run camera_calibration cameracalibrator --size 8x6 --square 0.03529 image:=/webcam/image_raw camera:=/webcam
+
+    # each camera will require these 2 nodes to be started for it to work properly.
     webcam_v4l2 = Node(
         package="v4l2_camera",
         executable="v4l2_camera_node",
@@ -27,8 +29,6 @@ def generate_launch_description():
         # video device parameter via ros2. This lets us actually access the camera easily compared to /dev/video* ids.
     )
     cameras.append(webcam_v4l2)
-
-
     aruco_webcam = Node(
         package="pose_estimation",
         executable="v4l2_aruco_node",
