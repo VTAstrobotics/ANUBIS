@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'aruco_node = pose_estimation.aruco_node:main'
+            'aruco_node = pose_estimation.aruco_node:main',
+            'v4l2_aruco_node = pose_estimation.v4l2_aruco_node:main'
         ],
     },
 )
