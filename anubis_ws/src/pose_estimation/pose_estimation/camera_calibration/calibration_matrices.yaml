@@ -1,0 +1,27 @@
+usb-Framework_Laptop_Webcam_Module__2nd_Gen__FRANJBCHA1537100EB-video-index0:
+  image_width: 640
+  image_height: 480
+  camera_name: narrow_stereo
+  camera_matrix:
+    rows: 3
+    cols: 3
+    data: [533.38358,   0.     , 322.14308,
+            0.     , 533.78633, 245.73321,
+            0.     ,   0.     ,   1.     ]
+  distortion_model: plumb_bob
+  distortion_coefficients:
+    rows: 1
+    cols: 5
+    data: [0.100986, 0.022668, -0.001765, 0.005924, 0.000000]
+  rectification_matrix:
+    rows: 3
+    cols: 3
+    data: [1., 0., 0.,
+          0., 1., 0.,
+          0., 0., 1.]
+  projection_matrix:
+    rows: 3
+    cols: 4
+    data: [563.73785,   0.     , 324.80418,   0.     ,
+            0.     , 565.59888, 244.26385,   0.     ,
+            0.     ,   0.     ,   1.     ,   0.     ]
