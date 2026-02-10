@@ -93,7 +93,7 @@ class PosePublisher(Node):
             self.get_logger().info("Resumed")
 
     def image_callback(self, msg):
-        self.get_logger().info("Received image")
+        # self.get_logger().info("Received image")
 
 
         try:
@@ -119,7 +119,7 @@ class PosePublisher(Node):
 
             if ids is not None and len(corners) > 0:
                 for markerCorner, markerID in zip(corners, ids.flatten()):
-                    self.get_logger().info(f"Got ID {markerID}")
+                    # self.get_logger().info(f"Got ID {markerID}")
                     imagePoints = markerCorner.reshape((4, 2))
                     success, rvec, tvec = cv2.solvePnP(
                         self.objectPoints,
@@ -139,14 +139,14 @@ class PosePublisher(Node):
                         pose_msg.orientation.w = quaternion.w
 
                         self.pose_publisher.publish(pose_msg)
-                        self.get_logger().info(str(pose_msg))
-                        self.get_logger().info(f"Published pose")
+                        # self.get_logger().info(str(pose_msg))
+                        # self.get_logger().info(f"Published pose")
                         image_with_frame = self.bridge.imgmsg_to_cv2(msg)
                         
                         # cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, self.distCoeffs, rvec, tvec, 0.05)
                         cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, np.asarray(()), rvec, tvec, 0.05)
             else:
-                self.get_logger().info("Nothing Detected in image")
+                # self.get_logger().info("Nothing Detected in image")
                 image_with_frame = None
 
 
