@@ -15,6 +15,8 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include "tf2_ros/transform_broadcaster.h"
 
+#include "motor.hpp"
+
 #define reaper_wheelbase 0.58
 
 using std::placeholders::_1;
@@ -27,15 +29,8 @@ public:
     //------------------------Publishers and Subscribers
     cmd_vel_subscriber = this->create_subscription<geometry_msgs::msg::Twist>(
         "/cmd_vel", 10, std::bind(&Drive::cmd_vel_callback, this, _1));
-    left_velocity_publisher = this->create_publisher<motor_messages::msg::Command>("/front_left/control", 10);
-    right_velocity_publisher = this->create_publisher<motor_messages::msg::Command>("/front_right/control", 10);
     odom_publisher = this->create_publisher<nav_msgs::msg::Odometry>("/odom", 10);
 
-    left_feedback_subscriber = this->create_subscription<motor_messages::msg::Feedback>(
-        "/front_left/status", 10, std::bind(&Drive::left_feedback_callback, this, _1));
-
-    right_feedback_subscriber = this->create_subscription<motor_messages::msg::Feedback>(
-        "/front_right/status", 10, std::bind(&Drive::right_feedback_callback, this, _1));
     //--------------------------Config logic
     this->declare_parameter<std::string>("robot", "REAPER");
     const std::string robot_name = this->get_parameter("robot").as_string();
@@ -52,6 +47,27 @@ public:
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
     this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
+    this->declare_parameter<std::vector<std::string>>("left_motor_names", std::vector<std::string>({"left_front"}));
+    std::vector<std::string> left_motors_names;
+      left_motors_names = this->get_parameter("left_motor_names").as_string_array();
+    for (auto &&motor_name : left_motors_names)
+    {
+      left_motors.push_back(
+          std::make_shared<motor>(motor_name, this));
+
+    }
+    this->declare_parameter<std::vector<std::string>>("right_motor_names", std::vector<std::string>({"right_front"}));
+    std::vector<std::string> right_motors_names;
+      right_motors_names = this->get_parameter("right_motor_names").as_string_array();
+    for (auto &&motor_name : right_motors_names)
+    {
+      right_motors.push_back(
+          std::make_shared<motor>(motor_name, this));
+
+    }
+    
+
+
     //------------------------Timers
     int64_t odom_period_ms = 1000 * (1.0 / odom_update_rate);
     this->odom_timer = this->create_wall_timer(
@@ -60,20 +76,20 @@ public:
   }
 
 
-  /**
-   * Add motor node instances to exec
-   */
-  void add_motors(const std::shared_ptr<rclcpp::Executor> &exec)
-  {
-    for (auto &n : left_motors)
-    {
-      exec->add_node(n);
-    }
-    for (auto &n : right_motors)
-    {
-      exec->add_node(n);
-    }
-  }
+  // /**
+  //  * Add motor node instances to exec
+  //  */
+  // void add_motors(const std::shared_ptr<rclcpp::Executor> &exec)
+  // {
+  //   for (auto &n : left_motors)
+  //   {
+  //     exec->add_node(n);
+  //   }
+  //   for (auto &n : right_motors)
+  //   {
+  //     exec->add_node(n);
+  //   }
+  // }
 
 private:
   struct pose2d // https://www.ros.org/reps/rep-0103.html
@@ -133,8 +149,15 @@ private:
     left_velocity_msg.velocity.data = left_rpm;
     right_velocity_msg.velocity.data = right_rpm;
 
-    left_velocity_publisher->publish(left_velocity_msg);
-    right_velocity_publisher->publish(right_velocity_msg);
+    for (auto &&i : left_motors)
+    {
+      i->send_command(left_velocity_msg);
+    }
+    for (auto &&i : right_motors)
+    {
+      i->send_command(right_velocity_msg);
+    }
+    
   }
 
   pose2d integrate_velocity(pose2d current_pose, velocity2d vel)
@@ -234,19 +257,19 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_subscriber;
   rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr left_velocity_publisher;
   rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr right_velocity_publisher;
+
+  std::vector<std::shared_ptr<motor>> left_motors;
+  std::vector<std::shared_ptr<motor>> right_motors;
+
+
+
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_publisher;
 
-  std::vector<rclcpp::Subscription<motor_messages::msg::Feedback>::SharedPtr> left_feedback_subscribers;
-  std::vector<rclcpp::Subscription<motor_messages::msg::Feedback>::SharedPtr> right_feedback_subscribers;
 
-  rclcpp::Subscription<motor_messages::msg::Feedback>::SharedPtr left_feedback_subscriber;
-  rclcpp::Subscription<motor_messages::msg::Feedback>::SharedPtr right_feedback_subscriber;
   //------------------------Timer
   rclcpp::TimerBase::SharedPtr odom_timer;
 
   //------------------------data variables
-  std::vector<std::shared_ptr<rclcpp::Node>> left_motors;
-  std::vector<std::shared_ptr<rclcpp::Node>> right_motors;
 
   std::unordered_map<std::string, double> left_velocity;  // currently unused but will be needed for multi motor
   std::unordered_map<std::string, double> right_velocity; // currently unused but will be needed for multi motor
