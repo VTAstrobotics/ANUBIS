@@ -193,26 +193,7 @@ private:
     return new_pose;
   }
 
-  // TODO: when IMU is added make these work for an arbitrary number of motors
-  void left_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
-  {
-    std::string motor_name = "front_left";
-    // RCLCPP_INFO(this->get_logger(), "Updating Left Motor");
-    odom_mutex.lock();
-    last_left_feedback = msg;
-    left_velocity[motor_name] = rpm_to_vel (msg->velocity.data );
-    odom_mutex.unlock();
-  }
 
-  void right_feedback_callback(motor_messages::msg::Feedback::SharedPtr msg)
-  {
-    std::string motor_name = "front_right";
-    // RCLCPP_INFO(this->get_logger(), "Updating Right Motor");
-    odom_mutex.lock();
-    last_right_feedback = msg;
-    right_velocity[motor_name] = rpm_to_vel (-msg->velocity.data);
-    odom_mutex.unlock();
-  }
 
   void update_odometry()
   {
