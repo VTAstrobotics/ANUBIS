@@ -27,6 +27,8 @@
 
       this->outPosition = msg->position.data * 1.0_tr;
 
+      //TODO: add position control
+
     }
     else{
       controls::DutyCycleOut stop{0};
