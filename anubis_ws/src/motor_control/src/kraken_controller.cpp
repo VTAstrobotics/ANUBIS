@@ -4,65 +4,68 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <ctre/phoenix6/unmanaged/Unmanaged.hpp>
 
+using namespace ctre::phoenix6;
 
-  using namespace ctre::phoenix6;
+void KrakenController::control_callback(const motor_messages::msg::Command::SharedPtr msg)
+{
 
-
-  void KrakenController::control_callback(const motor_messages::msg::Command::SharedPtr msg) 
-  {    
-
-    if(abs(msg->dutycycle.data) >= 0){
-      this->outDuty.Output = msg->dutycycle.data;
-      
-      auto status = motor->SetControl(this->outDuty);
-      ctre::phoenix::unmanaged::FeedEnable(100);
-
-      RCLCPP_INFO(this->get_logger(), "SetControl status: %s", status.GetName());
-      
-    }
-    else if(abs(msg->current.data) >= 0){
-      RCLCPP_ERROR(this->get_logger(), "We have not paid for this feature L");
-    }
-    else if(abs(msg->position.data) >= 0){
-
-      this->outPosition = msg->position.data * 1.0_tr;
-
-      //TODO: add position control
-
-    }
-    else{
-      controls::DutyCycleOut stop{0};
-      this->motor->SetControl(stop);
-    }
-
-  }
-
-  void KrakenController::publish_status() 
+  if (abs(msg->dutycycle.data) >= 0)
   {
-    
-    motor_messages::msg::Feedback feedback;
-    // RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor status");
+    this->outDuty.Output = msg->dutycycle.data;
 
-    feedback.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();
-    feedback.is_disabled.data = false;
-    feedback.position.data = this->motor->GetPosition().GetValueAsDouble();
-    feedback.velocity.data = this->motor->GetVelocity().GetValueAsDouble();
+    auto status = motor->SetControl(this->outDuty);
+    ctre::phoenix::unmanaged::FeedEnable(100);
 
-    // Implement the logic to publish the Kraken motor status here
-    status_publisher->publish(feedback);
-    
+    RCLCPP_INFO(this->get_logger(), "SetControl status: %s", status.GetName());
   }
-
-  void KrakenController::publish_health() 
+  else if (abs(msg->current.data) >= 0)
   {
-    motor_messages::msg::Health health;
-    // RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor health");
-    // Implement the logic to publish the Kraken motor health here
-
-    health.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();
-    health.is_failed.data = false;
-    health.temperature.data = this->motor->GetDeviceTemp().GetValueAsDouble();
-    health.voltage.data = this->motor->GetSupplyVoltage().GetValueAsDouble();
-
-    health_publisher->publish(health);
+    RCLCPP_ERROR(this->get_logger(), "We have not paid for this feature L");
   }
+  else if (abs(msg->position.data) >= 0)
+  {
+
+    // TODO: add position control
+
+    this->outPosition = msg->position.data * 1.0_tr;
+
+    auto status = motor->SetControl(this->outPosition); // Use default timeout for now
+    ctre::phoenix::unmanaged::FeedEnable(100);
+
+    RCLCPP_INFO(this->get_logger(), "Set Control status: %s", status.GetName());
+  }
+  else
+  {
+    controls::DutyCycleOut stop{0};
+    this->motor->SetControl(stop);
+  }
+}
+
+void KrakenController::publish_status()
+{
+
+  motor_messages::msg::Feedback feedback;
+  // RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor status");
+
+  feedback.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();
+  feedback.is_disabled.data = false;
+  feedback.position.data = this->motor->GetPosition().GetValueAsDouble();
+  feedback.velocity.data = this->motor->GetVelocity().GetValueAsDouble();
+
+  // Implement the logic to publish the Kraken motor status here
+  status_publisher->publish(feedback);
+}
+
+void KrakenController::publish_health()
+{
+  motor_messages::msg::Health health;
+  // RCLCPP_INFO(this->get_logger(), "Publishing Kraken motor health");
+  // Implement the logic to publish the Kraken motor health here
+
+  health.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();
+  health.is_failed.data = false;
+  health.temperature.data = this->motor->GetDeviceTemp().GetValueAsDouble();
+  health.voltage.data = this->motor->GetSupplyVoltage().GetValueAsDouble();
+
+  health_publisher->publish(health);
+}
