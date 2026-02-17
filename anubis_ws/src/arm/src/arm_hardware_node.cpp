@@ -1,5 +1,6 @@
 #include <memory>
 #include <chrono>
+#include <vector>
 
 #include "rclcpp/rclcpp.hpp"
 #include "motor_messages/msg/command.hpp"
@@ -20,6 +21,10 @@ public:
   }
 
 private:
+
+std::vector<rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr> motor_publishers;
+
+
   
 };
 
