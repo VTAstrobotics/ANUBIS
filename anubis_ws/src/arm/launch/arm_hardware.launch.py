@@ -15,7 +15,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     spawn_arm_hardware_node = Node(package="arm",            
         executable="arm_hardware_node",
-        name="arm_hardware_nodee_node"
+        name="arm_hardware_node"
     )
     
     spawn_left_base_motor = Node(package = "motor_control",
@@ -46,18 +46,18 @@ def generate_launch_description():
                "__node:=base_right_motor_controller"]
     )
 
-    spawn_middle_left_motor = Node(package = "motor_control",
+    spawn_elbow_left_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
                 {"can_id": 22},
-                {"control_topic": "/middle_left/control"},
-                {"status_topic": "/middle_left/status"},
-                {"health_topic": "/middle_left/health"}],
+                {"control_topic": "/elbow_left/control"},
+                {"status_topic": "/elbow_left/status"},
+                {"health_topic": "/elbow_left/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=middle_left_motor_controller"]
+               "__node:=elbow_left_motor_controller"]
     )
 
     spawn_midde_right_motor = Node(package = "motor_control",
@@ -66,49 +66,49 @@ def generate_launch_description():
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
                 {"can_id": 23},
-                {"control_topic": "/middle_right/control"},
-                {"status_topic": "/middle_right/status"},
-                {"health_topic": "/middle_right/health"}],
+                {"control_topic": "/elbow_right/control"},
+                {"status_topic": "/elbow_right/status"},
+                {"health_topic": "/elbow_right/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=middle_right_motor_controller"]
+               "__node:=elbow_right_motor_controller"]
     )
 
-    spawn_ee_left_motor = Node(package = "motor_control",
+    spawn_wrist_left_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
                 {"can_id": 24},
-                {"control_topic": "/ee_left/control"},
-                {"status_topic": "/ee_left/status"},
-                {"health_topic": "/ee_left/health"}],
+                {"control_topic": "/wrist_left/control"},
+                {"status_topic": "/wrist_left/status"},
+                {"health_topic": "/wrist_left/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=ee_left_motor_controller"]
+               "__node:=wrist_left_motor_controller"]
     )
 
-    spawn_ee_right_motor = Node(package = "motor_control",
+    spawn_wrist_right_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
                 {"can_id": 25},
-                {"control_topic": "/ee_right/control"},
-                {"status_topic": "/ee_right/status"},
-                {"health_topic": "/base_ee_rightleft/health"}],
+                {"control_topic": "/wrist_right/control"},
+                {"status_topic": "/wrist_right/status"},
+                {"health_topic": "/base_wrist_rightleft/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=ee_right_motor_controller"]
+               "__node:=wrist_right_motor_controller"]
     )
 
     return LaunchDescription([
     spawn_arm_hardware_node,           
-        spawn_ee_left_motor,
-        spawn_ee_right_motor,
+        spawn_wrist_left_motor,
+        spawn_wrist_right_motor,
         spawn_left_base_motor,
         spawn_right_base_motor,
-        spawn_middle_left_motor,
+        spawn_elbow_left_motor,
         spawn_midde_right_motor
     ])
 
