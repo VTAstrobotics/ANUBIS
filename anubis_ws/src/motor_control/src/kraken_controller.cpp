@@ -30,6 +30,8 @@ void KrakenController::control_callback(const motor_messages::msg::Command::Shar
     // TODO: add position control
     this->outPosition = msg->position.data * 1.0_tr;
 
+    this->outPosition.Slot = 0;
+
     auto status = motor->SetControl(this->outPosition); // Use default timeout for now
     ctre::phoenix::unmanaged::FeedEnable(100);
 

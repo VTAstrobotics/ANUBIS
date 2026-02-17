@@ -2,6 +2,10 @@
 #include <chrono>
 
 #include "rclcpp/rclcpp.hpp"
+#include "motor_messages/msg/command.hpp"
+#include "motor_control/kraken_controller.hpp"
+#include "motor_control/motor_controller_base.hpp"
+
 
 
 

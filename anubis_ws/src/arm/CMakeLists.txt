@@ -11,11 +11,18 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(motor_messages REQUIRED)
+find_package(motor_control REQUIRED)
 
 
 add_executable(arm_hardware_node src/arm_hardware_node.cpp)
+
 target_include_directories(arm_hardware_node PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}/
 )
 
 
@@ -24,7 +31,12 @@ ament_target_dependencies(arm_hardware_node
   geometry_msgs
   std_msgs
   sensor_msgs
+  motor_messages
+  motor_control
 )
+
+target_link_libraries(arm_hardware_node motor_control::motor_control_nodes)
+
 
 install(TARGETS arm_hardware_node
   DESTINATION lib/${PROJECT_NAME}
