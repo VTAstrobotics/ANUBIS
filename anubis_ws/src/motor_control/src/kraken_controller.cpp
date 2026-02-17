@@ -9,7 +9,9 @@ using namespace ctre::phoenix6;
 void KrakenController::control_callback(const motor_messages::msg::Command::SharedPtr msg)
 {
 
-  if (abs(msg->dutycycle.data) >= 0)
+  constexpr float EPS = 1e-6f;
+
+  if (abs(msg->dutycycle.data) > EPS)
   {
     this->outDuty.Output = msg->dutycycle.data;
 
@@ -18,15 +20,14 @@ void KrakenController::control_callback(const motor_messages::msg::Command::Shar
 
     RCLCPP_INFO(this->get_logger(), "SetControl status: %s", status.GetName());
   }
-  else if (abs(msg->current.data) >= 0)
+  else if (abs(msg->current.data) > EPS)
   {
     RCLCPP_ERROR(this->get_logger(), "We have not paid for this feature L");
   }
-  else if (abs(msg->position.data) >= 0)
+  else if (abs(msg->position.data) > EPS) // this might cause an issue since we cannot send 0
   {
 
     // TODO: add position control
-
     this->outPosition = msg->position.data * 1.0_tr;
 
     auto status = motor->SetControl(this->outPosition); // Use default timeout for now
