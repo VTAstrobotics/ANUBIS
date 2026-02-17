@@ -6,7 +6,7 @@
 
 
 using std::placeholders::_1;
-class Distributor : public rclcpp::Node
+class ArmHardwareNode : public rclcpp::Node
 {
 public:
   ArmHardwareNode()
