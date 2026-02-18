@@ -10,13 +10,14 @@
 
 #define MAX_MOTORS 5
 
+#define RADIAN_TO_REV 0.15915494
+
 enum JOINT
 {
-  BASE,
+  BASE_LAT=0,
+  BASE_JOINT,
   ELBOW,
-  WRIST,
-  END_EFFECTOR_LAT,
-  END_EFFECTOR_LONG
+  END_EFFECTOR
 };
 
 struct joint_motor_publishers
@@ -27,12 +28,13 @@ struct joint_motor_publishers
 
 using std::placeholders::_1;
 class ArmHardwareNode : public rclcpp::Node
+
 {
 public:
   ArmHardwareNode()
       : Node("arm_hardware_node") // name of the node
   {
-    add_publishers_to_vector();
+    init_joint_motor_publishers();
     joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float64MultiArray>(
         "/cmd_vel", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
   }
@@ -40,14 +42,17 @@ public:
 private:
   joint_motor_publishers motor_publishers[MAX_MOTORS]; // 5 DOF, 2 motors each
 
+  float last_positions[MAX_MOTORS] = {0}; // assume all zeroes, can change this to init position
+
   rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr joint_pos_subscriber;
 
-  void add_publishers_to_vector()
+  motor_messages::msg::Command motor_msgs[MAX_MOTORS] 
+
+  void init_joint_motor_publishers()
   {
 
-    motor_publishers[BASE].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_left/control", 10);
-    motor_publishers[BASE].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_right/control", 10);
-
+    motor_publishers[BASE_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_left/control", 10);
+    motor_publishers[BASE_
     motor_publishers[ELBOW].left_publisher = this->create_publisher<motor_messages::msg::Command>("/elbow_left/control", 10);
     motor_publishers[ELBOW].right_publisher = this->create_publisher<motor_messages::msg::Command>("/elbow_right/control", 10);
 
@@ -56,13 +61,16 @@ private:
 
     motor_publishers[END_EFFECTOR_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector__lat_left/control", 10);
     motor_publishers[END_EFFECTOR_LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_lat_right/control", 10);
-
+    
     motor_publishers[END_EFFECTOR_LONG].left_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector__long_left/control", 10);
-    motor_publishers[END_EFFECTOR_LONG].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_long_right/control", 10);
+    motor_publishers[END_EFFECTOR_LONG].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_long_right/control", 10);LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_right/control", 10);
   }
+
 
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
   {
+
+
 
 
   }
