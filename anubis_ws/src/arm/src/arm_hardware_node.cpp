@@ -40,7 +40,7 @@ public:
   {
     init_joint_motor_publishers();
     joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float64MultiArray>(
-        "/cmd_vel", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
+        "/joint_cmd_vel", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
   }
 
 private:
@@ -52,8 +52,8 @@ private:
 
   motor_messages::msg::Command motor_msgs[MAX_MOTORS];
 
-      void
-      init_joint_motor_publishers()
+  void
+  init_joint_motor_publishers()
   {
     motor_publishers[BASE_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_left/control", 10);
     motor_publishers[BASE_LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_right/control", 10);
@@ -79,7 +79,6 @@ private:
     }
 
     float rotations[MAX_MOTORS] = angles_to_rotations(sent_angles, prev_angles);
-
     publish_rotations(rotations);
 
     for (int i = 0; i < MAX_MOTORS; i++)
@@ -88,7 +87,7 @@ private:
     }
   }
 
-  void publish_rotations(float* array)
+  void publish_rotations(float *array)
   {
     for (int i = 0; i < MAX_MOTORS; i++)
     {
