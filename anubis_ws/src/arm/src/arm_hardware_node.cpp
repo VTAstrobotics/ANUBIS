@@ -8,7 +8,7 @@
 #include "motor_control/motor_controller_base.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
 
-#define MAX_MOTORS 5
+#define MAX_MOTORS 4
 
 #define RADIAN_TO_REV 0.15915494
 
@@ -18,7 +18,7 @@
 
 enum JOINT
 {
-  BASE_LAT=0,
+  BASE_LAT = 0,
   BASE_JOINT,
   ELBOW,
   END_EFFECTOR
@@ -46,13 +46,14 @@ public:
 private:
   joint_motor_publishers motor_publishers[MAX_MOTORS]; // 5 DOF, 2 motors each
 
-  float last_positions[MAX_MOTORS] = {0}; // assume all zeroes, can change this to init position
+  float prev_angles[MAX_MOTORS] = {0}; // assume all zeroes, can change this to init position
 
   rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr joint_pos_subscriber;
 
-  motor_messages::msg::Command motor_msgs[MAX_MOTORS] 
+  motor_messages::msg::Command motor_msgs[MAX_MOTORS];
 
-  void init_joint_motor_publishers()
+      void
+      init_joint_motor_publishers()
   {
     motor_publishers[BASE_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_left/control", 10);
     motor_publishers[BASE_LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_right/control", 10);
@@ -65,16 +66,36 @@ private:
 
     motor_publishers[END_EFFECTOR].left_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_left/control", 10);
     motor_publishers[END_EFFECTOR].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_right/control", 10);
-
   }
-
 
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
   {
 
+    float sent_angles[MAX_MOTORS];
 
+    for (int i = 0; i < MAX_MOTORS; i++)
+    {
+      sent_angles[i] = msg->data[i];
+    }
 
+    float rotations[MAX_MOTORS] = angles_to_rotations(sent_angles, prev_angles);
 
+    publish_rotations(rotations);
+
+    for (int i = 0; i < MAX_MOTORS; i++)
+    {
+      prev_angles[i] = sent_angles[i];
+    }
+  }
+
+  void publish_rotations(float* array)
+  {
+    for (int i = 0; i < MAX_MOTORS; i++)
+    {
+      motor_msgs[i].position.data = array[i];
+      motor_publishers[i].left_publisher->publish(motor_msgs[i]);
+      motor_publishers[i].right_publisher->publish(motor_msgs[i]);
+    }
   }
 };
 
