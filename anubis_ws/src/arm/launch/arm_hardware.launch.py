@@ -18,32 +18,60 @@ def generate_launch_description():
         name="arm_hardware_node"
     )
     
-    spawn_left_base_motor = Node(package = "motor_control",
+    spawn_left_lat_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
                 {"can_id": 20},
-                {"control_topic": "/base_left/control"},
-                {"status_topic": "/base_left/status"},
-                {"health_topic": "/base_left/health"}],
+                {"control_topic": "/base_lat_left/control"},
+                {"status_topic": "/base_lat_left/status"},
+                {"health_topic": "/base_lat_left/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=base_left_motor_controller"]
+               "__node:=base_lat_left_motor_controller"]
     )
 
-    spawn_right_base_motor = Node(package = "motor_control",
+    spawn_right_lat_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
                 {"can_id": 21},
-                {"control_topic": "/base_right/control"},
-                {"status_topic": "/base_right/status"},
-                {"health_topic": "/base_right/health"}],
+                {"control_topic": "/base_lat_right/control"},
+                {"status_topic": "/base_lat_right/status"},
+                {"health_topic": "/base_lat_right/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=base_right_motor_controller"]
+               "__node:=base_lat_right_motor_controller"]
+    )
+
+    spawn_base_joint_left_motor = Node(package = "motor_control",
+    executable = "kraken_control_node",
+    name = "kraken_control_node",
+    parameters=[{"motor_name": "left_motor"},
+                {"can_interface": "can1"},
+                {"can_id": 22},
+                {"control_topic": "/base_joint_left/control"},
+                {"status_topic": "/base_joint_left/status"},
+                {"health_topic": "/base_joint_left/health"}],
+    arguments=["--ros-args",
+               "-r",
+               "__node:=base_joint_left_motor_controller"]
+    )
+
+    spawn_base_joint_right_motor = Node(package = "motor_control",
+    executable = "kraken_control_node",
+    name = "kraken_control_node",
+    parameters=[{"motor_name": "left_motor"},
+                {"can_interface": "can1"},
+                {"can_id": 23},
+                {"control_topic": "/base_joint_right/control"},
+                {"status_topic": "/base_joint_right/status"},
+                {"health_topic": "/base_joint_right/health"}],
+    arguments=["--ros-args",
+               "-r",
+               "__node:=base_joint_right_motor_controller"]
     )
 
     spawn_elbow_left_motor = Node(package = "motor_control",
@@ -51,7 +79,7 @@ def generate_launch_description():
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
-                {"can_id": 22},
+                {"can_id": 24},
                 {"control_topic": "/elbow_left/control"},
                 {"status_topic": "/elbow_left/status"},
                 {"health_topic": "/elbow_left/health"}],
@@ -60,55 +88,60 @@ def generate_launch_description():
                "__node:=elbow_left_motor_controller"]
     )
 
-    spawn_midde_right_motor = Node(package = "motor_control",
-    executable = "kraken_control_node",
-    name = "kraken_control_node",
-    parameters=[{"motor_name": "left_motor"},
-                {"can_interface": "can1"},
-                {"can_id": 23},
-                {"control_topic": "/elbow_right/control"},
-                {"status_topic": "/elbow_right/status"},
-                {"health_topic": "/elbow_right/health"}],
-    arguments=["--ros-args",
-               "-r",
-               "__node:=elbow_right_motor_controller"]
-    )
-
-    spawn_wrist_left_motor = Node(package = "motor_control",
-    executable = "kraken_control_node",
-    name = "kraken_control_node",
-    parameters=[{"motor_name": "left_motor"},
-                {"can_interface": "can1"},
-                {"can_id": 24},
-                {"control_topic": "/wrist_left/control"},
-                {"status_topic": "/wrist_left/status"},
-                {"health_topic": "/wrist_left/health"}],
-    arguments=["--ros-args",
-               "-r",
-               "__node:=wrist_left_motor_controller"]
-    )
-
-    spawn_wrist_right_motor = Node(package = "motor_control",
+    spawn_elbow_right_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
                 {"can_interface": "can1"},
                 {"can_id": 25},
-                {"control_topic": "/wrist_right/control"},
-                {"status_topic": "/wrist_right/status"},
-                {"health_topic": "/base_wrist_rightleft/health"}],
+                {"control_topic": "/elbow_right/control"},
+                {"status_topic": "/elbow_right/status"},
+                {"health_topic": "/elbow_wrist_rightleft/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=wrist_right_motor_controller"]
+               "__node:=elbow_right_motor_controller"]
+    )
+
+    spawn_ee_left_motor = Node(package = "motor_control",
+    executable = "kraken_control_node",
+    name = "kraken_control_node",
+    parameters=[{"motor_name": "left_motor"},
+                {"can_interface": "can1"},
+                {"can_id": 25},
+                {"control_topic": "/end_effector_left/control"},
+                {"status_topic": "/end_effector_left/status"},
+                {"health_topic": "/end_effector_left/health"}],
+    arguments=["--ros-args",
+               "-r",
+               "__node:=end_effector_right_motor_controller"]
+    )
+
+    spawn_ee_right_motor = Node(package = "motor_control",
+    executable = "kraken_control_node",
+    name = "kraken_control_node",
+    parameters=[{"motor_name": "left_motor"},
+                {"can_interface": "can1"},
+                {"can_id": 25},
+                {"control_topic": "/end_effector_right/control"},
+                {"status_topic": "/end_effector_right/status"},
+                {"health_topic": "/end_effector_right/health"}],
+    arguments=["--ros-args",
+               "-r",
+               "__node:=end_effector_right_motor_controller"]
     )
 
     return LaunchDescription([
-    spawn_arm_hardware_node,           
-        spawn_wrist_left_motor,
-        spawn_wrist_right_motor,
-        spawn_left_base_motor,
-        spawn_right_base_motor,
+        spawn_base_joint_left_motor,
+        spawn_base_joint_right_motor,
+        
+        spawn_left_lat_motor,
+        spawn_right_lat_motor,
+
         spawn_elbow_left_motor,
-        spawn_midde_right_motor
+        spawn_elbow_right_motor,
+
+        spawn_ee_left_motor,
+        spawn_ee_right_motor
+
     ])
 
