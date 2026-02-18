@@ -131,9 +131,11 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        spawn_arm_hardware_node,
+        
         spawn_base_joint_left_motor,
         spawn_base_joint_right_motor,
-        
+
         spawn_left_lat_motor,
         spawn_right_lat_motor,
 
