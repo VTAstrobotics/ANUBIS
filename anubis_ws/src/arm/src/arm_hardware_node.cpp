@@ -12,9 +12,11 @@
 
 #define RADIAN_TO_REV 0.15915494
 
+#define BASE_LAT_GR = 0; //Define when we find out. Currently will prevent movement at that joint.
 #define BASE_JOINT_GR = 125
 #define ELBOW_JOINT_GR = 108
 #define END_EFFECTOR_GR = 45
+#define GEAR_RATIOS = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_JOINT_GR, END_EFFECTOR_GR}
 
 enum JOINT
 {
@@ -72,9 +74,16 @@ private:
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
   {
 
+  }
 
-
-
+  float* angles_to_rotations(float* array)
+  {
+    float output[4] = {0, 0, 0, 0};
+    for (int i = 0; i < GEAR_RATIOS.length; i++)
+    {
+      output[i] = array[i] * GEAR_RATIOS[i] / (2 * std::numbers::pi);
+    }
+    return output;
   }
 };
 
