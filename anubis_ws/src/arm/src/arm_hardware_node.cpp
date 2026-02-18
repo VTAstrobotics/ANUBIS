@@ -54,20 +54,18 @@ private:
 
   void init_joint_motor_publishers()
   {
+    motor_publishers[BASE_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_left/control", 10);
+    motor_publishers[BASE_LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_right/control", 10);
 
-    motor_publishers[BASE_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_left/control", 10);
-    motor_publishers[BASE_
+    motor_publishers[BASE_JOINT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_joint_left/control", 10);
+    motor_publishers[BASE_JOINT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_joint_right/control", 10);
+
     motor_publishers[ELBOW].left_publisher = this->create_publisher<motor_messages::msg::Command>("/elbow_left/control", 10);
     motor_publishers[ELBOW].right_publisher = this->create_publisher<motor_messages::msg::Command>("/elbow_right/control", 10);
 
-    motor_publishers[WRIST].left_publisher = this->create_publisher<motor_messages::msg::Command>("/wrist_left/control", 10);
-    motor_publishers[WRIST].right_publisher = this->create_publisher<motor_messages::msg::Command>("/wrist_right/control", 10);
+    motor_publishers[END_EFFECTOR].left_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_left/control", 10);
+    motor_publishers[END_EFFECTOR].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_right/control", 10);
 
-    motor_publishers[END_EFFECTOR_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector__lat_left/control", 10);
-    motor_publishers[END_EFFECTOR_LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_lat_right/control", 10);
-    
-    motor_publishers[END_EFFECTOR_LONG].left_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector__long_left/control", 10);
-    motor_publishers[END_EFFECTOR_LONG].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_long_right/control", 10);LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_right/control", 10);
   }
 
 
