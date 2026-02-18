@@ -12,6 +12,10 @@
 
 #define RADIAN_TO_REV 0.15915494
 
+#define BASE_JOINT_GR = 125
+#define ELBOW_JOINT_GR = 108
+#define END_EFFECTOR_GR = 45
+
 enum JOINT
 {
   BASE_LAT=0,
