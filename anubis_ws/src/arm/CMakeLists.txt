@@ -15,7 +15,7 @@ find_package(motor_messages REQUIRED)
 find_package(motor_control REQUIRED)
 
 
-add_executable(arm_hardware_node src/arm_hardware_node.cpp)
+add_executable(arm_hardware_node src/arm_hardware_node.cpp src/motor.cpp)
 
 target_include_directories(arm_hardware_node PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include

@@ -55,8 +55,8 @@ private:
 
   motor_messages::msg::Command motor_msgs[MAX_MOTORS];
 
-  void
-  init_joint_motor_publishers()
+
+  void init_joint_motor_publishers()
   {
     motor_publishers[BASE_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_left/control", 10);
     motor_publishers[BASE_LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_right/control", 10);
