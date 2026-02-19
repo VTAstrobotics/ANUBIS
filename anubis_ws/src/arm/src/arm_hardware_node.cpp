@@ -92,13 +92,13 @@ private:
     motors[BASE_LAT].right = std::make_shared<motor>("base_lat_right", this);
 
     motors[BASE_JOINT].left = std::make_shared<motor>("base_joint_left", this);
-    motors[BASE_LAT].right = std::make_shared<motor>("base_joint_right", this);
+    motors[BASE_JOINT].right = std::make_shared<motor>("base_joint_right", this);
 
-    motors[BASE_LAT].left = std::make_shared<motor>("elbow_left", this);
-    motors[BASE_LAT].right = std::make_shared<motor>("elbow_right", this);
+    motors[ELBOW].left = std::make_shared<motor>("elbow_left", this);
+    motors[ELBOW].right = std::make_shared<motor>("elbow_right", this);
 
-    motors[BASE_LAT].left = std::make_shared<motor>("end_effector_left", this);
-    motors[BASE_LAT].right = std::make_shared<motor>("end_effector_right", this);
+    motors[END_EFFECTOR].left = std::make_shared<motor>("end_effector_left", this);
+    motors[END_EFFECTOR].right = std::make_shared<motor>("end_effector_right", this);
   }
 
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
@@ -148,7 +148,6 @@ private:
       motors[i].left->send_command(motor_msgs[i]);
       motors[i].right->send_command(motor_msgs[i]);
     }
-
   }
 };
 

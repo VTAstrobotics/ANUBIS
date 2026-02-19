@@ -25,7 +25,6 @@ install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}/
 )
 
-
 ament_target_dependencies(arm_hardware_node
   rclcpp
   geometry_msgs
