@@ -35,12 +35,11 @@ struct joint_motor_publishers
   rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr right_publisher;
 };
 
-struct joint_motors 
+struct joint_motors
 {
 
   std::shared_ptr<motor> left;
   std::shared_ptr<motor> right;
-
 };
 
 using std::placeholders::_1;
@@ -61,6 +60,8 @@ private:
   joint_motor_publishers motor_publishers[MAX_MOTORS]; // 5 DOF, 2 motors each
 
   float prev_angles[MAX_MOTORS] = {0}; // assume all zeroes, can change this to init position
+
+  float prev_angles_test[MAX_MOTORS] = {0};
 
   rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr joint_pos_subscriber;
 
@@ -119,6 +120,14 @@ private:
     }
   }
 
+  void update_prev_angles()
+  {
+    for (int i = 0; i < MAX_MOTORS; i++)
+    {
+      prev_angles_test[i] = (static_cast<float>(motors[i].left->get_motor_state().position.data) + static_cast<float>(motors[i].left->get_motor_state().position.data)) / 2.0; // lets average for now
+    }
+  }
+
   void angles_to_rotations(float *current_angles, float *previous_angles, float *output)
   {
     for (int i = 0; i < MAX_MOTORS; i++)
@@ -132,8 +141,8 @@ private:
     for (int i = 0; i < MAX_MOTORS; i++)
     {
       motor_msgs[i].position.data = array[i];
-      motor_publishers[i].left_publisher->publish(motor_msgs[i]);
-      motor_publishers[i].right_publisher->publish(motor_msgs[i]);
+      motors[i].left->send_command(motor_msgs[i]);
+      motors[i].right->send_command(motor_msgs[i]);
     }
   }
 };
