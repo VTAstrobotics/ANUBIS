@@ -89,16 +89,16 @@ private:
   void init_motor_array()
   {
     motors[BASE_LAT].left = std::make_shared<motor>("base_lat_left", this);
-    motors[BASE_LAT].left = std::make_shared<motor>("base_lat_right", this);
+    motors[BASE_LAT].right = std::make_shared<motor>("base_lat_right", this);
 
     motors[BASE_JOINT].left = std::make_shared<motor>("base_joint_left", this);
-    motors[BASE_LAT].left = std::make_shared<motor>("base_joint_right", this);
+    motors[BASE_LAT].right = std::make_shared<motor>("base_joint_right", this);
 
     motors[BASE_LAT].left = std::make_shared<motor>("elbow_left", this);
-    motors[BASE_LAT].left = std::make_shared<motor>("elbow_right", this);
+    motors[BASE_LAT].right = std::make_shared<motor>("elbow_right", this);
 
     motors[BASE_LAT].left = std::make_shared<motor>("end_effector_left", this);
-    motors[BASE_LAT].left = std::make_shared<motor>("end_effector_right", this);
+    motors[BASE_LAT].right = std::make_shared<motor>("end_effector_right", this);
   }
 
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
@@ -126,7 +126,7 @@ private:
     for (int i = 0; i < MAX_MOTORS; i++)
     {
       prev_angles_test[i] = ((static_cast<float>(motors[i].left->get_motor_state().position.data) +
-                              static_cast<float>(motors[i].left->get_motor_state().position.data)) /
+                              static_cast<float>(motors[i].right->get_motor_state().position.data)) /
                              2.0) *
                             (2 * M_PI) / GEAR_RATIOS[i]; // lets average for now
     }
@@ -148,6 +148,7 @@ private:
       motors[i].left->send_command(motor_msgs[i]);
       motors[i].right->send_command(motor_msgs[i]);
     }
+
   }
 };
 
