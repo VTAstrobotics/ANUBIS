@@ -11,6 +11,15 @@
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
+  <build_depend>motor_messages</build_depend>
+  <exec_depend>motor_messages</exec_depend>
+
+  <build_depend>motor_control</build_depend>
+  <exec_depend>motor_control</exec_depend>
+
+<build_depend>rosidl_default_runtime</build_depend>
+<exec_depend>rosidl_default_runtime</exec_depend>
+
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
