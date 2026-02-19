@@ -86,9 +86,11 @@ private:
 
     for (int i = 0; i < MAX_MOTORS; i++)
     {
-      prev_angles[i] = sent_angles[i];
+      prev_angles[i] = sent_angles[i]; //TODO: fake feedback for now.
     }
   }
+
+  
 
   float* angles_to_rotations(float* current_angles, float* previous_angles)
   {
@@ -100,7 +102,7 @@ private:
     return output;
   }
 
-  void publish_rotations(float *array)
+  void publish_rotations(float* array)
   {
     for (int i = 0; i < MAX_MOTORS; i++)
     {
