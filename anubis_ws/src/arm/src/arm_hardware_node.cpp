@@ -80,29 +80,26 @@ private:
     {
       sent_angles[i] = msg->data[i];
     }
+    float rotations[MAX_MOTORS];
 
-    float* rotations = angles_to_rotations(sent_angles, prev_angles);
+    angles_to_rotations(sent_angles, prev_angles, rotations);
     publish_rotations(rotations);
 
     for (int i = 0; i < MAX_MOTORS; i++)
     {
-      prev_angles[i] = sent_angles[i]; //TODO: fake feedback for now.
+      prev_angles[i] = sent_angles[i]; // TODO: fake feedback for now.
     }
   }
 
-  
-
-  float* angles_to_rotations(float* current_angles, float* previous_angles)
+  void angles_to_rotations(float *current_angles, float *previous_angles, float *output)
   {
-    float output[4] = {0, 0, 0, 0};
     for (int i = 0; i < MAX_MOTORS; i++)
     {
       output[i] = (current_angles[i] - previous_angles[i]) * GEAR_RATIOS[i] / (2 * M_PI);
     }
-    return output;
   }
 
-  void publish_rotations(float* array)
+  void publish_rotations(float *array)
   {
     for (int i = 0; i < MAX_MOTORS; i++)
     {
