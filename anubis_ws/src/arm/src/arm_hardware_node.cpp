@@ -13,7 +13,7 @@
 
 #define RADIAN_TO_REV 0.15915494
 
-#define BASE_LAT_GR 0
+#define BASE_LAT_GR 1
 #define BASE_JOINT_GR 125
 #define ELBOW_JOINT_GR 108
 #define END_EFFECTOR_GR 45
@@ -43,7 +43,7 @@ public:
   {
     init_joint_motor_publishers();
     joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float64MultiArray>(
-        "/joint_cmd_vel", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
+        "/joint_positions_radians", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
   }
 
 private:
@@ -90,6 +90,7 @@ private:
       prev_angles[i] = sent_angles[i]; // TODO: fake feedback for now.
     }
   }
+
 
   void angles_to_rotations(float *current_angles, float *previous_angles, float *output)
   {

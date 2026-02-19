@@ -33,6 +33,7 @@ void KrakenController::control_callback(const motor_messages::msg::Command::Shar
     this->outPosition.Slot = 0;
 
     auto status = motor->SetControl(this->outPosition); // Use default timeout for now
+    
     ctre::phoenix::unmanaged::FeedEnable(100);
 
     RCLCPP_INFO(this->get_logger(), "Set Control status: %s", status.GetName());
