@@ -125,7 +125,7 @@ private:
     for (int i = 0; i < MAX_MOTORS; i++)
     {
       prev_angles_test[i] = ((static_cast<float>(motors[i].left->get_motor_state().position.data) + 
-      static_cast<float>(motors[i].left->get_motor_state().position.data)) / 2.0) * (2 * M_PI) /GEAR_RATIOS[i]; // lets average for now
+      static_cast<float>(motors[i].left->get_motor_state().position.data)) / 2.0)  * (2 * M_PI) /GEAR_RATIOS[i]; // lets average for now
     }
   }
 
