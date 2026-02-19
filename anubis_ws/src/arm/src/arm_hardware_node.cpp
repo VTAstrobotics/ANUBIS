@@ -1,6 +1,7 @@
 #include <memory>
 #include <chrono>
 #include <vector>
+#include <cmath>
 
 #include "rclcpp/rclcpp.hpp"
 #include "motor_messages/msg/command.hpp"
@@ -12,9 +13,11 @@
 
 #define RADIAN_TO_REV 0.15915494
 
-#define BASE_JOINT_GR = 125
-#define ELBOW_JOINT_GR = 108
-#define END_EFFECTOR_GR = 45
+#define BASE_LAT_GR 0
+#define BASE_JOINT_GR 125
+#define ELBOW_JOINT_GR 108
+#define END_EFFECTOR_GR 45
+float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_JOINT_GR, END_EFFECTOR_GR};
 
 enum JOINT
 {
@@ -78,7 +81,7 @@ private:
       sent_angles[i] = msg->data[i];
     }
 
-    float rotations[MAX_MOTORS] = angles_to_rotations(sent_angles, prev_angles);
+    float* rotations = angles_to_rotations(sent_angles, prev_angles);
     publish_rotations(rotations);
 
     for (int i = 0; i < MAX_MOTORS; i++)
@@ -87,12 +90,12 @@ private:
     }
   }
 
-  float* angles_to_rotations(float* array)
+  float* angles_to_rotations(float* current_angles, float* previous_angles)
   {
     float output[4] = {0, 0, 0, 0};
-    for (int i = 0; i < GEAR_RATIOS.length; i++)
+    for (int i = 0; i < MAX_MOTORS; i++)
     {
-      output[i] = array[i] * GEAR_RATIOS[i] / (2 * std::numbers::pi);
+      output[i] = (current_angles[i] - previous_angles[i]) * GEAR_RATIOS[i] / (2 * M_PI);
     }
     return output;
   }
