@@ -47,8 +47,6 @@ ament_target_dependencies(
   geometry_msgs
   std_msgs
   sensor_msgs
-  motor_messages
-  motor_control
 )
 
 target_link_libraries(arm_hardware_node motor_control::motor_control_nodes)
