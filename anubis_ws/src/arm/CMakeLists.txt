@@ -17,7 +17,14 @@ find_package(motor_control REQUIRED)
 
 add_executable(arm_hardware_node src/arm_hardware_node.cpp src/motor.cpp)
 
+add_executable(arm_joy_control_node src/arm_joy_control_node.cpp)
+
+
 target_include_directories(arm_hardware_node PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_include_directories(arm_joy_control_node PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -34,10 +41,24 @@ ament_target_dependencies(arm_hardware_node
   motor_control
 )
 
+ament_target_dependencies(
+  arm_joy_control_node
+  rclcpp
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+  motor_messages
+  motor_control
+)
+
 target_link_libraries(arm_hardware_node motor_control::motor_control_nodes)
 
 
 install(TARGETS arm_hardware_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS arm_joy_control_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
