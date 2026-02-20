@@ -20,6 +20,14 @@
 #define a1 0.58
 #define a2 0.58
 
+#define AXIS_LINEAR 1
+#define AXIS_ANGULAR 3
+
+#define SCALE_CONSTANT 1
+
+
+
+
 struct joint_angles_t
 {
     float q1;
@@ -40,16 +48,16 @@ public:
     {
 
         joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
-        "/joy", 10, std::bind(&Drive::cmd_vel_callback, this, _1));
+        "/joy", 10, std::bind(&ArmJoyControl::joy_callback, this, _1));
+        cartesian_position.x = INIT_X;
+        cartesian_position.y = INIT_Y;
 
     }
 
 private:
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr joint_angle_publisher;
-    cartesian_position_t cartesian_position;
-    
-    
+    cartesian_position_t cartesian_position;    
 
 
     float compute_theta_2(float x, float y)
@@ -70,8 +78,23 @@ private:
         return angles;
     }
 
-    float joy_callback(){
+    void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg){
+        float l_y =  msg->axes[AXIS_LINEAR];
+        float l_x = msg->axes[AXIS_ANGULAR];
 
+        float dx = cartesian_position.x + (l_y * SCALE_CONSTANT);
+        float dy = cartesian_position.y + (l_x * SCALE_CONSTANT);
+
+        dx = (std::abs(dx) > 0.01) ? (0.01 * signum(dx)) : dx;
+        dx = (std::abs(dx) > 0.01) ? 0.01 * signum(dy) : dx;
+
+
+        joint_angles_t joint_angles = compute_angles(dx, dy);
+
+    }
+
+    float signum(float x) { 
+        return (x > 0) - (x < 0); 
     }
 };
 
