@@ -100,6 +100,9 @@ private:
     // angles_to_rotations(sent_angles, prev_angles, rotations);
     angles_to_rotations(sent_angles, prev_angles_test, rotations);
     publish_rotations(rotations);
+    motor_msgs[0].dutycycle.data = msg->data[0];
+    motors[0].left->send_command(motor_msgs[0]);
+    motors[0].left->send_command(motor_msgs[0])
 
     for (int i = 0; i < MAX_MOTORS; i++)
     {
@@ -128,7 +131,7 @@ private:
 
   void publish_rotations(float *array)
   {
-    for (int i = 0; i < MAX_MOTORS; i++)
+    for (int i = 1; i < MAX_MOTORS; i++)
     {
       motor_msgs[i].position.data = array[i];
       motors[i].left->send_command(motor_msgs[i]);
