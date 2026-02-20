@@ -112,12 +112,14 @@ private:
     }
     float rotations[MAX_MOTORS];
 
-    angles_to_rotations(sent_angles, prev_angles, rotations);
+    update_prev_angles();
+    // angles_to_rotations(sent_angles, prev_angles, rotations);
+    angles_to_rotations(sent_angles, prev_angles_test, rotations);
     publish_rotations(rotations);
 
     for (int i = 0; i < MAX_MOTORS; i++)
     {
-      prev_angles[i] = sent_angles[i]; // TODO: fake feedback for now.
+      prev_angles[i] = sent_angles[i]; // TODO: fake feedback for now. can replace with prev_angles_test
     }
   }
 
