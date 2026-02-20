@@ -12,8 +12,8 @@
 #define a1 0.58
 #define a2 0.58
 
-#define INIT_X a1 + a2 - 0.01
-#define INIT_Y 0
+#define INIT_X 0.5
+#define INIT_Y 0.5
 
 #define AXIS_LINEAR 1
 #define AXIS_ANGULAR 3
