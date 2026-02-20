@@ -102,7 +102,7 @@ private:
     publish_rotations(rotations);
     motor_msgs[0].dutycycle.data = msg->data[0];
     motors[0].left->send_command(motor_msgs[0]);
-    motors[0].left->send_command(motor_msgs[0])
+    motors[0].left->send_command(motor_msgs[0]);
 
     for (int i = 0; i < MAX_MOTORS; i++)
     {

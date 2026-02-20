@@ -50,7 +50,16 @@ public:
         cartesian_position.y = INIT_Y;
 
         RCLCPP_INFO(this->get_logger(), "Arm Joystick Control Started");
-    }
+
+        std::cout << R"(   .-""""-.
+  / -   -  \
+ |  .-. .-  |
+ | \ 0 | |0 /|
+  \     ^   /
+   '.  )--=.'
+     '-...-'
+)";
+        }
 
 private:
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;

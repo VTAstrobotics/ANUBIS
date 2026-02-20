@@ -4,6 +4,7 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <ctre/phoenix6/unmanaged/Unmanaged.hpp>
 #include <rclcpp/rclcpp.hpp>
+
 using namespace ctre::phoenix6;
 class KrakenController : public motor_control::MotorControllerBase
 {
