@@ -14,8 +14,8 @@
 #include "motor.hpp"
 #include <cmath>
 
-#define INIT_X M_PI
-#define INIT_Y M_PI
+#define INIT_X M_PI / 2
+#define INIT_Y M_PI / 2
 
 #define a1 0.58
 #define a2 0.58
@@ -25,8 +25,7 @@
 
 #define SCALE_CONSTANT 1
 
-
-
+#define JOY_FREQUENCY 50
 
 struct joint_angles_t
 {
@@ -34,7 +33,8 @@ struct joint_angles_t
     float q2;
 };
 
-struct cartesian_position_t{
+struct cartesian_position_t
+{
     float x;
     float y;
 };
@@ -48,17 +48,17 @@ public:
     {
 
         joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
-        "/joy", 10, std::bind(&ArmJoyControl::joy_callback, this, _1));
+            "/joy", 10, std::bind(&ArmJoyControl::joy_callback, this, _1));
+
+        joint_angle_publisher = this->create_publisher<std_msgs::msg::Float64MultiArray>("/joint_positions_radians", 10);
         cartesian_position.x = INIT_X;
         cartesian_position.y = INIT_Y;
-
     }
 
 private:
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr joint_angle_publisher;
-    cartesian_position_t cartesian_position;    
-
+    cartesian_position_t cartesian_position;
 
     float compute_theta_2(float x, float y)
     {
@@ -78,23 +78,28 @@ private:
         return angles;
     }
 
-    void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg){
-        float l_y =  msg->axes[AXIS_LINEAR];
+    void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
+    {
+        float l_y = msg->axes[AXIS_LINEAR];
         float l_x = msg->axes[AXIS_ANGULAR];
 
         float dx = cartesian_position.x + (l_y * SCALE_CONSTANT);
         float dy = cartesian_position.y + (l_x * SCALE_CONSTANT);
 
-        dx = (std::abs(dx) > 0.01) ? (0.01 * signum(dx)) : dx;
-        dx = (std::abs(dx) > 0.01) ? 0.01 * signum(dy) : dx;
-
+        dx = (std::abs(dx) > 0.01/JOY_FREQUENCY) ? (0.01 * signum(dx)) : dx;
+        dy = (std::abs(dy) > 0.01/JOY_FREQUENCY) ? (0.01 * signum(dy)) : dy;
 
         joint_angles_t joint_angles = compute_angles(dx, dy);
 
+        auto message = std_msgs::msg::Float64MultiArray();
+        std::vector<double> positions = {0, joint_angles.q1, joint_angles.q2, 0};
+        message.data = positions;
+        joint_angle_publisher->publish(message);
     }
 
-    float signum(float x) { 
-        return (x > 0) - (x < 0); 
+    float signum(float x)
+    {
+        return (x > 0) - (x < 0);
     }
 };
 
@@ -105,10 +110,3 @@ int main(int argc, char *argv[])
     rclcpp::shutdown();
     return 0;
 }
-
-float q2 = compute_theta_2(x, y);
-float q1 = compute_theta_1(x, y, q2);
-auto message = std_msgs::msg::Float64MultiArray();
-std::vector<double> positions = {0, q1, q2, 0};
-message.data = positions;
-joint_angle_publisher->publish(message);
