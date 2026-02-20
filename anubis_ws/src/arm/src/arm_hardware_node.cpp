@@ -70,22 +70,6 @@ private:
 
   joint_motors motors[MAX_MOTORS];
 
-  // void
-  //     init_joint_motor_publishers()
-  // {
-  //   motor_publishers[BASE_LAT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_left/control", 10);
-  //   motor_publishers[BASE_LAT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_lat_right/control", 10);
-
-  //   motor_publishers[BASE_JOINT].left_publisher = this->create_publisher<motor_messages::msg::Command>("/base_joint_left/control", 10);
-  //   motor_publishers[BASE_JOINT].right_publisher = this->create_publisher<motor_messages::msg::Command>("/base_joint_right/control", 10);
-
-  //   motor_publishers[ELBOW].left_publisher = this->create_publisher<motor_messages::msg::Command>("/elbow_left/control", 10);
-  //   motor_publishers[ELBOW].right_publisher = this->create_publisher<motor_messages::msg::Command>("/elbow_right/control", 10);
-
-  //   motor_publishers[END_EFFECTOR].left_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_left/control", 10);
-  //   motor_publishers[END_EFFECTOR].right_publisher = this->create_publisher<motor_messages::msg::Command>("/end_effector_right/control", 10);
-  // }
-
   void init_motor_array()
   {
     motors[BASE_LAT].left = std::make_shared<motor>("base_lat_left", this);
