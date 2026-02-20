@@ -71,7 +71,7 @@ private:
     }
 
     float joy_callback(){
-
+        
     }
 };
 
@@ -82,3 +82,10 @@ int main(int argc, char *argv[])
     rclcpp::shutdown();
     return 0;
 }
+
+float q2 = compute_theta_2(x, y);
+float q1 = compute_theta_1(x, y, q2);
+auto message = std_msgs::msg::Float64MultiArray();
+std::vector<double> positions = {0, q1, q2, 0};
+message.data = positions;
+joint_angle_publisher->publish(message);
