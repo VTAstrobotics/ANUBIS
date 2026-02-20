@@ -20,10 +20,15 @@
 #define a1 0.58
 #define a2 0.58
 
-struct joint_angles
+struct joint_angles_t
 {
     float q1;
     float q2;
+};
+
+struct cartesian_position_t{
+    float x;
+    float y;
 };
 
 using std::placeholders::_1;
@@ -33,11 +38,19 @@ public:
     ArmJoyControl()
         : Node("arm_joy_control_node") // name of the node
     {
+
+        joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
+        "/joy", 10, std::bind(&Drive::cmd_vel_callback, this, _1));
+
     }
 
 private:
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr joint_angle_publisher;
+    cartesian_position_t cartesian_position;
+    
+    
+
 
     float compute_theta_2(float x, float y)
     {
@@ -49,12 +62,16 @@ private:
         return std::atan(y / x) - std::atan(((a2)*sin(q2)) / (a1 + a2 * cos(q2)));
     }
 
-    joint_angles compute_angles(float x, float y)
+    joint_angles_t compute_angles(float x, float y)
     {
-        joint_angles angles;
+        joint_angles_t angles;
         angles.q2 = compute_theta_2(x, y);
         angles.q1 = compute_theta_1(x, y, angles.q2);
         return angles;
+    }
+
+    float joy_callback(){
+
     }
 };
 
