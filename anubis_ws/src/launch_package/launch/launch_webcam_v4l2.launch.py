@@ -22,8 +22,13 @@ def generate_launch_description():
         namespace="webcam",
         parameters=[{
             "video_device": "/dev/v4l/by-id/usb-Framework_Laptop_Webcam_Module__2nd_Gen__FRANJBCHA1537100EB-video-index0",
-            "image_size": [640, 480]
-
+            "image_size": [640, 480],
+    #    {
+            "image_raw.ffmpeg.qmax": 1,  # high quality
+            "image_raw.ffmpeg.bit_rate": 1000000,  # required!
+            "image_raw.ffmpeg.gop_size": 1,
+            "image_raw.ffmpeg.encoder": "libx264",
+        # },
         }]
         # using the video device from v4l means we access the same camera each time and the driver exposes what camera is active on a node via the 
         # video device parameter via ros2. This lets us actually access the camera easily compared to /dev/video* ids.
@@ -43,6 +48,30 @@ def generate_launch_description():
     )
     cameras.append(aruco_webcam)
 
+    compressed_transport = Node(
+        package="image_transport",
+        executable='republish',
+        name="webcam_compressor",
+        output = "screen",
+        namespace="webcam",
+        arguments=['raw', 'ffmpeg'], # a bug 
+        # theres a bug https://robotics.stackexchange.com/questions/116905/image-transport-parameters-in-yaml-files
+        parameters=[
+            
+            {"in_transport": "raw"},
+            {"out_transport": "ffmpeg"},
+ 
+        ],
+        remappings=[
+            ("in", "image_raw"),
+            ("out", "image_raw")
+        ]
+        # arguments=['raw', 'ffmpeg', '--ros-args', 
+        #                '--remap', 'in:=webcam/image_raw',
+        #                '--remap', 'out:=ffmpeg']
+        
+    )
+    # cameras.append(compressed_transport)
     web_video_server_node = Node(
         package="web_video_server",
         executable="web_video_server_node",
