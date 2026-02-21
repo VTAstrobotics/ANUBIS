@@ -13,7 +13,7 @@
 #include "motor.hpp"
 #include "encoder.hpp"
 
-#define MAX_MOTORS 4
+#define MAX_MOTORS 2
 
 #define RADIAN_TO_REV 0.15915494
 
@@ -21,10 +21,11 @@
 #define BASE_JOINT_GR 125
 #define ELBOW_GR 108
 #define END_EFFECTOR_GR 45
-float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_GR, END_EFFECTOR_GR};
+// float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_GR, END_EFFECTOR_GR};
+float GEAR_RATIOS[4] = {BASE_JOINT_GR, ELBOW_GR};
 
 #define BASE_JOINT_CANCODER_ID 0 // Both need to be set to real CAN IDs
-#define ELBOW_CANCODER_ID 0 // Should probably live in a different file but its here for now
+#define ELBOW_CANCODER_ID 0      // Should probably live in a different file but its here for now
 
 enum JOINT
 {
@@ -51,6 +52,10 @@ public:
     init_motor_array();
     joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float64MultiArray>(
         "/joint_positions_radians", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
+
+    // treat base lat motor seperately since duty cycle driven
+    base_lat.left_motor = std::make_shared<motor>("base_lat_left", this);
+    base_lat.right_motor = std::make_shared<motor>("base_lat_right", this);
   }
 
 private:
@@ -64,11 +69,13 @@ private:
 
   joint_motors joint[MAX_MOTORS];
 
+  joint_motors base_lat;
+
   void init_motor_array()
   {
-    joint[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
-    joint[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_right", this);
-    //No CANCoder as far as I know
+    // joint[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
+    // joint[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_right", this);
+    // No CANCoder as far as I know
 
     joint[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
     joint[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
@@ -78,9 +85,9 @@ private:
     joint[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
     joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0.3);
 
-    joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
-    joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
-    //No CANCoder as far as I know
+    // joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
+    // joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
+    // No CANCoder as far as I know
   }
 
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
@@ -88,18 +95,22 @@ private:
 
     float sent_angles[MAX_MOTORS];
 
-    for (int i = 0; i < MAX_MOTORS; i++)
+    for (int i{}; i < MAX_MOTORS; i++)
     {
-      sent_angles[i] = msg->data[i];
+      sent_angles[i] = msg->data[i + 1]; // don't include first motor
     }
     float rotations[MAX_MOTORS];
     update_prev_angles();
-    // angles_to_rotations(sent_angles, prev_angles, rotations);
+    // update_prev_angles_test(); // uncomment this when cancoders are mounted
     angles_to_rotations(sent_angles, prev_angles_test, rotations);
     publish_rotations(rotations);
-    motor_msgs[0].dutycycle.data = msg->data[0];
-    joint[0].right_motor->send_command(motor_msgs[0]);
-    joint[0].left_motor->send_command(motor_msgs[0]);
+
+    //handle base lateral movement with duty cycle
+    motor_messages::msg::Command base_lat_msg;
+    base_lat_msg.position.data = msg->data[0];
+    base_lat.right_motor->send_command(base_lat_msg);
+    base_lat.left_motor->send_command(base_lat_msg);
+
 
     for (int i = 0; i < MAX_MOTORS; i++)
     {
@@ -118,8 +129,10 @@ private:
     }
   }
 
-  void update_prev_angles_test(){
-    for(int i = 0; i < MAX_MOTORS; i++){
+  void update_prev_angles_test()
+  {
+    for (int i = 0; i < MAX_MOTORS; i++)
+    { // be careful here - not all joints have cancoders
       prev_angles_test[i] = joint[i].cancoder->get_angle();
     }
   }
@@ -134,7 +147,7 @@ private:
 
   void publish_rotations(float *array)
   {
-    for (int i = 1; i < MAX_MOTORS; i++)
+    for (int i = 0; i < MAX_MOTORS; i++)
     {
       motor_msgs[i].position.data = array[i];
       joint[i].left_motor->send_command(motor_msgs[i]);
