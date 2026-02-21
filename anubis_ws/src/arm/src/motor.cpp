@@ -36,8 +36,9 @@ void motor::send_command(motor_messages::msg::Command command)
 motor_messages::msg::Feedback motor::get_motor_state()
 {
     this->read_lock.lock();
-    return this->last_motor_state;
+    auto motor_state = this->last_motor_state;
     this->read_lock.unlock();
+    return motor_state;
 }
 
 void motor::feedback_callback(motor_messages::msg::Feedback motor_state)
