@@ -11,6 +11,7 @@
 #include "std_msgs/msg/float64_multi_array.hpp"
 
 #include "motor.hpp"
+#include "encoder.hpp"
 
 #define MAX_MOTORS 4
 
@@ -18,9 +19,12 @@
 
 #define BASE_LAT_GR 1
 #define BASE_JOINT_GR 125
-#define ELBOW_JOINT_GR 108
+#define ELBOW_GR 108
 #define END_EFFECTOR_GR 45
-float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_JOINT_GR, END_EFFECTOR_GR};
+float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_GR, END_EFFECTOR_GR};
+
+#define BASE_JOINT_CANCODER_ID 0 // Both need to be set to real CAN IDs
+#define ELBOW_CANCODER_ID 0 // Should probably live in a different file but its here for now
 
 enum JOINT
 {
@@ -29,18 +33,11 @@ enum JOINT
   ELBOW,
   END_EFFECTOR
 };
-
-struct joint_motor_publishers
-{
-  rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr left_publisher;
-  rclcpp::Publisher<motor_messages::msg::Command>::SharedPtr right_publisher;
-};
-
 struct joint_motors
 {
-
-  std::shared_ptr<motor> left;
-  std::shared_ptr<motor> right;
+  std::shared_ptr<motor> left_motor;
+  std::shared_ptr<motor> right_motor;
+  std::shared_ptr<encoder> cancoder;
 };
 
 using std::placeholders::_1;
@@ -51,15 +48,12 @@ public:
   ArmHardwareNode()
       : Node("arm_hardware_node") // name of the node
   {
-    // init_joint_motor_publishers();
     init_motor_array();
     joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float64MultiArray>(
         "/joint_positions_radians", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
   }
 
 private:
-  joint_motor_publishers motor_publishers[MAX_MOTORS]; // 5 DOF, 2 motors each
-
   float prev_angles[MAX_MOTORS] = {0}; // assume all zeroes, can change this to init position
 
   float prev_angles_test[MAX_MOTORS] = {0};
@@ -68,21 +62,25 @@ private:
 
   motor_messages::msg::Command motor_msgs[MAX_MOTORS];
 
-  joint_motors motors[MAX_MOTORS];
+  joint_motors joint[MAX_MOTORS];
 
   void init_motor_array()
   {
-    motors[BASE_LAT].left = std::make_shared<motor>("base_lat_left", this);
-    motors[BASE_LAT].right = std::make_shared<motor>("base_lat_right", this);
+    joint[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
+    joint[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_right", this);
+    //No CANCoder as far as I know
 
-    motors[BASE_JOINT].left = std::make_shared<motor>("base_joint_left", this);
-    motors[BASE_JOINT].right = std::make_shared<motor>("base_joint_right", this);
+    joint[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
+    joint[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
+    joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true);
 
-    motors[ELBOW].left = std::make_shared<motor>("elbow_left", this);
-    motors[ELBOW].right = std::make_shared<motor>("elbow_right", this);
+    joint[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
+    joint[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
+    joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true);
 
-    motors[END_EFFECTOR].left = std::make_shared<motor>("end_effector_left", this);
-    motors[END_EFFECTOR].right = std::make_shared<motor>("end_effector_right", this);
+    joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
+    joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
+    //No CANCoder as far as I know
   }
 
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
@@ -101,8 +99,8 @@ private:
     angles_to_rotations(sent_angles, prev_angles_test, rotations);
     publish_rotations(rotations);
     motor_msgs[0].dutycycle.data = msg->data[0];
-    motors[0].left->send_command(motor_msgs[0]);
-    motors[0].left->send_command(motor_msgs[0]);
+    joint[0].right_motor->send_command(motor_msgs[0]);
+    joint[0].left_motor->send_command(motor_msgs[0]);
 
     for (int i = 0; i < MAX_MOTORS; i++)
     {
@@ -114,8 +112,8 @@ private:
   {
     for (int i = 0; i < MAX_MOTORS; i++)
     {
-      prev_angles_test[i] = ((static_cast<float>(motors[i].left->get_motor_state().position.data) +
-                              static_cast<float>(motors[i].right->get_motor_state().position.data)) /
+      prev_angles_test[i] = ((static_cast<float>(joint[i].left_motor->get_motor_state().position.data) +
+                              static_cast<float>(joint[i].right_motor->get_motor_state().position.data)) /
                              2.0) *
                             (2 * M_PI) / GEAR_RATIOS[i]; // lets average for now
     }
@@ -134,8 +132,8 @@ private:
     for (int i = 1; i < MAX_MOTORS; i++)
     {
       motor_msgs[i].position.data = array[i];
-      motors[i].left->send_command(motor_msgs[i]);
-      motors[i].right->send_command(motor_msgs[i]);
+      joint[i].left_motor->send_command(motor_msgs[i]);
+      joint[i].right_motor->send_command(motor_msgs[i]);
     }
   }
 };

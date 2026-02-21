@@ -15,7 +15,7 @@ find_package(motor_messages REQUIRED)
 find_package(motor_control REQUIRED)
 
 
-add_executable(arm_hardware_node src/arm_hardware_node.cpp src/motor.cpp)
+add_executable(arm_hardware_node src/arm_hardware_node.cpp src/motor.cpp src/encoder.cpp)
 
 add_executable(arm_joy_control_node src/arm_joy_control_node.cpp)
 
