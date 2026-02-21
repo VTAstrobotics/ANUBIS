@@ -51,7 +51,6 @@ public:
 
         RCLCPP_INFO(this->get_logger(), "Arm Joystick Control Started");
 
-
         std::cout << R"(
     
        _______
@@ -78,14 +77,29 @@ private:
 
     float compute_theta_2(float x, float y)
     {
-        float arccos_number = (pow(x, 2) + pow(y, 2) - pow(a1, 2) - pow(a2, 2)) / (2 * a1 * a2);
+        float arccos_number = (pow(x, 2) + pow(y, 2) - pow(a1, 2) - pow(a2, 2)) / (2 * a1 * a2); // could comparing positive and negative results
         std::clamp(arccos_number, -1.0f, 1.0f);
-        return std::acos(arccos_number);
+
+        float theta_2 = std::acos(arccos_number);
+
+        if (std::isnan(theta_2))
+        {
+            RCLCPP_ERROR(this->get_logger(), "Pose out of bounds: Q1 nan");
+        }
+
+        return theta_2;
     }
 
     float compute_theta_1(float x, float y, float q2)
     {
-        return std::atan(y / x) - std::atan(((a2)*sin(q2)) / (a1 + a2 * cos(q2)));
+        float theta_1 = std::atan(y / x) - std::atan(((a2)*sin(q2)) / (a1 + a2 * cos(q2)));
+
+        if (std::isnan(theta_1))
+        {
+            RCLCPP_ERROR(this->get_logger(), "Pose out of bounds: Q2 nan");
+        }
+
+        return theta_1;
     }
 
     joint_angles_t compute_angles(float x, float y)
