@@ -72,11 +72,11 @@ private:
 
     joint[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
     joint[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
-    joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true);
+    joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true, 0);
 
     joint[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
     joint[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
-    joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true);
+    joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0);
 
     joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
     joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
@@ -116,6 +116,12 @@ private:
                               static_cast<float>(joint[i].right_motor->get_motor_state().position.data)) /
                              2.0) *
                             (2 * M_PI) / GEAR_RATIOS[i]; // lets average for now
+    }
+  }
+
+  void update_prev_angles_test(){
+    for(int i = 0; i < MAX_MOTORS; i++){
+      prev_angles_test[i] = joint[i].cancoder->get_angle();
     }
   }
 

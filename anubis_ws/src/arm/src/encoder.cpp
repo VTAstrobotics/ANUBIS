@@ -20,11 +20,11 @@
 
 using std::placeholders::_1;
 
-encoder::encoder(std::string can_interface, int can_ID, bool dir)
+encoder::encoder(std::string can_interface, int can_ID, bool dir, float magnet_offset)
                    : cancoder(std::make_unique<ctre::phoenix6::hardware::CANcoder>(can_ID, can_interface))
 {
     this->cancoder_config.MagnetSensor.SensorDirection = (dir == CLOCKWISE) ? ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive : ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
-    this->cancoder_config.MagnetSensor.MagnetOffset = 0;//Needs to be measured later
+    this->cancoder_config.MagnetSensor.MagnetOffset = (units::angle::turn_t) magnet_offset;//Needs to be measured later
 }
 
 float encoder::get_angle()

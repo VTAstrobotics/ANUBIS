@@ -26,7 +26,7 @@ class encoder
 {
 
 public:
-    encoder(std::string can_interface, int can_ID, bool dir);
+    encoder(std::string can_interface, int can_ID, bool dir, float magnet_offset);
 
     float get_angle();
 
