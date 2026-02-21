@@ -28,8 +28,9 @@ class HammerDetectorNode(Node):
 
         self.model  = YOLO(model_path)
         self.bridge = CvBridge()
-
-        self.sub_image      = self.create_subscription(Image, img_topic, self.image_callback, 1)
+        
+        #made change
+        self.sub_image      = self.create_subscription(Image, img_topic, self.image_callback, 10)
         self.pub_detections = self.create_publisher(Detection2DArray, "/hammer_detections", 10)
 
         if self.pub_annotated:
