@@ -4,41 +4,38 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 from cv_bridge import CvBridge
+from ultralytics import YOLO
 import cv2
-from inference_sdk import InferenceHTTPClient
 
 
 class HammerDetectorNode(Node):
     def __init__(self):
         super().__init__("hammer_detector_node")
 
-        self.declare_parameter("api_key", os.environ.get("ROBOFLOW_API_KEY", ""))
-        self.declare_parameter("model_id", "astro2026-urc/3")
+        self.declare_parameter("model_path", "/home/swara23/ANUBIS/anubis_ws/src/yolo_perception/yolo_perception/T10_Best.pt")
         self.declare_parameter("confidence_threshold", 0.50)
         self.declare_parameter("image_topic", "/camera/image_raw")
         self.declare_parameter("publish_annotated", True)
 
-        api_key            = self.get_parameter("api_key").value
-        model_id           = self.get_parameter("model_id").value
+        model_path         = self.get_parameter("model_path").value
         self.conf          = self.get_parameter("confidence_threshold").value
         img_topic          = self.get_parameter("image_topic").value
         self.pub_annotated = self.get_parameter("publish_annotated").value
 
-        if not api_key:
-            self.get_logger().error("No ROBOFLOW_API_KEY set!")
-            raise RuntimeError("Missing Roboflow API key")
+        if not os.path.exists(model_path):
+            self.get_logger().error(f"Weights file not found: {model_path}")
+            raise RuntimeError("Missing weights file")
 
-        self.client   = InferenceHTTPClient(api_url="https://detect.roboflow.com", api_key=api_key)
-        self.model_id = model_id
-        self.bridge   = CvBridge()
+        self.model  = YOLO(model_path)
+        self.bridge = CvBridge()
 
-        self.sub_image      = self.create_subscription(Image, img_topic, self.image_callback, 10)
+        self.sub_image      = self.create_subscription(Image, img_topic, self.image_callback, 1)
         self.pub_detections = self.create_publisher(Detection2DArray, "/hammer_detections", 10)
 
         if self.pub_annotated:
             self.pub_debug = self.create_publisher(Image, "/hammer_detections/debug_image", 10)
 
-        self.get_logger().info(f"Listening on {img_topic} | model: {model_id}")
+        self.get_logger().info(f"Loaded {model_path} | Listening on {img_topic}")
 
     def image_callback(self, msg: Image):
         try:
@@ -47,31 +44,29 @@ class HammerDetectorNode(Node):
             self.get_logger().error(f"cv_bridge error: {e}")
             return
 
-        try:
-            result = self.client.infer(cv_image, model_id=self.model_id)
-        except Exception as e:
-            self.get_logger().error(f"Inference error: {e}")
-            return
-
-        predictions = result.get("predictions", [])
+        # Run local inference
+        results = self.model(cv_image, conf=self.conf, verbose=False)[0]
 
         det_array        = Detection2DArray()
         det_array.header = msg.header
 
-        for pred in predictions:
-            conf = pred.get("confidence", 0.0)
-            if conf < self.conf:
-                continue
+        for box in results.boxes:
+            conf     = float(box.conf[0])
+            class_id = int(box.cls[0])
+            label    = self.model.names[class_id]
+
+            # box.xywh gives center_x, center_y, w, h
+            cx, cy, w, h = box.xywh[0].tolist()
 
             det = Detection2D()
             det.header = msg.header
-            det.bbox.center.position.x = float(pred["x"])
-            det.bbox.center.position.y = float(pred["y"])
-            det.bbox.size_x = float(pred["width"])
-            det.bbox.size_y = float(pred["height"])
+            det.bbox.center.position.x = cx
+            det.bbox.center.position.y = cy
+            det.bbox.size_x = w
+            det.bbox.size_y = h
 
             hyp = ObjectHypothesisWithPose()
-            hyp.hypothesis.class_id = pred.get("class", "Orange Hammer")
+            hyp.hypothesis.class_id = label
             hyp.hypothesis.score    = conf
             det.results.append(hyp)
             det_array.detections.append(det)
@@ -80,26 +75,13 @@ class HammerDetectorNode(Node):
         self.get_logger().info(f"Detected {len(det_array.detections)} object(s)")
 
         if self.pub_annotated:
-            annotated = self._draw(cv_image.copy(), predictions)
+            annotated = results.plot()  # ultralytics draws boxes for us
             try:
                 dbg = self.bridge.cv2_to_imgmsg(annotated, encoding="bgr8")
                 dbg.header = msg.header
                 self.pub_debug.publish(dbg)
             except Exception as e:
                 self.get_logger().error(f"Debug image error: {e}")
-
-    def _draw(self, image, predictions):
-        for pred in predictions:
-            if pred.get("confidence", 0.0) < self.conf:
-                continue
-            cx, cy = int(pred["x"]), int(pred["y"])
-            w,  h  = int(pred["width"]), int(pred["height"])
-            x1, y1 = cx - w // 2, cy - h // 2
-            x2, y2 = cx + w // 2, cy + h // 2
-            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 165, 255), 2)
-            label = f"{pred.get('class','?')} {pred.get('confidence',0):.0%}"
-            cv2.putText(image, label, (x1, y1 - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 165, 255), 2)
-        return image
 
 
 def main(args=None):
