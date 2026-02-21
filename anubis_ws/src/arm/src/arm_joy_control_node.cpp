@@ -43,7 +43,7 @@ public:
     {
 
         joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
-        "/joy", 10, std::bind(&ArmJoyControl::joy_callback, this, _1));
+            "/joy", 10, std::bind(&ArmJoyControl::joy_callback, this, _1));
 
         joint_angle_publisher = this->create_publisher<std_msgs::msg::Float32MultiArray>("/joint_positions_radians", 10);
         cartesian_position.x = INIT_X;
@@ -51,21 +51,25 @@ public:
 
         RCLCPP_INFO(this->get_logger(), "Arm Joystick Control Started");
 
+
         std::cout << R"(
-        .-""""-.
-       /  _  _  \
-      |  (o)(o)  |    
-      |     ^    |    
-      |   \___/  |    
-       \  _____ /
-        '-----'
-        /|   |\ 
-       /_|___|_\ 
-         /   \
-        /_/ \_\
-
-        )" << std::endl;
-
+    
+        _______
+     _/       \_
+    / |       | \
+   /  |__   __|  \
+  |__/((o| |o))\__|
+  |      | |      |
+  |\     |_|     /|
+  | \           / |
+   \| /  ___  \ |/
+    \ | / _ \ | /
+     \_________/
+      _|_____|_
+ ____|_________|____
+/                   \  -- Mark Moir
+    
+    )" << std::endl;
     }
 
 private:
