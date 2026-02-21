@@ -54,7 +54,7 @@ public:
 
         std::cout << R"(
     
-        _______
+       _______
      _/       \_
     / |       | \
    /  |__   __|  \
@@ -67,8 +67,7 @@ public:
      \_________/
       _|_____|_
  ____|_________|____
-/                   \  -- Mark Moir
-    
+/                   \  -- Mark Moi    
     )" << std::endl;
     }
 
@@ -80,6 +79,7 @@ private:
     float compute_theta_2(float x, float y)
     {
         float arccos_number = (pow(x, 2) + pow(y, 2) - pow(a1, 2) - pow(a2, 2)) / (2 * a1 * a2);
+        std::clamp(arccos_number, -1.0f, 1.0f);
         return std::acos(arccos_number);
     }
 

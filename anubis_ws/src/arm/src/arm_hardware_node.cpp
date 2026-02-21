@@ -93,7 +93,6 @@ private:
       sent_angles[i] = msg->data[i];
     }
     float rotations[MAX_MOTORS];
-
     update_prev_angles();
     // angles_to_rotations(sent_angles, prev_angles, rotations);
     angles_to_rotations(sent_angles, prev_angles_test, rotations);
