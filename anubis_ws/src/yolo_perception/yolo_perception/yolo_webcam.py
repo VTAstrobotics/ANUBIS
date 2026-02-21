@@ -5,6 +5,7 @@ from sensor_msgs.msg import Image
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 from cv_bridge import CvBridge
 from ultralytics import YOLO
+from ament_index_python.packages import get_package_share_directory 
 import cv2
 
 
@@ -12,7 +13,9 @@ class HammerDetectorNode(Node):
     def __init__(self):
         super().__init__("hammer_detector_node")
 
-        self.declare_parameter("model_path", "/home/swara23/ANUBIS/anubis_ws/src/yolo_perception/yolo_perception/T10_Best.pt")
+       # self.declare_parameter("model_path", "/home/swara23/ANUBIS/anubis_ws/src/yolo_perception/yolo_perception/T10_Best.pt")
+        weights_path = os.path.join(get_package_share_directory('yolo_perception'), 'weights', 'T10_Best.pt')
+        self.declare_parameter("model_path", weights_path)
         self.declare_parameter("confidence_threshold", 0.50)
         self.declare_parameter("image_topic", "/camera/image_raw")
         self.declare_parameter("publish_annotated", True)
@@ -28,7 +31,7 @@ class HammerDetectorNode(Node):
 
         self.model  = YOLO(model_path)
         self.bridge = CvBridge()
-        
+
         #made change
         self.sub_image      = self.create_subscription(Image, img_topic, self.image_callback, 10)
         self.pub_detections = self.create_publisher(Detection2DArray, "/hammer_detections", 10)
