@@ -135,19 +135,19 @@ private:
     double left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
     double right_vel = (-(lin_x + 0.5 * ang_z * wheelbase));
 
-    std::cout << "VELOCITY: " << left_vel << " | " << right_vel << std::endl;
-    double left_rpm = vel_to_rpm(left_vel);
-    double right_rpm = vel_to_rpm(right_vel);
+    // std::cout << "VELOCITY: " << left_vel << " | " << right_vel << std::endl;
+    // double left_rpm = vel_to_rpm(left_vel);
+    // double right_rpm = vel_to_rpm(right_vel);
 
-    std::cout << "RPM: " << left_rpm << " | " << right_rpm << "\n"
-              << std::endl;
+    // std::cout << "RPM: " << left_rpm << " | " << right_rpm << "\n"
+    //           << std::endl;
 
 
     motor_messages::msg::Command right_velocity_msg;
     motor_messages::msg::Command left_velocity_msg;
 
-    left_velocity_msg.velocity.data = left_rpm;
-    right_velocity_msg.velocity.data = right_rpm;
+    left_velocity_msg.dutycycle.data = left_rpm;
+    right_velocity_msg.dutycycle.data = right_rpm;
 
     for (auto &&i : left_motors)
     {
