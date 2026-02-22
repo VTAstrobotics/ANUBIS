@@ -18,6 +18,7 @@
 #include "motor.hpp"
 
 #define reaper_wheelbase 0.58
+#define anubis_wheelbase 1.2
 
 using std::placeholders::_1;
 class Drive : public rclcpp::Node
@@ -35,7 +36,7 @@ public:
     this->declare_parameter<std::string>("robot", "REAPER");
     const std::string robot_name = this->get_parameter("robot").as_string();
 
-    this->declare_parameter<double>("wheelbase", reaper_wheelbase);
+    this->declare_parameter<double>("wheelbase", anubis_wheelbase);
     this->wheelbase = this->get_parameter("wheelbase").as_double();
 
     this->declare_parameter<double>("motor_gear_ratio", 125.0);
@@ -47,7 +48,7 @@ public:
     this->declare_parameter<double>("odom_update_rate", 50.0); // Hz. Theoretically higher is better but our motors only update so quickly
     this->odom_update_rate = this->get_parameter("odom_update_rate").as_double();
 
-    this->declare_parameter<std::vector<std::string>>("left_motor_names", std::vector<std::string>({"left_front"}));
+    this->declare_parameter<std::vector<std::string>>("left_motor_names", std::vector<std::string>({"left_front", "left_back"}));
     std::vector<std::string> left_motors_names;
       left_motors_names = this->get_parameter("left_motor_names").as_string_array();
     for (auto &&motor_name : left_motors_names)
@@ -56,7 +57,7 @@ public:
           std::make_shared<motor>(motor_name, this));
 
     }
-    this->declare_parameter<std::vector<std::string>>("right_motor_names", std::vector<std::string>({"right_front"}));
+    this->declare_parameter<std::vector<std::string>>("right_motor_names", std::vector<std::string>({"right_front", "right_back"}));
     std::vector<std::string> right_motors_names;
       right_motors_names = this->get_parameter("right_motor_names").as_string_array();
     for (auto &&motor_name : right_motors_names)
@@ -146,8 +147,8 @@ private:
     motor_messages::msg::Command right_velocity_msg;
     motor_messages::msg::Command left_velocity_msg;
 
-    left_velocity_msg.dutycycle.data = left_rpm;
-    right_velocity_msg.dutycycle.data = right_rpm;
+    left_velocity_msg.dutycycle.data = left_vel;
+    right_velocity_msg.dutycycle.data = right_vel;
 
     for (auto &&i : left_motors)
     {
