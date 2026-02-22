@@ -17,7 +17,7 @@ class HammerDetectorNode(Node):
         weights_path = os.path.join(get_package_share_directory('yolo_perception'), 'weights', 'T10_Best.pt')
         self.declare_parameter("model_path", weights_path)
         self.declare_parameter("confidence_threshold", 0.50)
-        self.declare_parameter("image_topic", "/camera/image_raw")
+        self.declare_parameter("image_topic", "/image")
         self.declare_parameter("publish_annotated", True)
 
         model_path         = self.get_parameter("model_path").value
@@ -33,11 +33,11 @@ class HammerDetectorNode(Node):
         self.bridge = CvBridge()
 
         #made change
-        self.sub_image      = self.create_subscription(Image, img_topic, self.image_callback, 10)
-        self.pub_detections = self.create_publisher(Detection2DArray, "/hammer_detections", 10)
+        self.sub_image      = self.create_subscription(Image, img_topic, self.image_callback, 1)
+        self.pub_detections = self.create_publisher(Detection2DArray, "/hammer_detections", 1)
 
         if self.pub_annotated:
-            self.pub_debug = self.create_publisher(Image, "/hammer_detections/debug_image", 10)
+            self.pub_debug = self.create_publisher(Image, "/hammer_detections/debug_image", 1)
 
         self.get_logger().info(f"Loaded {model_path} | Listening on {img_topic}")
 
