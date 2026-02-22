@@ -8,7 +8,7 @@ kraken_front_left:
     status_publish_frequency: 50.0
     health_publish_frequency: 5.0
     can_interface: "can1"
-    can_id: 21
+    can_id: 23
 
 kraken_front_right:
   ros__parameters:

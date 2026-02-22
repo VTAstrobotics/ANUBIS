@@ -17,7 +17,7 @@ def generate_launch_description():
     webcam_v4l2 = Node(
         package="v4l2_camera",
         executable="v4l2_camera_node",
-        name="webcam_camera_driver",
+        name="Front_Camera_Driver",
         output="screen",
         namespace="webcam",
         parameters=[{
@@ -41,12 +41,12 @@ def generate_launch_description():
         output="screen",
         namespace="webcam",
         parameters=[{
-            "camera_name": "usb-Framework_Laptop_Webcam_Module__2nd_Gen__FRANJBCHA1537100EB-video-index0"
+            "camera_name": "/dev/v4l/by-id/usb-046d_Brio_101_2450APR8ZF68-video-index0"
         }]
         # using the video device from v4l means we access the same camera each time and the driver exposes what camera is active on a node via the 
         # video device parameter via ros2. This lets us actually access the camera easily compared to /dev/video* ids.
     )
-    cameras.append(aruco_webcam)
+    # cameras.append(aruco_webcam)
 
     compressed_transport = Node(
         package="image_transport",
