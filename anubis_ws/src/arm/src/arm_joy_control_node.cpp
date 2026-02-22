@@ -7,6 +7,8 @@
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "sensor_msgs/msg/joy.hpp"
 
+#include <iostream>
+
 #include <cmath>
 
 #define a1 0.58
@@ -92,7 +94,7 @@ private:
 
     float compute_theta_1(float x, float y, float q2)
     {
-        float theta_1 = std::atan2(y, x) - std::atan(((a2)*sin(q2)) / (a1 + a2 * cos(q2)));
+        float theta_1 = std::atan2(y, x) - std::atan2(((a2)*sin(q2)), (a1 + a2 * cos(q2)));
 
         if (std::isnan(theta_1))
         {
