@@ -93,6 +93,12 @@ private:
   void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
   {
 
+    if (msg->data.size() < (MAX_MOTORS + 1))
+    {
+      RCLCPP_WARN(this->get_logger(), "incoming message size too small");
+      return;
+    }
+
     float sent_angles[MAX_MOTORS];
 
     for (int i{}; i < MAX_MOTORS; i++)
@@ -105,12 +111,11 @@ private:
     angles_to_rotations(sent_angles, prev_angles_test, rotations);
     publish_rotations(rotations);
 
-    //handle base lateral movement with duty cycle
+    // handle base lateral movement with duty cycle
     motor_messages::msg::Command base_lat_msg;
     base_lat_msg.position.data = msg->data[0];
     base_lat.right_motor->send_command(base_lat_msg);
     base_lat.left_motor->send_command(base_lat_msg);
-
 
     for (size_t i{}; i < MAX_MOTORS; i++)
     {
@@ -120,7 +125,7 @@ private:
 
   void update_prev_angles()
   {
-    for (size_t i {}; i < MAX_MOTORS; i++)
+    for (size_t i{}; i < MAX_MOTORS; i++)
     {
       prev_angles_test[i] = ((static_cast<float>(joint[i].left_motor->get_motor_state().position.data) +
                               static_cast<float>(joint[i].right_motor->get_motor_state().position.data)) /
@@ -131,7 +136,7 @@ private:
 
   void update_prev_angles_test()
   {
-    for (size_t i {}; i < MAX_MOTORS; i++)
+    for (size_t i{}; i < MAX_MOTORS; i++)
     { // be careful here - not all joints have cancoders
       prev_angles_test[i] = joint[i].cancoder->get_angle();
     }
@@ -139,7 +144,7 @@ private:
 
   void angles_to_rotations(float *current_angles, float *previous_angles, float *output)
   {
-    for (size_t i {}; i < MAX_MOTORS; i++)
+    for (size_t i{}; i < MAX_MOTORS; i++)
     {
       output[i] = (current_angles[i] - previous_angles[i]) * GEAR_RATIOS[i] / (2 * M_PI);
     }
@@ -147,7 +152,7 @@ private:
 
   void publish_rotations(float *array)
   {
-    for (size_t i {}; i < MAX_MOTORS; i++)
+    for (size_t i{}; i < MAX_MOTORS; i++)
     {
       motor_msgs[i].position.data = array[i];
       joint[i].left_motor->send_command(motor_msgs[i]);

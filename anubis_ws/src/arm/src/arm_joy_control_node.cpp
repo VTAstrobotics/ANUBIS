@@ -78,7 +78,7 @@ private:
     float compute_theta_2(float x, float y)
     {
         float arccos_number = (pow(x, 2) + pow(y, 2) - pow(a1, 2) - pow(a2, 2)) / (2 * a1 * a2); // could comparing positive and negative results
-        std::clamp(arccos_number, -1.0f, 1.0f);
+        arccos_number = std::clamp(arccos_number, -1.0f, 1.0f);
 
         float theta_2 = std::acos(arccos_number);
 
@@ -92,7 +92,7 @@ private:
 
     float compute_theta_1(float x, float y, float q2)
     {
-        float theta_1 = std::atan(y / x) - std::atan(((a2)*sin(q2)) / (a1 + a2 * cos(q2)));
+        float theta_1 = std::atan2(y, x) - std::atan(((a2)*sin(q2)) / (a1 + a2 * cos(q2)));
 
         if (std::isnan(theta_1))
         {
@@ -119,7 +119,7 @@ private:
         float dx = (l_x * SCALE_CONSTANT * 1.0);
         float dy = (l_y * SCALE_CONSTANT * 1.0);
 
-        if (!(pow(cartesian_position.x + dx, 2) + pow(cartesian_position.y + dy, 2) > pow((a1 + a2), 2)))
+        if (!(pow(cartesian_position.x + dx, 2) + pow(cartesian_position.y + dy, 2) > pow((a1 + a2), 2))) // need to check for inner bound as well
         {
             cartesian_position.x += dx;
             cartesian_position.y += dy;
