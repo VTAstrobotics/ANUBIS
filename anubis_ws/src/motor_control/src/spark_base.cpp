@@ -4,7 +4,7 @@
  * @author Grayson Arendt
  */
 
- #include "motor_control/SparkBase.hpp"
+#include "motor_control/SparkBase.hpp"
 
  SparkBase::SparkBase(const std::string & interfaceName, uint8_t deviceId)
  : interfaceName_(interfaceName), deviceId_(deviceId)

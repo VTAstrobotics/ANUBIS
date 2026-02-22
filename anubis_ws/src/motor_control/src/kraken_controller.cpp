@@ -5,7 +5,7 @@
 #include <ctre/phoenix6/unmanaged/Unmanaged.hpp>
 
 
-  using namespace ctre::phoenix6;
+using namespace ctre::phoenix6;
 
 
   void KrakenController::control_callback(const motor_messages::msg::Command::SharedPtr msg) 
