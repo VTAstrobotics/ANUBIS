@@ -28,10 +28,10 @@ public:
     std::string can_interface = this->get_parameter("can_interface").as_string();
     this->motor = std::make_unique<hardware::TalonFX>((int)this->get_parameter("can_id").as_int(), can_interface);
 
-    configs::TalonFXConfiguration fx_config{};
+    // configs::TalonFXConfiguration fx_config{};
 
-    fx_config.MotorOutput.Inverted = signals::InvertedValue::CounterClockwise_Positive;
-    motor->GetConfigurator().Apply(fx_config);
+    // fx_config.MotorOutput.Inverted = signals::InvertedValue::CounterClockwise_Positive;
+    // motor->GetConfigurator().Apply(fx_config);
 
     // motor->SetNeutralMode(signals::NeutralModeValue::Coast);
 

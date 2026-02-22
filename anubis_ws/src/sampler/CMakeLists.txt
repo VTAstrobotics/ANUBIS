@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(robot_launch)
+project(sampler)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -8,12 +8,30 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(motor_messages REQUIRED)
 find_package(motor_control REQUIRED)
+find_package(sensor_msgs REQUIRED)
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
 
+add_executable(sampler_node src/sampler_node.cpp src/motor.cpp)
 
-install(DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME}
-)
+ament_target_dependencies(sampler_node 
+  rclcpp
+  std_msgs
+  sensor_msgs
+  motor_messages
+  motor_control)
+
+target_include_directories(sampler_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(sampler_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+install(TARGETS sampler_node
+  DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

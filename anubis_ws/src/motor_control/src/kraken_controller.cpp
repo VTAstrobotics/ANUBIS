@@ -11,7 +11,7 @@
   void KrakenController::control_callback(const motor_messages::msg::Command::SharedPtr msg) 
   {    
 
-    if(abs(msg->dutycycle.data) >= 0){
+    if(abs(msg->dutycycle.data) > 0){
       this->outDuty.Output = msg->dutycycle.data;
       
       auto status = motor->SetControl(this->outDuty);
@@ -20,12 +20,16 @@
       RCLCPP_INFO(this->get_logger(), "SetControl status: %s", status.GetName());
       
     }
-    else if(abs(msg->current.data) >= 0){
+    else if(abs(msg->current.data) > 0){
       RCLCPP_ERROR(this->get_logger(), "We have not paid for this feature L");
     }
-    else if(abs(msg->position.data) >= 0){
+    else if(abs(msg->position.data) > 0){
 
       this->outPosition = msg->position.data * 1.0_tr;
+      controls::PositionVoltage outPosition2 = controls::PositionVoltage{msg->position.data *1.0_tr}.WithSlot(0);
+     
+      motor->SetControl(outPosition2);
+      ctre::phoenix::unmanaged::FeedEnable(500);
 
       //TODO: add position control
 

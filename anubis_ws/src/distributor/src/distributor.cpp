@@ -5,10 +5,11 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float64.hpp"
+#include "std_msgs/msg/float32.hpp"
 #include "sensor_msgs/msg/joy.hpp"
 #include "map.h"
 
-#define TIMEOUT 10.0
+#define TIMEOUT 10.
 
 class Stopwatch
 {
@@ -42,6 +43,8 @@ public:
         "/joy", 10, std::bind(&Distributor::joy_callback, this, _1));
 
     velocity_publisher = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10); // creates the publisher to the /joy topic
+    auger_control_pub = this->create_publisher<std_msgs::msg::Float32>("/auger/command_speed", 10); // creates the publisher to the /joy topic
+    carousel_control_pub = this->create_publisher<std_msgs::msg::Float32>("/carousel/command_speed", 10); // creates the publisher to the /joy topic
     // uses the joy_callback to recieve the message from the subscriber and publish it to the /joy topic
     timer_ = this->create_wall_timer(
         std::chrono::milliseconds(500),
@@ -79,6 +82,16 @@ private:
     cmd.angular.z = ang;              // assigning the angular z value to ang
     velocity_publisher->publish(cmd); // publishing the cmd variable to the /cmd_vel topic
 
+    std_msgs::msg::Float32 auger_control;
+    double auger_speed = msg->buttons[controls.at("BUTTON_A")];
+    auger_control.data = auger_speed;
+    auger_control_pub->publish(auger_control);
+
+    std_msgs::msg::Float32 carousel_control;
+    double carousel_position = 1 * msg->buttons[controls.at("BUTTON_B")];
+    carousel_control.data = 10e-3 * carousel_position;
+    carousel_control_pub->publish(carousel_control);
+
     stopwatch.reset();
   }
   void timer_callback()
@@ -100,6 +113,8 @@ private:
   // this is where you can declare subscribers/publishers.
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher;
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
+  rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr auger_control_pub;
+  rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr carousel_control_pub;
   rclcpp::TimerBase::SharedPtr timer_;
   std::string TRANSLATION_CONTROL;
   std::string ROTATION_CONTROL;
