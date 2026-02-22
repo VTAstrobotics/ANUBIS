@@ -44,8 +44,12 @@ using namespace ctre::phoenix6;
     feedback.current.data = this->motor->GetStatorCurrent().GetValueAsDouble();
     feedback.is_disabled.data = false;
     feedback.position.data = this->motor->GetPosition().GetValueAsDouble();
+   
+    feedback.angle.data = this->motor->GetAngle().GetValueAsDouble(); // Assuming the position is in radians, if not, convert it accordingly
     feedback.velocity.data = this->motor->GetVelocity().GetValueAsDouble();
 
+    //display angle data 
+    RCLPP_INFO(this->get_logger(), "Current AnglePositions: %f", feedback.angle.data); 
     // Implement the logic to publish the Kraken motor status here
     status_publisher->publish(feedback);
     
