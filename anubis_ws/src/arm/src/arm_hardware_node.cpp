@@ -8,7 +8,7 @@
 #include "motor_messages/msg/feedback.hpp"
 #include "motor_control/kraken_controller.hpp"
 #include "motor_control/motor_controller_base.hpp"
-#include "std_msgs/msg/float64_multi_array.hpp"
+#include "std_msgs/msg/float32_multi_array.hpp"
 
 #include "motor.hpp"
 #include "encoder.hpp"
@@ -22,7 +22,7 @@
 #define ELBOW_GR 108
 #define END_EFFECTOR_GR 45
 // float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_GR, END_EFFECTOR_GR};
-float GEAR_RATIOS[4] = {BASE_JOINT_GR, ELBOW_GR};
+float GEAR_RATIOS[MAX_MOTORS] = {BASE_JOINT_GR, ELBOW_GR};
 
 #define BASE_JOINT_CANCODER_ID 0 // Both need to be set to real CAN IDs
 #define ELBOW_CANCODER_ID 0      // Should probably live in a different file but its here for now
@@ -32,7 +32,7 @@ enum JOINT
   // BASE_LAT = 0,
   BASE_JOINT = 0,
   ELBOW,
-  END_EFFECTOR
+  // END_EFFECTOR
 };
 struct joint_motors
 {
@@ -50,7 +50,7 @@ public:
       : Node("arm_hardware_node") // name of the node
   {
     init_motor_array();
-    joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+    joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float32MultiArray>(
         "/joint_positions_radians", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
 
     // treat base lat motor seperately since duty cycle driven
@@ -63,7 +63,7 @@ private:
 
   float prev_angles_test[MAX_MOTORS] = {0};
 
-  rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr joint_pos_subscriber;
+  rclcpp::Subscription<std_msgs::msg::Float32MultiArray>::SharedPtr joint_pos_subscriber;
 
   motor_messages::msg::Command motor_msgs[MAX_MOTORS];
 
@@ -90,7 +90,7 @@ private:
     // No CANCoder as far as I know
   }
 
-  void joint_pos_callback(std_msgs::msg::Float64MultiArray::SharedPtr msg)
+  void joint_pos_callback(std_msgs::msg::Float32MultiArray::SharedPtr msg)
   {
 
     if (msg->data.size() < (MAX_MOTORS + 1))
@@ -113,7 +113,7 @@ private:
 
     // handle base lateral movement with duty cycle
     motor_messages::msg::Command base_lat_msg;
-    base_lat_msg.position.data = msg->data[0];
+    base_lat_msg.dutycycle.data = msg->data[0];
     base_lat.right_motor->send_command(base_lat_msg);
     base_lat.left_motor->send_command(base_lat_msg);
 

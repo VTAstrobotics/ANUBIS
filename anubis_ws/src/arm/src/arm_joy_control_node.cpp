@@ -86,7 +86,7 @@ private:
 
         if (std::isnan(theta_2))
         {
-            RCLCPP_ERROR(this->get_logger(), "Pose out of bounds: Q1 nan");
+            RCLCPP_ERROR(this->get_logger(), "Pose out of bounds: Q2 nan");
         }
 
         return theta_2;
@@ -98,7 +98,7 @@ private:
 
         if (std::isnan(theta_1))
         {
-            RCLCPP_ERROR(this->get_logger(), "Pose out of bounds: Q2 nan");
+            RCLCPP_ERROR(this->get_logger(), "Pose out of bounds: Q1 nan");
         }
 
         return theta_1;

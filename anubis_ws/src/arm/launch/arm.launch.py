@@ -117,7 +117,7 @@ def generate_launch_description():
     # )
 
     return LaunchDescription([
-    spawn_arm_hardware_node,           
+    # spawn_arm_hardware_node,           
         spawn_left_base_motor,
         spawn_right_base_motor,
         spawn_elbow_left_motor,
