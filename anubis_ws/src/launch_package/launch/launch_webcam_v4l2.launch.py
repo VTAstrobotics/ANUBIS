@@ -21,8 +21,8 @@ def generate_launch_description():
         output="screen",
         namespace="webcam",
         parameters=[{
-            "video_device": "/dev/v4l/by-id/usb-046d_Brio_101_2450APR8ZF68-video-index0",
-            "image_size": [800, 600],
+            "video_device": "/dev/v4l/by-id/usb-Framework_Laptop_Webcam_Module__2nd_Gen__FRANJBCHA1537100EB-video-index0",
+            "image_size": [640, 480],
     #    {
             "image_raw.ffmpeg.qmax": 1,  # high quality
             "image_raw.ffmpeg.bit_rate": 1000000,  # required!
