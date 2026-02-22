@@ -29,8 +29,8 @@ float GEAR_RATIOS[4] = {BASE_JOINT_GR, ELBOW_GR};
 
 enum JOINT
 {
-  BASE_LAT = 0,
-  BASE_JOINT,
+  // BASE_LAT = 0,
+  BASE_JOINT = 0,
   ELBOW,
   END_EFFECTOR
 };
@@ -112,7 +112,7 @@ private:
     base_lat.left_motor->send_command(base_lat_msg);
 
 
-    for (int i = 0; i < MAX_MOTORS; i++)
+    for (size_t i{}; i < MAX_MOTORS; i++)
     {
       prev_angles[i] = sent_angles[i]; // TODO: fake feedback for now. can replace with prev_angles_test
     }
@@ -120,7 +120,7 @@ private:
 
   void update_prev_angles()
   {
-    for (int i = 0; i < MAX_MOTORS; i++)
+    for (size_t i {}; i < MAX_MOTORS; i++)
     {
       prev_angles_test[i] = ((static_cast<float>(joint[i].left_motor->get_motor_state().position.data) +
                               static_cast<float>(joint[i].right_motor->get_motor_state().position.data)) /
@@ -131,7 +131,7 @@ private:
 
   void update_prev_angles_test()
   {
-    for (int i = 0; i < MAX_MOTORS; i++)
+    for (size_t i {}; i < MAX_MOTORS; i++)
     { // be careful here - not all joints have cancoders
       prev_angles_test[i] = joint[i].cancoder->get_angle();
     }
@@ -139,7 +139,7 @@ private:
 
   void angles_to_rotations(float *current_angles, float *previous_angles, float *output)
   {
-    for (int i = 0; i < MAX_MOTORS; i++)
+    for (size_t i {}; i < MAX_MOTORS; i++)
     {
       output[i] = (current_angles[i] - previous_angles[i]) * GEAR_RATIOS[i] / (2 * M_PI);
     }
@@ -147,7 +147,7 @@ private:
 
   void publish_rotations(float *array)
   {
-    for (int i = 0; i < MAX_MOTORS; i++)
+    for (size_t i {}; i < MAX_MOTORS; i++)
     {
       motor_msgs[i].position.data = array[i];
       joint[i].left_motor->send_command(motor_msgs[i]);
