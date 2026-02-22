@@ -73,11 +73,56 @@ def generate_launch_description():
                "__node:=right_motor_controller"]
     )
 
+     # calibration command
+    # ros2 run camera_calibration cameracalibrator --size 8x6 --square 0.03529 image:=/webcam/image_raw camera:=/webcam
+
+    # each camera will require these 2 nodes to be started for it to work properly.
+    webcam_v4l2 = Node(
+        package="v4l2_camera",
+        executable="v4l2_camera_node",
+        name="Front_Camera_Driver",
+        output="screen",
+        namespace="webcam",
+        parameters=[{
+            "video_device": "/dev/v4l/by-id/usb-046d_Brio_101_2450APR8ZF68-video-index0",
+            "image_size": [800, 600],
+    #    {
+            "image_raw.ffmpeg.qmax": 1,  # high quality
+            "image_raw.ffmpeg.bit_rate": 1000000,  # required!
+            "image_raw.ffmpeg.gop_size": 1,
+            "image_raw.ffmpeg.encoder": "libx264",
+        # },
+        }]
+        # using the video device from v4l means we access the same camera each time and the driver exposes what camera is active on a node via the 
+        # video device parameter via ros2. This lets us actually access the camera easily compared to /dev/video* ids.
+    )
+    aruco_webcam = Node(
+        package="pose_estimation",
+        executable="v4l2_aruco_node",
+        name="webcam_camera_aruco",
+        output="screen",
+        namespace="webcam",
+        parameters=[{
+            "camera_name": "/dev/v4l/by-id/usb-046d_Brio_101_2450APR8ZF68-video-index0"
+        }]
+        # using the video device from v4l means we access the same camera each time and the driver exposes what camera is active on a node via the 
+        # video device parameter via ros2. This lets us actually access the camera easily compared to /dev/video* ids.
+    )
+
+    foxglove_studio = Node(
+        package="foxglove_bridge",
+        executable="foxglove_bridge",
+        name="foxglove_bridge"
+    )
+
     return LaunchDescription([
         spawn_drive,
         spawn_left_motor,
         spawn_right_motor,
         spawn_left_back__motor,
-        spawn_right_back_motor
+        spawn_right_back_motor,
+        webcam_v4l2,
+        foxglove_studio
+        # aruco_webcam
     ])
 
