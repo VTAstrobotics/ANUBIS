@@ -6,6 +6,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float64.hpp"
 #include "std_msgs/msg/float32.hpp"
+#include "std_msgs/msg/int32.hpp"
 #include "sensor_msgs/msg/joy.hpp"
 #include "map.h"
 
@@ -45,6 +46,7 @@ public:
     velocity_publisher = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10); // creates the publisher to the /joy topic
     auger_control_pub = this->create_publisher<std_msgs::msg::Float32>("/auger/command_speed", 10); // creates the publisher to the /joy topic
     carousel_control_pub = this->create_publisher<std_msgs::msg::Float32>("/carousel/command_speed", 10); // creates the publisher to the /joy topic
+    stepper_control_pub = this->create_publisher<std_msgs::msg::Int32>("/stepper_control", 10); // creates the publisher to the /joy topic
     // uses the joy_callback to recieve the message from the subscriber and publish it to the /joy topic
     timer_ = this->create_wall_timer(
         std::chrono::milliseconds(500),
@@ -71,7 +73,25 @@ public:
     RCLCPP_INFO(this->get_logger(), "DISTRIBUTOR ONLINE");
   }
 
+
 private:
+  void run_stepper(sensor_msgs::msg::Joy::SharedPtr msg){
+
+    std_msgs::msg::Int32 stepper_control;
+    // 0 off 1 up 2 down
+    int stepper_direction = 0;
+
+    if(msg->buttons[4] == 1){
+      stepper_direction = 1;
+    }
+    else if(msg->buttons[5] == 1){
+      stepper_direction = 2;
+    }
+    else{stepper_direction = 0;}
+
+    stepper_control.data = stepper_direction;
+    stepper_control_pub->publish(stepper_control);
+  }
   void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
   {
     double lin = msg->axes[controls.at(TRANSLATION_CONTROL)] * linear_scale;
@@ -91,6 +111,8 @@ private:
     double carousel_position = 1 * msg->buttons[controls.at("BUTTON_B")];
     carousel_control.data = 10e-3 * carousel_position;
     carousel_control_pub->publish(carousel_control);
+
+    run_stepper(msg);
 
     stopwatch.reset();
   }
@@ -115,6 +137,7 @@ private:
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
   rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr auger_control_pub;
   rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr carousel_control_pub;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr stepper_control_pub;
   rclcpp::TimerBase::SharedPtr timer_;
   std::string TRANSLATION_CONTROL;
   std::string ROTATION_CONTROL;
