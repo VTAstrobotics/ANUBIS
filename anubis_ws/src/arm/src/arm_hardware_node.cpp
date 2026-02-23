@@ -79,11 +79,11 @@ private:
 
     joint[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
     joint[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
-    // joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true, 0.3);
+    joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true, 0.3);
 
     joint[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
     joint[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
-    // joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0.3);
+    joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0.3);
 
     // joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
     // joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
@@ -139,7 +139,7 @@ private:
     for (size_t i{}; i < MAX_MOTORS; i++)
     { // be careful here - not all joints have cancoders
       prev_angles_test[i] = joint[i].cancoder->get_angle();
-    }
+        }
   }
 
   void angles_to_rotations(float *current_angles, float *previous_angles, float *output)
