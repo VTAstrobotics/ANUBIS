@@ -29,7 +29,7 @@ def generate_launch_description():
                 {"health_topic": "/auger/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=right_motor_controller"]
+               "__node:=auger_motor_controller"]
     )
     
     spawn_carousel_motor = Node(package = "motor_control",
@@ -43,8 +43,19 @@ def generate_launch_description():
                 {"health_topic": "/carousel/health"}],
     arguments=["--ros-args",
                "-r",
-               "__node:=right_motor_controller"]
+               "__node:=carousel_motor_controller"]
     )
+
+    from launch import LaunchDescription
+    from launch.actions import ExecuteProcess
+
+    docker_run = ExecuteProcess(
+                cmd=['docker run --rm -v /dev:/dev --privileged --net=host microros/micro-ros-agent:humble serial --dev /dev/ttyACM1 -b 115200'],
+                shell=True,
+                output='screen'
+            )
+        
+
 
      # calibration command
 
@@ -54,8 +65,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         spawn_sampler,
-        spawn_carousel_motor
-        # spawn_auger_motor
+        spawn_carousel_motor,
+        spawn_auger_motor,
+        docker_run
         # aruco_webcam
     ])
 
