@@ -28,6 +28,8 @@
 
 #define JOINTS 4
 
+#define JOINT_SWITCH 5
+
 enum JOINT
 {
     BASE_LAT = 0,
@@ -95,11 +97,9 @@ private:
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
         motor_messages::msg::Command motor_msg;
-        // check rb for state change
-        // use left joysticks to control selected joint
-        if (msg->buttons[1] = 1)
+        if (msg->buttons[JOINT_SWITCH] = 1)
         {
-            joint_control_state =  static_cast<JOINT> ((joint_control_state + 1) % 4);
+            joint_control_state = static_cast<JOINT>((joint_control_state + 1) % 4);
         }
         switch (joint_control_state)
         {
@@ -117,11 +117,12 @@ private:
             motor_msg.dutycycle.data = msg->axes[AXIS_LINEAR];
             joint_motors[ELBOW].left_motor->send_command(motor_msg);
             joint_motors[ELBOW].right_motor->send_command(motor_msg);
-            break;  
+            break;
         case END_EFFECTOR:
-            // double left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
-            // double right_vel = (-(lin_x + 0.5 * ang_z * wheelbase)); // we can just use this equation
-            // differential drive
+            float lin = msg->axes[AXIS_LINEAR];
+            float ang = msg->axes[AXIS_ANGULAR];
+            double left_duty = ((lin - 0.5 * ang )/1.5);
+            double right_vel = ((lin + 0.5 * ang )/1.5); 
             break;
         }
     }
