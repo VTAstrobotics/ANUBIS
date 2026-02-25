@@ -48,6 +48,8 @@ public:
     ArmJoyControlNoIK()
         : Node("arm_joy_control_node_noik") // name of the node
     {
+        joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
+            "/joy", 10, std::bind(&ArmJoyControl::joy_callback, this, _1));
 
         std::cout << R"(
     
@@ -71,8 +73,9 @@ public:
 private:
     joint_motors_t joint_motors[JOINTS];
     JOINT joint_control_state = BASE_LAT;
+    rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
 
-    init_joint_motors()
+    void init_joint_motors()
     {
         joint_motors[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
         joint_motors[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_left", this);
@@ -85,6 +88,23 @@ private:
 
         joint_motors[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
         joint_motors[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
+    }
+
+    void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
+    {
+        //check rb for state change
+        //use left joysticks to control selected joint
+        switch (joint_control_state)
+        {
+        case BASE_LAT:
+            break;
+        case BASE_JOINT:
+            break;
+        case ELBOW:
+            break;
+        case END_EFFECTOR:
+            break;
+        }
     }
 };
 
