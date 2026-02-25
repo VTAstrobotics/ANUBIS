@@ -19,12 +19,19 @@ add_executable(arm_hardware_node src/arm_hardware_node.cpp src/motor.cpp src/enc
 
 add_executable(arm_joy_control_node src/arm_joy_control_node.cpp)
 
+add_executable(arm_joy_control_node_noik src/arm_joy_control_node_noik.cpp src/motor.cpp)
+
+
 
 target_include_directories(arm_hardware_node PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_include_directories(arm_joy_control_node PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_include_directories(arm_joy_control_node_noik PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -47,6 +54,16 @@ ament_target_dependencies(
   geometry_msgs
   std_msgs
   sensor_msgs
+)
+
+ament_target_dependencies(
+  arm_joy_control_node_noik
+  rclcpp
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+  motor_messages
+  motor_control
 )
 
 target_link_libraries(arm_hardware_node motor_control::motor_control_nodes)

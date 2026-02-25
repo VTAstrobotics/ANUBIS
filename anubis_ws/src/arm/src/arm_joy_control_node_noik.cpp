@@ -6,6 +6,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "sensor_msgs/msg/joy.hpp"
+#include "motor.hpp"
+#include "motor_messages/msg/command.hpp"
 
 #include <iostream>
 
@@ -49,7 +51,7 @@ public:
         : Node("arm_joy_control_node_noik") // name of the node
     {
         joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
-            "/joy", 10, std::bind(&ArmJoyControl::joy_callback, this, _1));
+            "/joy", 10, std::bind(&ArmJoyControlNoIK::joy_callback, this, _1));
 
         std::cout << R"(
     
@@ -95,27 +97,27 @@ private:
         motor_messages::msg::Command motor_msg;
         // check rb for state change
         // use left joysticks to control selected joint
-        if (msg->data[rb dont know] = 1)
+        if (msg->buttons[1] = 1)
         {
-            joint_control_state = (joint_control_state + 1) % 4;
+            joint_control_state =  static_cast<JOINT> ((joint_control_state + 1) % 4);
         }
         switch (joint_control_state)
         {
         case BASE_LAT:
-            motor_msg.dutycycle.data = msg->data[AXIS_LINEAR];
-            joint_motors[BASE_LAT].left->send_command(motor_msg);
-            joint_motors[BASE_LAT].right->send_command(motor_msg);
+            motor_msg.dutycycle.data = msg->axes[AXIS_LINEAR];
+            joint_motors[BASE_LAT].left_motor->send_command(motor_msg);
+            joint_motors[BASE_LAT].right_motor->send_command(motor_msg);
             break;
         case BASE_JOINT:
-            motor_msg.dutycycle.data = msg->data[AXIS_LINEAR];
-            joint_motors[BASE_JOINT].left->send_command(motor_msg);
-            joint_motors[BASE_JOINT].right->send_command(motor_msg);
+            motor_msg.dutycycle.data = msg->axes[AXIS_LINEAR];
+            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg);
+            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg);
             break;
         case ELBOW:
-            motor_msg.dutycycle.data = msg->data[AXIS_LINEAR];
-            joint_motors[ELBOW].left->send_command(motor_msg);
-            joint_motors[ELBOW].right->send_command(motor_msg);
-            break;
+            motor_msg.dutycycle.data = msg->axes[AXIS_LINEAR];
+            joint_motors[ELBOW].left_motor->send_command(motor_msg);
+            joint_motors[ELBOW].right_motor->send_command(motor_msg);
+            break;  
         case END_EFFECTOR:
             // double left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
             // double right_vel = (-(lin_x + 0.5 * ang_z * wheelbase)); // we can just use this equation
