@@ -10,6 +10,7 @@ setup(
     ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
     ('share/' + package_name, ['package.xml']),
     ('share/' + package_name + '/weights', ['yolo_perception/T10_Best.pt']),  
+    ('share/' + package_name + '/weights', ['yolo_perception/weights.pt']),  
     ],
     install_requires=['setuptools'],
     zip_safe=True,

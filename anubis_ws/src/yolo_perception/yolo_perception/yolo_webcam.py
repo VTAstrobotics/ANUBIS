@@ -14,7 +14,7 @@ class HammerDetectorNode(Node):
         super().__init__("hammer_detector_node")
 
        # self.declare_parameter("model_path", "/home/swara23/ANUBIS/anubis_ws/src/yolo_perception/yolo_perception/T10_Best.pt")
-        weights_path = os.path.join(get_package_share_directory('yolo_perception'), 'weights', 'T10_Best.pt')
+        weights_path = os.path.join(get_package_share_directory('yolo_perception'), 'weights', 'weights.pt')
         self.declare_parameter("model_path", weights_path)
         self.declare_parameter("confidence_threshold", 0.50)
         self.declare_parameter("image_topic", "/image")
@@ -77,9 +77,14 @@ class HammerDetectorNode(Node):
 
         self.pub_detections.publish(det_array)
         self.get_logger().info(f"Detected {len(det_array.detections)} object(s)")
-
+        self.last_annotated = results.plot()
         if self.pub_annotated:
-            annotated = results.plot()  # ultralytics draws boxes for us
+            if(len(results.boxes) <= 0):
+                annotated = self.last_annotated
+            else:
+                
+                annotated = results.plot()  # ultralytics draws boxes for us
+                self.last_annotated = annotated
             try:
                 dbg = self.bridge.cv2_to_imgmsg(annotated, encoding="bgr8")
                 dbg.header = msg.header
