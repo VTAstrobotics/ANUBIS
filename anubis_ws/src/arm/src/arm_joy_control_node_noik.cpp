@@ -97,7 +97,7 @@ private:
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
         motor_messages::msg::Command motor_msg;
-        if (msg->buttons[JOINT_SWITCH] = 1)
+        if (msg->buttons[JOINT_SWITCH] == 1)
         {
             joint_control_state = static_cast<JOINT>((joint_control_state + 1) % 4);
         }
@@ -119,11 +119,21 @@ private:
             joint_motors[ELBOW].right_motor->send_command(motor_msg);
             break;
         case END_EFFECTOR:
+
             float lin = msg->axes[AXIS_LINEAR];
             float ang = msg->axes[AXIS_ANGULAR];
-            double left_duty = ((lin - 0.5 * ang )/1.5);
-            double right_vel = ((lin + 0.5 * ang )/1.5); 
+
+            double left_duty = ((lin - 0.5 * ang) / 1.5);
+            motor_msg.dutycycle.data = left_duty;
+            joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg);
+
+            double right_duty = ((lin + 0.5 * ang) / 1.5);
+            motor_msg.dutycycle.data = right_duty;
+            joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg);
             break;
+        // default:
+        //     RCLCPP_ERROR(this->get_logger(), "STATE OUT OF BOUNDS");
+        //     break;
         }
     }
 };
