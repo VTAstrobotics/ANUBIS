@@ -117,6 +117,8 @@ private:
             joint_motors[ELBOW].right->send_command(motor_msg);
             break;
         case END_EFFECTOR:
+            // double left_vel = ((lin_x - 0.5 * ang_z * wheelbase));
+            // double right_vel = (-(lin_x + 0.5 * ang_z * wheelbase)); // we can just use this equation
             // differential drive
             break;
         }
