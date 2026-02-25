@@ -42,12 +42,12 @@ public:
     std::chrono::duration<double> health_period(1 / this->get_parameter("health_publish_frequency").as_double()); // Defaults to seconds
     this->health_timer = this->create_wall_timer(health_period, std::bind(&KrakenController::publish_health, this));
 
-    configs::Slot0Configs slot0Configs{}; // NEED TO TUNE THIS: arbitrary values for now
-    slot0Configs.kP = 2.4;
-    slot0Configs.kI = 0;
-    slot0Configs.kD = 0.1;
+    // configs::Slot0Configs slot0Configs{}; // NEED TO TUNE THIS: arbitrary values for now
+    // slot0Configs.kP = 2.4;
+    // slot0Configs.kI = 0;
+    // slot0Configs.kD = 0.1;
 
-    motor->GetConfigurator().Apply(slot0Configs);
+    // motor->GetConfigurator().Apply(slot0Configs);
   }
 
   void control_callback(const motor_messages::msg::Command::SharedPtr msg) override;

@@ -24,8 +24,8 @@
 // float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_GR, END_EFFECTOR_GR};
 float GEAR_RATIOS[MAX_MOTORS] = {BASE_JOINT_GR, ELBOW_GR};
 
-#define BASE_JOINT_CANCODER_ID 0 // Both need to be set to real CAN IDs
-#define ELBOW_CANCODER_ID 0      // Should probably live in a different file but its here for now
+#define BASE_JOINT_CANCODER_ID 50 // Both need to be set to real CAN IDs
+#define ELBOW_CANCODER_ID 50      // Should probably live in a different file but its here for now
 
 enum JOINT
 {
@@ -61,7 +61,7 @@ public:
 private:
   float prev_angles[MAX_MOTORS] = {0}; // assume all zeroes, can change this to init position
 
-  float prev_angles_test[MAX_MOTORS] = {0};
+  // float prev_angles_test[MAX_MOTORS] = {0};
 
   rclcpp::Subscription<std_msgs::msg::Float32MultiArray>::SharedPtr joint_pos_subscriber;
 
@@ -79,11 +79,11 @@ private:
 
     joint[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
     joint[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
-    joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true, 0.3);
+    // joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true, 0.3);
 
     joint[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
     joint[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
-    joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0.3);
+    // joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0.3);
 
     // joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
     // joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
@@ -101,15 +101,10 @@ private:
 
     float sent_angles[MAX_MOTORS];
 
-    for (int i{}; i < MAX_MOTORS; i++)
-    {
-      sent_angles[i] = msg->data[i + 1]; // don't include first motor
-    }
     float rotations[MAX_MOTORS];
-    update_prev_angles();
-    // update_prev_angles_test(); // uncomment this when cancoders are mounted
-    angles_to_rotations(sent_angles, prev_angles_test, rotations);
-    publish_rotations(rotations);
+    // update_prev_angles_cancoders();
+    // angles_to_rotations(sent_angles, prev_angles, rotations);
+    // publish_rotations(rotations);
 
     // handle base lateral movement with duty cycle
     motor_messages::msg::Command base_lat_msg;
@@ -119,36 +114,52 @@ private:
 
     for (size_t i{}; i < MAX_MOTORS; i++)
     {
-      prev_angles[i] = sent_angles[i]; // TODO: fake feedback for now. can replace with prev_angles_test
+      motor_msgs[i].position.data = msg->data[i + 1] / (2 * M_PI);
+      joint[i].left_motor->send_command(motor_msgs[i]);
+      joint[i].right_motor->send_command(motor_msgs[i]);
     }
   }
 
-  void update_prev_angles()
-  {
-    for (size_t i{}; i < MAX_MOTORS; i++)
-    {
-      prev_angles_test[i] = ((static_cast<float>(joint[i].left_motor->get_motor_state().position.data) +
-                              static_cast<float>(joint[i].right_motor->get_motor_state().position.data)) /
-                             2.0) *
-                            (2 * M_PI) / GEAR_RATIOS[i]; // lets average for now
-    }
-  }
+  // void update_prev_angles_test()
+  // {
+  //   for (size_t i{}; i < MAX_MOTORS; i++)
+  //   {
+  //     prev_angles_test[i] = ((static_cast<float>(joint[i].left_motor->get_motor_state().position.data) +
+  //                             static_cast<float>(joint[i].right_motor->get_motor_state().position.data)) /
+  //                            2.0) *
+  //                           (2 * M_PI) / GEAR_RATIOS[i]; // lets average for now
+  //   }
+  // }
 
-  void update_prev_angles_test()
+  void update_prev_angles_cancoders()
   {
     for (size_t i{}; i < MAX_MOTORS; i++)
     { // be careful here - not all joints have cancoders
-      prev_angles_test[i] = joint[i].cancoder->get_angle();
-        }
-  }
-
-  void angles_to_rotations(float *current_angles, float *previous_angles, float *output)
-  {
-    for (size_t i{}; i < MAX_MOTORS; i++)
-    {
-      output[i] = (current_angles[i] - previous_angles[i]) * GEAR_RATIOS[i] / (2 * M_PI);
+      prev_angles[i] = joint[i].cancoder->get_angle();
     }
   }
+
+  float shortest_angular_distance(float from, float to)
+  {
+    float diff = std::fmod(
+        to - from + static_cast<float>(M_PI),
+        static_cast<float>(2.0 * M_PI));
+
+    if (diff < 0)
+      diff += static_cast<float>(2.0 * M_PI);
+
+    return diff - static_cast<float>(M_PI);
+  }
+
+  // void angles_to_rotations(float *current_angles, float *output)
+  // {
+  //   for (size_t i{}; i < MAX_MOTORS; i++)
+  //   {
+  //     output[i] = (current_angles[i]) *  / (2 * M_PI);
+
+  //   }
+  //   return
+  // }
 
   void publish_rotations(float *array)
   {
