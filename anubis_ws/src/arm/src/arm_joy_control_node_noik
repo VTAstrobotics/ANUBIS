@@ -92,17 +92,32 @@ private:
 
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
-        //check rb for state change
-        //use left joysticks to control selected joint
+        motor_messages::msg::Command motor_msg;
+        // check rb for state change
+        // use left joysticks to control selected joint
+        if (msg->data[rb dont know] = 1)
+        {
+            joint_control_state = (joint_control_state + 1) % 4;
+        }
         switch (joint_control_state)
         {
         case BASE_LAT:
+            motor_msg.dutycycle.data = msg->data[AXIS_LINEAR];
+            joint_motors[BASE_LAT].left->send_command(motor_msg);
+            joint_motors[BASE_LAT].right->send_command(motor_msg);
             break;
         case BASE_JOINT:
+            motor_msg.dutycycle.data = msg->data[AXIS_LINEAR];
+            joint_motors[BASE_JOINT].left->send_command(motor_msg);
+            joint_motors[BASE_JOINT].right->send_command(motor_msg);
             break;
         case ELBOW:
+            motor_msg.dutycycle.data = msg->data[AXIS_LINEAR];
+            joint_motors[ELBOW].left->send_command(motor_msg);
+            joint_motors[ELBOW].right->send_command(motor_msg);
             break;
         case END_EFFECTOR:
+            // differential drive
             break;
         }
     }
