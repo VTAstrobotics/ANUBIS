@@ -34,6 +34,7 @@ enum JOINT
   ELBOW,
   // END_EFFECTOR
 };
+
 struct joint_motors
 {
   std::shared_ptr<motor> left_motor;
@@ -64,7 +65,6 @@ private:
   // float prev_angles_test[MAX_MOTORS] = {0};
 
   rclcpp::Subscription<std_msgs::msg::Float32MultiArray>::SharedPtr joint_pos_subscriber;
-
   motor_messages::msg::Command motor_msgs[MAX_MOTORS];
 
   joint_motors joint[MAX_MOTORS];
@@ -102,9 +102,6 @@ private:
     float sent_angles[MAX_MOTORS];
 
     float rotations[MAX_MOTORS];
-    // update_prev_angles_cancoders();
-    // angles_to_rotations(sent_angles, prev_angles, rotations);
-    // publish_rotations(rotations);
 
     // handle base lateral movement with duty cycle
     motor_messages::msg::Command base_lat_msg;
@@ -119,17 +116,6 @@ private:
       joint[i].right_motor->send_command(motor_msgs[i]);
     }
   }
-
-  // void update_prev_angles_test()
-  // {
-  //   for (size_t i{}; i < MAX_MOTORS; i++)
-  //   {
-  //     prev_angles_test[i] = ((static_cast<float>(joint[i].left_motor->get_motor_state().position.data) +
-  //                             static_cast<float>(joint[i].right_motor->get_motor_state().position.data)) /
-  //                            2.0) *
-  //                           (2 * M_PI) / GEAR_RATIOS[i]; // lets average for now
-  //   }
-  // }
 
   void update_prev_angles_cancoders()
   {
@@ -146,20 +132,10 @@ private:
         static_cast<float>(2.0 * M_PI));
 
     if (diff < 0)
-      diff += static_cast<float>(2.0 * M_PI);
+      diff += 2.0 * M_PI;
 
-    return diff - static_cast<float>(M_PI);
+    return diff - (M_PI);
   }
-
-  // void angles_to_rotations(float *current_angles, float *output)
-  // {
-  //   for (size_t i{}; i < MAX_MOTORS; i++)
-  //   {
-  //     output[i] = (current_angles[i]) *  / (2 * M_PI);
-
-  //   }
-  //   return
-  // }
 
   void publish_rotations(float *array)
   {

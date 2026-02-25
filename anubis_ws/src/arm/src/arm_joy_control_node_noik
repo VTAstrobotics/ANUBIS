@@ -1,0 +1,97 @@
+#include <memory>
+#include <chrono>
+#include <vector>
+#include <cmath>
+
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/float32_multi_array.hpp"
+#include "sensor_msgs/msg/joy.hpp"
+
+#include <iostream>
+
+#include <cmath>
+
+#define a1 0.58
+#define a2 0.58
+
+#define INIT_X 0.5
+#define INIT_Y 0.5
+
+#define AXIS_LINEAR 1
+#define AXIS_ANGULAR 3
+
+#define JOY_FREQUENCY 50.0
+
+#define SCALE_CONSTANT 0.01 / JOY_FREQUENCY
+
+#define JOINTS 4
+
+enum JOINT
+{
+    BASE_LAT = 0,
+    BASE_JOINT,
+    ELBOW,
+    END_EFFECTOR
+};
+
+struct joint_motors_t
+{
+    std::shared_ptr<motor> left_motor;
+    std::shared_ptr<motor> right_motor;
+    // std::shared_ptr<encoder> cancoder;
+};
+
+using std::placeholders::_1;
+class ArmJoyControlNoIK : public rclcpp::Node
+{
+public:
+    ArmJoyControlNoIK()
+        : Node("arm_joy_control_node_noik") // name of the node
+    {
+
+        std::cout << R"(
+    
+       _______
+     _/       \_
+    / |       | \
+   /  |__   __|  \
+  |__/((o| |o))\__|
+  |      | |      |
+  |\     |_|     /|
+  | \           / |
+   \| /  ___  \ |/
+    \ | / _ \ | /
+     \_________/
+      _|_____|_
+ ____|_________|____
+/                   \  -- Mark Moi    
+    )" << std::endl;
+    }
+
+private:
+    joint_motors_t joint_motors[JOINTS];
+    JOINT joint_control_state = BASE_LAT;
+
+    init_joint_motors()
+    {
+        joint_motors[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
+        joint_motors[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_left", this);
+
+        joint_motors[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
+        joint_motors[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
+
+        joint_motors[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
+        joint_motors[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
+
+        joint_motors[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
+        joint_motors[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
+    }
+};
+
+int main(int argc, char *argv[])
+{
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<ArmJoyControlNoIK>());
+    rclcpp::shutdown();
+    return 0;
+}
