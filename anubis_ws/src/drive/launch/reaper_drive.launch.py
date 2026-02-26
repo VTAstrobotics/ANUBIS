@@ -74,7 +74,6 @@ def generate_launch_description():
     )
 
      # calibration command
-    # ros2 run camera_calibration cameracalibrator --size 8x6 --square 0.03529 image:=/webcam/image_raw camera:=/webcam
 
     # each camera will require these 2 nodes to be started for it to work properly.
     webcam_v4l2 = Node(
@@ -82,7 +81,7 @@ def generate_launch_description():
         executable="v4l2_camera_node",
         name="Front_Camera_Driver",
         output="screen",
-        namespace="webcam",
+        namespace="front_camera",
         parameters=[{
             "video_device": "/dev/v4l/by-id/usb-046d_Brio_101_2450APR8ZF68-video-index0",
             "image_size": [800, 600],
@@ -101,9 +100,10 @@ def generate_launch_description():
         executable="v4l2_aruco_node",
         name="webcam_camera_aruco",
         output="screen",
-        namespace="webcam",
+        namespace="front_camera",
         parameters=[{
-            "camera_name": "/dev/v4l/by-id/usb-046d_Brio_101_2450APR8ZF68-video-index0"
+            "camera_name": "usb-046d_Brio_101_2450APR8ZF68-video-index0",
+            "aruco_topic": "/front_camera/image_raw"
         }]
         # using the video device from v4l means we access the same camera each time and the driver exposes what camera is active on a node via the 
         # video device parameter via ros2. This lets us actually access the camera easily compared to /dev/video* ids.
@@ -116,13 +116,13 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        spawn_drive,
-        spawn_left_motor,
-        spawn_right_motor,
-        spawn_left_back__motor,
-        spawn_right_back_motor,
+        # spawn_drive,
+        # spawn_left_motor,
+        # spawn_right_motor,
+        # spawn_left_back__motor,
+        # spawn_right_back_motor,
         webcam_v4l2,
-        foxglove_studio
-        # aruco_webcam
+        # foxglove_studio,
+        aruco_webcam
     ])
 
