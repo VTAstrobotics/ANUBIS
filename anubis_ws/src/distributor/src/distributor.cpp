@@ -108,7 +108,11 @@ private:
     auger_control_pub->publish(auger_control);
 
     std_msgs::msg::Float32 carousel_control;
+    
     double carousel_position = 1 * msg->buttons[controls.at("BUTTON_B")];
+    if(carousel_position <= 0.00001){
+      carousel_position = -1 * msg->buttons[controls.at("BUTTON_X")];
+    }
     carousel_control.data = 10e-3 * carousel_position;
     carousel_control_pub->publish(carousel_control);
 

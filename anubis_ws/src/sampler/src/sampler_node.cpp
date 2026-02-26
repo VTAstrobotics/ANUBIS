@@ -39,7 +39,7 @@ class Sampler : public rclcpp::Node{
         carousel_motor->send_command(carousel_command);
     }
 
-    private:
+    private:    
     motor* auger_motor;
     motor* carousel_motor;
     motor_messages::msg::Command auger_command;
