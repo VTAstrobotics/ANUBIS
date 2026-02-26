@@ -14,22 +14,19 @@
 
 #include <cmath>
 
-#define a1 0.58
-#define a2 0.58
-
-#define INIT_X 0.5
-#define INIT_Y 0.5
 
 #define AXIS_LINEAR 1
 #define AXIS_ANGULAR 3
-
-#define JOY_FREQUENCY 50.0
-
-#define SCALE_CONSTANT 0.01 / JOY_FREQUENCY
-
+#define JOINT_SWITCH 5
+#define EE_CLOSE 2
+#define EE_OPEN 1
 #define JOINTS 4
 
-#define JOINT_SWITCH 5
+
+
+
+
+
 
 enum JOINT
 {
@@ -107,12 +104,12 @@ private:
     {
         motor_messages::msg::Command motor_msg_duty;
 
-        if (msg->buttons[2]) //gripper logic
+        if (msg->buttons[EE_CLOSE]) // gripper logic
         {
-            motor_msg_duty.dutycycle.data = 1.0;
+            motor_msg_duty.dutycycle.data = 1.0; //full speed ahead
             grabber->send_command(motor_msg_duty);
         }
-        if (msg->buttons[1])
+        if (msg->buttons[EE_OPEN])
         {
             motor_msg_duty.dutycycle.data = -1.0;
             grabber->send_command(motor_msg_duty);
@@ -131,7 +128,7 @@ private:
             motor_msg_position.position.data = angle2;
             joint_motors[ELBOW].left_motor->send_command(motor_msg_position);
             joint_motors[ELBOW].right_motor->send_command(motor_msg_position);
-            RCLCPP_ERROR(this->get_logger(), "HALTING ARM - angle 1: %f, angle 2: %f", angle1, angle2);
+            RCLCPP_INFO(this->get_logger(), "HALTING ARM - angle 1: %f, angle 2: %f", angle1, angle2);
             return;
         }
 
@@ -142,7 +139,7 @@ private:
         {
             joint_control_state =
                 static_cast<JOINT>((joint_control_state + 1) % JOINTS);
-            RCLCPP_ERROR(this->get_logger(), "SWITCHED JOINT");
+            RCLCPP_INFO(this->get_logger(), "SWITCHED JOINT");
         }
         prev_joint_switch_state = current_switch_state;
 
@@ -164,10 +161,11 @@ private:
             joint_motors[ELBOW].right_motor->send_command(motor_msg_duty);
             break;
         case END_EFFECTOR:
+        {
             float lin = msg->axes[AXIS_LINEAR];
             float ang = msg->axes[AXIS_ANGULAR];
 
-            double left_duty = ((lin - 0.5 * ang) / 1.5);
+            double left_duty = ((lin - 0.5 * ang) / 1.5); //normalize
             motor_msg_duty.dutycycle.data = left_duty;
             joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg_duty);
 
@@ -175,6 +173,7 @@ private:
             motor_msg_duty.dutycycle.data = right_duty;
             joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg_duty);
             break;
+        }
         }
     }
 };

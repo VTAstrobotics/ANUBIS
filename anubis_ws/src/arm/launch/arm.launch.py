@@ -46,7 +46,7 @@ def generate_launch_description():
                 {"status_topic": "/base_joint_left/status"},
                 {"health_topic": "/base_joint_left/health"},
                 {"inversion": True},
-                {"kG": 0.45}],
+                {"kG": 0.45}], # it is possible that we need kp as well
     arguments=["--ros-args",
                "-r",
                "__node:=base_left_motor_controller"]
@@ -149,6 +149,5 @@ def generate_launch_description():
         spawn_right_base_motor,
         spawn_elbow_right_motor,
         spawn_elbow_left_motor,
-
     ])
 
