@@ -15,7 +15,6 @@
 #include <cmath>
 
 #define AXIS_LINEAR 1
-#define AXIS_ANGULAR 3
 #define JOINT_SWITCH 5
 #define EE_CLOSE 2
 #define EE_OPEN 1
@@ -47,8 +46,7 @@ public:
             "/joy", 10, std::bind(&ArmJoyControlNoIK::joy_callback, this, _1));
         init_joint_motors();
 
-        std::cout
-            << R"(
+        RCLCPP_ERROR(this->get_logger(), R"(
     
        _______
      _/       \_
@@ -64,15 +62,20 @@ public:
       _|_____|_
  ____|_________|____
 /                   \  -- Mark Moi    
-    )" << std::endl;
+    )");
     }
 
 private:
     joint_motors_t joint_motors[JOINTS];
     JOINT joint_control_state = BASE_LAT;
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
+
     bool prev_joint_switch_state = false;
 
+    rclcpp::Time last_switch_time{0, 0, RCL_ROS_TIME};
+
+    // debounce duration (example: 200 ms)
+    rclcpp::Duration debounce_duration_{0, 200000000}; // ns
     std::shared_ptr<motor> grabber = std::make_shared<motor>("grabber", this);
 
     void init_joint_motors()
@@ -96,8 +99,10 @@ private:
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
         motor_messages::msg::Command motor_msg_duty;
+        motor_messages::msg::Command end_effector_duty;
 
-        if (msg->buttons[EE_CLOSE]) // gripper logic
+        // End effector gripper
+        if (msg->buttons[EE_CLOSE])
         {
             motor_msg_duty.dutycycle.data = 1.0; // full speed ahead
             grabber->send_command(motor_msg_duty);
@@ -108,65 +113,117 @@ private:
             grabber->send_command(motor_msg_duty);
         }
 
-        if (std::abs(msg->axes[AXIS_LINEAR]) < 0.01 && std::abs(msg->axes[AXIS_ANGULAR]) < 0.01)
+        const bool current_switch_state = (msg->buttons[JOINT_SWITCH] == 1);
+
+        if (current_switch_state && !prev_joint_switch_state)
         {
-            motor_messages::msg::Command motor_msg_position;
+            auto now = this->get_clock()->now();
 
-            float angle1 = joint_motors[BASE_JOINT].cancoder->get_angle();
-            motor_msg_position.position.data = angle1;
-            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_position);
-            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_position);
+            if ((now - last_switch_time) > debounce_duration_)
+            {
+                joint_control_state =
+                    static_cast<JOINT>((joint_control_state + 1) % JOINTS);
 
+                last_switch_time = now;
+
+                RCLCPP_INFO(this->get_logger(), "SWITCHED JOINT");
+            }
+        }
+
+        prev_joint_switch_state = current_switch_state;
+
+        // End effector wrist
+        float lin = msg->axes[4];
+        float ang = msg->axes[3];
+        if (std::abs(lin) > 0.003 && std::abs(ang) > 0.03)
+        {
+            double left_duty = ((lin - 0.5 * ang) / 1.5); // normalize
+            end_effector_duty.dutycycle.data = left_duty;
+            joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg_duty);
+
+            double right_duty = ((lin + 0.5 * ang) / 1.5);
+            end_effector_duty.dutycycle.data = right_duty;
+            joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg_duty);
+        }
+
+        motor_messages::msg::Command motor_msg_position;
+
+        switch (joint_control_state)
+        {
+        case BASE_JOINT:
+        {
             float angle2 = joint_motors[ELBOW].cancoder->get_angle();
             motor_msg_position.position.data = angle2;
             joint_motors[ELBOW].left_motor->send_command(motor_msg_position);
             joint_motors[ELBOW].right_motor->send_command(motor_msg_position);
-            RCLCPP_INFO(this->get_logger(), "HALTING ARM - angle 1: %f, angle 2: %f", angle1, angle2);
-            return;
+            RCLCPP_INFO(this->get_logger(), "HALTING ARM - angle 2: %f", angle2);
+
+            if (std::abs(msg->axes[AXIS_LINEAR]) < 0.03)
+            {
+                float angle1 = joint_motors[BASE_JOINT].cancoder->get_angle();
+                motor_msg_position.position.data = angle1;
+                joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_position);
+                joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_position);
+                RCLCPP_INFO(this->get_logger(), "HALTING ARM - angle 1: %f", angle1);
+            }
+            break;
         }
 
-        bool current_switch_state = false;
-        current_switch_state = (msg->buttons[JOINT_SWITCH] == 1);
-
-        if (current_switch_state && !prev_joint_switch_state)
-        {
-            joint_control_state =
-                static_cast<JOINT>((joint_control_state + 1) % JOINTS);
-            RCLCPP_INFO(this->get_logger(), "SWITCHED JOINT");
-        }
-        prev_joint_switch_state = current_switch_state;
-
-        switch (joint_control_state)
-        {
-        case BASE_LAT:
-            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5; // scaled down
-            joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
-            joint_motors[BASE_LAT].right_motor->send_command(motor_msg_duty);
-            break;
-        case BASE_JOINT:
-            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5;
-            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_duty);
-            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_duty);
-            break;
         case ELBOW:
-            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5;
-            joint_motors[ELBOW].left_motor->send_command(motor_msg_duty);
-            joint_motors[ELBOW].right_motor->send_command(motor_msg_duty);
-            break;
-        case END_EFFECTOR:
         {
-            float lin = msg->axes[AXIS_LINEAR];
-            float ang = msg->axes[AXIS_ANGULAR];
+            float angle1 = joint_motors[BASE_JOINT].cancoder->get_angle();
+            motor_msg_position.position.data = angle1;
+            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_position);
+            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_position);
+            RCLCPP_INFO(this->get_logger(), "HALTING ARM - angle 1: %f", angle1);
 
-            double left_duty = ((lin - 0.5 * ang) / 1.5); // normalize
-            motor_msg_duty.dutycycle.data = left_duty;
-            joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg_duty);
-
-            double right_duty = ((lin + 0.5 * ang) / 1.5);
-            motor_msg_duty.dutycycle.data = right_duty;
-            joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg_duty);
+            if (std::abs(msg->axes[AXIS_LINEAR]) < 0.03)
+            {
+                float angle2 = joint_motors[ELBOW].cancoder->get_angle();
+                motor_msg_position.position.data = angle2;
+                joint_motors[ELBOW].left_motor->send_command(motor_msg_position);
+                joint_motors[ELBOW].right_motor->send_command(motor_msg_position);
+                RCLCPP_INFO(this->get_logger(), "HALTING ARM - angle 2: %f", angle2);
+            }
             break;
         }
+        }
+        if (std::abs(msg->axes[AXIS_LINEAR]) > 0.03)
+        {
+            switch (joint_control_state)
+            {
+            case BASE_LAT:
+                // motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5; // scaled down
+                // joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
+                // joint_motors[BASE_LAT].right_motor->send_command(motor_msg_duty);
+                joint_control_state = BASE_JOINT;
+                break;
+            case BASE_JOINT:
+                motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 4;
+                joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_duty);
+                joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_duty);
+                break;
+            case ELBOW:
+                motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 4;
+                joint_motors[ELBOW].left_motor->send_command(motor_msg_duty);
+                joint_motors[ELBOW].right_motor->send_command(motor_msg_duty);
+                break;
+            case END_EFFECTOR:
+            {
+                // float lin = msg->axes[AXIS_LINEAR];
+                // float ang = msg->axes[AXIS_ANGULAR];
+
+                // double left_duty = ((lin - 0.5 * ang) / 1.5); // normalize
+                // motor_msg_duty.dutycycle.data = left_duty;
+                // joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg_duty);
+
+                // double right_duty = ((lin + 0.5 * ang) / 1.5);
+                // motor_msg_duty.dutycycle.data = right_duty;
+                // joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg_duty);
+                joint_control_state = BASE_JOINT;
+                break;
+            }
+            }
         }
     }
 };

@@ -6,6 +6,8 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import TimerAction
+
 
 from launch_ros.actions import Node
 
@@ -17,7 +19,7 @@ def generate_launch_description():
     #     executable="arm_hardware_node",
     #     name="arm_hardware_node"
     # )
-
+        
     spawn_arm_joy_control_noik = Node(package="arm",            
         executable="arm_joy_control_node_noik",
         name="arm_joy_control_node_noik"
@@ -45,8 +47,11 @@ def generate_launch_description():
                 {"control_topic": "/base_joint_left/control"},
                 {"status_topic": "/base_joint_left/status"},
                 {"health_topic": "/base_joint_left/health"},
-                {"inversion": True},
-                {"kG": 0.45}], # it is possible that we need kp as well
+                {"inverted_value": False},
+                {"kG": 0.45},
+                {"arm_cosine": True},
+                {"brake": True},
+                {"encoder_canID": 50}], # it is possible that we need kp as well
     arguments=["--ros-args",
                "-r",
                "__node:=base_left_motor_controller"]
@@ -61,8 +66,11 @@ def generate_launch_description():
                 {"control_topic": "/base_joint_right/control"},
                 {"status_topic": "/base_joint_right/status"},
                 {"health_topic": "/base_right/health"},
-                {"inversion": True},
-                {"kG": 0.   45}],
+                {"inverted_value": False},
+                {"kG": 0.45},
+                {"arm_cosine": True},
+                {"brake": True},
+                {"encoder_canID": 50}],
     arguments=["--ros-args",
                "-r",
                "__node:=base_right_motor_controller"]
@@ -77,8 +85,11 @@ def generate_launch_description():
                 {"control_topic": "/elbow_left/control"},
                 {"status_topic": "/elbow_left/status"},
                 {"health_topic": "/elbow_left/health"},
-                {"inversion": False},
-                {"kG": 0.25}],
+                {"inverted_value": True},
+                {"kG": 0.25},
+                {"arm_cosine": True},
+                {"brake": True},
+                {"encoder_canID": 51}],
     arguments=["--ros-args",
                "-r",
                "__node:=elbow_left_motor_controller"]
@@ -93,8 +104,11 @@ def generate_launch_description():
                 {"control_topic": "/elbow_right/control"},
                 {"status_topic": "/elbow_right/status"},
                 {"health_topic": "/elbow_right/health"},
-                {"inversion": True},
-                {"kG": 0.25}],
+                {"inverted_value": False},
+                {"kG": 0.25},
+                {"arm_cosine": True},
+                {"brake": True},
+                {"encoder_canID": 51}],
     arguments=["--ros-args",
                "-r",
                "__node:=elbow_right_motor_controller"]
@@ -145,12 +159,26 @@ def generate_launch_description():
                "__node:=grabber"]
     )
 
+    delay_base = TimerAction(
+        period=2.0,  # seconds
+        actions=[spawn_left_base_motor, spawn_right_base_motor]
+    )
+
+    delay_elbow = TimerAction(
+        period=4.0,  # seconds
+        actions=[spawn_elbow_left_motor, spawn_elbow_right_motor]
+    )
+    
+
+
     return LaunchDescription([
         spawn_arm_joy_control_noik,
         spawn_base_lat_motor,
-        spawn_left_base_motor,
-        spawn_right_base_motor,
-        spawn_elbow_right_motor,
-        spawn_elbow_left_motor,
+        # spawn_left_base_motor,
+        # spawn_right_base_motor,
+        # spawn_elbow_right_motor,
+        # spawn_elbow_left_motor,
+        delay_base,
+        delay_elbow
     ])
 
