@@ -38,19 +38,19 @@ public:
     this->declare_parameter<float>("kD", 0);
     this->declare_parameter<float>("kG", 0);
     
-    boolean inversion = this->get_parameter("inverted_value").as_bool();
+    bool inversion = this->get_parameter("inverted_value").as_bool();
     fx_config.MotorOutput.Inverted = inversion ? 
       signals::InvertedValue::CounterClockwise_Positive :
       signals::InvertedValue::Clockwise_Positive;
       
-    float kP = this->get_parameter("kP").as_float();
-    fx_config.slot0.kP = kP;
-    float kI = this->get_parameter("kI").as_float();
-    fx_config.slot0.kI = kI;
-    float kD = this->get_parameter("kD").as_float();
-    fx_config.slot0.kD = kD;
-    float kG = this->get_parameter("kG").as_float();
-    fx_config.slot0.kG = kG;
+    double kP = this->get_parameter("kP").as_double();
+    fx_config.Slot0.kP = kP;
+    double kI = this->get_parameter("kI").as_double();
+    fx_config.Slot0.kI = kI;
+    double kD = this->get_parameter("kD").as_double();
+    fx_config.Slot0.kD = kD;
+    double kG = this->get_parameter("kG").as_double();
+    fx_config.Slot0.kG = kG;
     motor->GetConfigurator().Apply(fx_config);
 
     // motor->SetNeutralMode(signals::NeutralModeValue::Coast);
