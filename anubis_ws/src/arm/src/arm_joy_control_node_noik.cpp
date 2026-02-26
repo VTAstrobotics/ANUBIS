@@ -14,19 +14,12 @@
 
 #include <cmath>
 
-
 #define AXIS_LINEAR 1
 #define AXIS_ANGULAR 3
 #define JOINT_SWITCH 5
 #define EE_CLOSE 2
 #define EE_OPEN 1
 #define JOINTS 4
-
-
-
-
-
-
 
 enum JOINT
 {
@@ -106,7 +99,7 @@ private:
 
         if (msg->buttons[EE_CLOSE]) // gripper logic
         {
-            motor_msg_duty.dutycycle.data = 1.0; //full speed ahead
+            motor_msg_duty.dutycycle.data = 1.0; // full speed ahead
             grabber->send_command(motor_msg_duty);
         }
         if (msg->buttons[EE_OPEN])
@@ -115,7 +108,7 @@ private:
             grabber->send_command(motor_msg_duty);
         }
 
-        if (std::abs(msg->axes[AXIS_LINEAR]) < 0.001 && std::abs(msg->axes[AXIS_ANGULAR]) < 0.001)
+        if (std::abs(msg->axes[AXIS_LINEAR]) < 0.01 && std::abs(msg->axes[AXIS_ANGULAR]) < 0.01)
         {
             motor_messages::msg::Command motor_msg_position;
 
@@ -165,7 +158,7 @@ private:
             float lin = msg->axes[AXIS_LINEAR];
             float ang = msg->axes[AXIS_ANGULAR];
 
-            double left_duty = ((lin - 0.5 * ang) / 1.5); //normalize
+            double left_duty = ((lin - 0.5 * ang) / 1.5); // normalize
             motor_msg_duty.dutycycle.data = left_duty;
             joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg_duty);
 
