@@ -31,7 +31,26 @@ public:
 
     configs::TalonFXConfiguration fx_config{};
 
-    fx_config.MotorOutput.Inverted = signals::InvertedValue::CounterClockwise_Positive;
+    //False is no inversion, positive counterclockwise
+    this->declare_parameter<bool>("inverted_value", false);
+    this->declare_parameter<float>("kP", 0);
+    this->declare_parameter<float>("kI", 0);
+    this->declare_parameter<float>("kD", 0);
+    this->declare_parameter<float>("kG", 0);
+    
+    boolean inversion = this->get_parameter("inverted_value").as_bool();
+    fx_config.MotorOutput.Inverted = inversion ? 
+      signals::InvertedValue::CounterClockwise_Positive :
+      signals::InvertedValue::Clockwise_Positive;
+      
+    float kP = this->get_parameter("kP").as_float();
+    fx_config.slot0.kP = kP;
+    float kI = this->get_parameter("kI").as_float();
+    fx_config.slot0.kI = kI;
+    float kD = this->get_parameter("kD").as_float();
+    fx_config.slot0.kD = kD;
+    float kG = this->get_parameter("kG").as_float();
+    fx_config.slot0.kG = kG;
     motor->GetConfigurator().Apply(fx_config);
 
     // motor->SetNeutralMode(signals::NeutralModeValue::Coast);

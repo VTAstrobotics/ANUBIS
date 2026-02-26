@@ -139,23 +139,24 @@ private:
         {
             joint_control_state =
                 static_cast<JOINT>((joint_control_state + 1) % JOINTS);
+                std::cout < << "SWITCHED JOINT" << std::endl;
         }
         prev_joint_switch_state = current_switch_state;
 
         switch (joint_control_state)
         {
         case BASE_LAT:
-            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR];
+            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5;
             joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
             joint_motors[BASE_LAT].right_motor->send_command(motor_msg_duty);
             break;
         case BASE_JOINT:
-            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR];
+            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] /0.5;
             joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_duty);
             joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_duty);
             break;
         case ELBOW:
-            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR];
+            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5;
             joint_motors[ELBOW].left_motor->send_command(motor_msg_duty);
             joint_motors[ELBOW].right_motor->send_command(motor_msg_duty);
             break;
