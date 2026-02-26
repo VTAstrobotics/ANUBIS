@@ -123,7 +123,8 @@ def generate_launch_description():
                 {"can_id": 36},
                 {"control_topic": "/end_effector_left/control"},
                 {"status_topic": "/end_effector_left/status"},
-                {"health_topic": "/end_effector_left/health"}],
+                {"health_topic": "/end_effector_left/health"},
+                {"brake": True}],
     arguments=["--ros-args",
                "-r",
                "__node:=end_effector_left_motor_controller"]
@@ -137,7 +138,8 @@ def generate_launch_description():
                 {"can_id": 35},
                 {"control_topic": "/end_effector_right/control"},
                 {"status_topic": "/end_effector_right/status"},
-                {"health_topic": "/base_end_effector_rightleft/health"}],
+                {"health_topic": "/base_end_effector_rightleft/health"},
+                {"brake": True}],
     arguments=["--ros-args",
                "-r",
                "__node:=end_effector_right_motor_controller"]
