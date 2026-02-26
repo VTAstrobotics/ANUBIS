@@ -100,16 +100,17 @@ private:
     {
         motor_messages::msg::Command motor_msg_duty;
         motor_messages::msg::Command end_effector_duty;
+        motor_messages::msg::Command motor_msg_position;
 
         // End effector gripper
         if (msg->buttons[EE_CLOSE])
         {
-            motor_msg_duty.dutycycle.data = 1.0; // full speed ahead
+            motor_msg_duty.dutycycle.data = 0.32; // full speed ahead
             grabber->send_command(motor_msg_duty);
         }
         if (msg->buttons[EE_OPEN])
         {
-            motor_msg_duty.dutycycle.data = -1.0;
+            motor_msg_duty.dutycycle.data = -0.32;
             grabber->send_command(motor_msg_duty);
         }
 
@@ -133,20 +134,17 @@ private:
         prev_joint_switch_state = current_switch_state;
 
         // End effector wrist
-        float lin = msg->axes[4];
-        float ang = msg->axes[3];
-        if (std::abs(lin) > 0.003 && std::abs(ang) > 0.03)
+        float lin = msg->axes[3];
+        float ang = msg->axes[4];   
+        if (std::abs(lin) > 0.05 || std::abs(ang) > 0.05)
         {
             double left_duty = ((lin - 0.5 * ang) / 1.5); // normalize
             end_effector_duty.dutycycle.data = left_duty;
-            joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg_duty);
-
+            joint_motors[END_EFFECTOR].left_motor->send_command(end_effector_duty);
             double right_duty = ((lin + 0.5 * ang) / 1.5);
             end_effector_duty.dutycycle.data = right_duty;
-            joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg_duty);
+            joint_motors[END_EFFECTOR].right_motor->send_command(end_effector_duty);
         }
-
-        motor_messages::msg::Command motor_msg_position;
 
         switch (joint_control_state)
         {
@@ -193,7 +191,7 @@ private:
             switch (joint_control_state)
             {
             case BASE_LAT:
-                // motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5; // scaled down
+                // motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5; // scaled down dont use this - use triggers
                 // joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
                 // joint_motors[BASE_LAT].right_motor->send_command(motor_msg_duty);
                 joint_control_state = BASE_JOINT;
