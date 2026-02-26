@@ -107,7 +107,7 @@ private:
     {
         motor_messages::msg::Command motor_msg_duty;
 
-        if (msg->buttons[2])
+        if (msg->buttons[2]) //gripper logic
         {
             motor_msg_duty.dutycycle.data = 1.0;
             grabber->send_command(motor_msg_duty);
@@ -164,7 +164,6 @@ private:
             joint_motors[ELBOW].right_motor->send_command(motor_msg_duty);
             break;
         case END_EFFECTOR:
-
             float lin = msg->axes[AXIS_LINEAR];
             float ang = msg->axes[AXIS_ANGULAR];
 
