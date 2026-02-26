@@ -100,7 +100,7 @@ private:
 
         joint_motors[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
         joint_motors[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
-        joint_motors[END_EFFECTOR].cancoder = std::make_shared<encoder>("can1", 51, true, 0.3);
+        // joint_motors[END_EFFECTOR].cancoder = std::make_shared<encoder>("can1", 52, true, 0.3);
     }
 
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
