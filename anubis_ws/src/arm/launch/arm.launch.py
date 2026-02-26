@@ -62,7 +62,7 @@ def generate_launch_description():
                 {"status_topic": "/base_joint_right/status"},
                 {"health_topic": "/base_right/health"},
                 {"inversion": True},
-                {"kG": 0.45}],
+                {"kG": 0.   45}],
     arguments=["--ros-args",
                "-r",
                "__node:=base_right_motor_controller"]

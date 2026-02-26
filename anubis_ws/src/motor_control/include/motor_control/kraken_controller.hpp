@@ -31,18 +31,24 @@ public:
 
     configs::TalonFXConfiguration fx_config{};
 
-    //False is no inversion, positive counterclockwise
+    // False is no inversion, positive counterclockwise
     this->declare_parameter<bool>("inverted_value", false);
     this->declare_parameter<float>("kP", 0);
     this->declare_parameter<float>("kI", 0);
     this->declare_parameter<float>("kD", 0);
     this->declare_parameter<float>("kG", 0);
-    
+
+    this->declare_parameter<bool>("arm_cosine", false);
+    this->declare_parameter<bool>("brake", false);
+
+    bool kg_type = this->get_parameter("brake");
+    fx_config.MotorOutput.NeutralMode = (kg_type) ? ctre::phoenix6::signals::NeturalModeValue::Brake : ctre::phoenix6::signals::NeutralModeValue::Coast;
+
+    bool arm_cosine = this->get_parameter("arm_cosine");
+    fx_config.Slot0.mySlotConfigs.GravityType = (arm_cosine) ? GravityTypeValue::Arm_Cosine : GravityTypeValue::ElevatorStatic;
     bool inversion = this->get_parameter("inverted_value").as_bool();
-    fx_config.MotorOutput.Inverted = inversion ? 
-      signals::InvertedValue::CounterClockwise_Positive :
-      signals::InvertedValue::Clockwise_Positive;
-      
+    fx_config.MotorOutput.Inverted = inversion ? signals::InvertedValue::CounterClockwise_Positive : signals::InvertedValue::Clockwise_Positive;
+
     double kP = this->get_parameter("kP").as_double();
     fx_config.Slot0.kP = kP;
     double kI = this->get_parameter("kI").as_double();
