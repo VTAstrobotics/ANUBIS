@@ -55,8 +55,10 @@ public:
     {
         joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
             "/joy", 10, std::bind(&ArmJoyControlNoIK::joy_callback, this, _1));
+        init_joint_motors();
 
-        std::cout << R"(
+        std::cout
+            << R"(
     
        _______
      _/       \_
@@ -79,11 +81,14 @@ private:
     joint_motors_t joint_motors[JOINTS];
     JOINT joint_control_state = BASE_LAT;
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
+    bool prev_joint_switch_state = false;
+
+    std::shared_ptr<motor> grabber = std::make_shared<motor>("grabber", this);
 
     void init_joint_motors()
     {
         joint_motors[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
-        joint_motors[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_left", this);
+        joint_motors[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_right", this);
 
         joint_motors[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
         joint_motors[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
@@ -91,7 +96,7 @@ private:
 
         joint_motors[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
         joint_motors[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
-        joint_motors[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", 51, true, 0.3); // replace with real canID
+        joint_motors[ELBOW].cancoder = std::make_shared<encoder>("can1", 51, true, 0.3); // replace with real canID
 
         joint_motors[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
         joint_motors[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
@@ -100,42 +105,59 @@ private:
 
     void joy_callback(sensor_msgs::msg::Joy::SharedPtr msg)
     {
-        motor_messages::msg::Command motor_msg;
+        motor_messages::msg::Command motor_msg_duty;
 
-        if (abs(msg->axes[AXIS_LINEAR]) < 0.001 && abs(msg->axes[AXIS_ANGULAR]) < 0.001)
+        if (msg->buttons[2])
         {
-            motor_msg.position.data = joint_motors[BASE_JOINT].cancoder->get_angle();
-            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg);
-            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg);
-
-            motor_msg.position.data = joint_motors[ELBOW].cancoder->get_angle();
-            joint_motors[ELBOW].left_motor->send_command(motor_msg);
-            joint_motors[ELBOW].right_motor->send_command(motor_msg);
-
-            // motor_msg.position.data = joint_motors[END_EFFECTOR].cancoder->get_angle();
-            // joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg);
-            // joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg);
+            motor_msg_duty.dutycycle.data = 1.0;
+            grabber->send_command(motor_msg_duty);
         }
-        if (msg->buttons[JOINT_SWITCH] == 1)
+        if (msg->buttons[1])
         {
-            joint_control_state = static_cast<JOINT>((joint_control_state + 1) % 4);
+            motor_msg_duty.dutycycle.data = -1.0;
+            grabber->send_command(motor_msg_duty);
         }
+
+        if (std::abs(msg->axes[AXIS_LINEAR]) < 0.001 && std::abs(msg->axes[AXIS_ANGULAR]) < 0.001)
+        {
+            motor_messages::msg::Command motor_msg_position;
+
+            motor_msg_position.position.data = joint_motors[BASE_JOINT].cancoder->get_angle();
+            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_position);
+            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_position);
+
+            motor_msg_position.position.data = joint_motors[ELBOW].cancoder->get_angle();
+            joint_motors[ELBOW].left_motor->send_command(motor_msg_position);
+            joint_motors[ELBOW].right_motor->send_command(motor_msg_position);
+            return;
+        }
+
+        bool current_switch_state = false;
+        current_switch_state = (msg->buttons[JOINT_SWITCH] == 1);
+
+        if (current_switch_state && !prev_joint_switch_state)
+        {
+            joint_control_state =
+                static_cast<JOINT>((joint_control_state + 1) % JOINTS);
+        }
+        prev_joint_switch_state = current_switch_state;
+
         switch (joint_control_state)
         {
         case BASE_LAT:
-            motor_msg.dutycycle.data = msg->axes[AXIS_LINEAR];
-            joint_motors[BASE_LAT].left_motor->send_command(motor_msg);
-            joint_motors[BASE_LAT].right_motor->send_command(motor_msg);
+            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR];
+            joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
+            joint_motors[BASE_LAT].right_motor->send_command(motor_msg_duty);
             break;
         case BASE_JOINT:
-            motor_msg.dutycycle.data = msg->axes[AXIS_LINEAR];
-            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg);
-            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg);
+            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR];
+            joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_duty);
+            joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_duty);
             break;
         case ELBOW:
-            motor_msg.dutycycle.data = msg->axes[AXIS_LINEAR];
-            joint_motors[ELBOW].left_motor->send_command(motor_msg);
-            joint_motors[ELBOW].right_motor->send_command(motor_msg);
+            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR];
+            joint_motors[ELBOW].left_motor->send_command(motor_msg_duty);
+            joint_motors[ELBOW].right_motor->send_command(motor_msg_duty);
             break;
         case END_EFFECTOR:
 
@@ -143,16 +165,13 @@ private:
             float ang = msg->axes[AXIS_ANGULAR];
 
             double left_duty = ((lin - 0.5 * ang) / 1.5);
-            motor_msg.dutycycle.data = left_duty;
-            joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg);
+            motor_msg_duty.dutycycle.data = left_duty;
+            joint_motors[END_EFFECTOR].left_motor->send_command(motor_msg_duty);
 
             double right_duty = ((lin + 0.5 * ang) / 1.5);
-            motor_msg.dutycycle.data = right_duty;
-            joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg);
+            motor_msg_duty.dutycycle.data = right_duty;
+            joint_motors[END_EFFECTOR].right_motor->send_command(motor_msg_duty);
             break;
-            // default:
-            //     RCLCPP_ERROR(this->get_logger(), "STATE OUT OF BOUNDS");
-            //     break;
         }
     }
 };
