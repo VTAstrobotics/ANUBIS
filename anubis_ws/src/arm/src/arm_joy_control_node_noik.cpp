@@ -139,7 +139,7 @@ private:
         switch (joint_control_state)
         {
         case BASE_LAT:
-            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5;
+            motor_msg_duty.dutycycle.data = msg->axes[AXIS_LINEAR] / 0.5; // scaled down
             joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
             joint_motors[BASE_LAT].right_motor->send_command(motor_msg_duty);
             break;

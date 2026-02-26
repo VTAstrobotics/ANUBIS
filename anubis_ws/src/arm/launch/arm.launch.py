@@ -26,7 +26,7 @@ def generate_launch_description():
     executable = "kraken_control_node",
     name = "kraken_control_node",
     parameters=[{"motor_name": "left_motor"},
-                {"can_interface": "can1"},
+                {"can_interface": "can1"},  
                 {"can_id": 30},
                 {"control_topic": "/base_lat_left/control"},
                 {"status_topic": "/base_lat_left/status"},
@@ -100,47 +100,50 @@ def generate_launch_description():
                "__node:=elbow_right_motor_controller"]
     )
 
-    # spawn_end_effector_left_motor = Node(package = "motor_control",
-    # executable = "kraken_control_node",
-    # name = "kraken_control_node",
-    # parameters=[{"motor_name": "left_motor"},
-    #             {"can_interface": "can1"},
-    #             {"can_id": 24},
-    #             {"control_topic": "/end_effector_left/control"},
-    #             {"status_topic": "/end_effector_left/status"},
-    #             {"health_topic": "/end_effector_left/health"}],
-    # arguments=["--ros-args",
-    #            "-r",
-    #            "__node:=end_effector_left_motor_controller"]
-    # )
 
-    # spawn_end_effector_right_motor = Node(package = "motor_control",
-    # executable = "kraken_control_node",
-    # name = "kraken_control_node",
-    # parameters=[{"motor_name": "left_motor"},
-    #             {"can_interface": "can1"},
-    #             {"can_id": 25},
-    #             {"control_topic": "/end_effector_right/control"},
-    #             {"status_topic": "/end_effector_right/status"},
-    #             {"health_topic": "/base_end_effector_rightleft/health"}],
-    # arguments=["--ros-args",
-    #            "-r",
-    #            "__node:=end_effector_right_motor_controller"]
-    # )
 
-    # spawn_grabber = Node(package = "motor_control",
-    # executable = "sparkmax_control_node",
-    # name = "sparkmax_control_node",
-    # parameters=[{"motor_name": "left_motor"},
-    #             {"can_interface": "can1"},
-    #             {"can_id": 11},
-    #             {"control_topic": "/grabber/control"},
-    #             {"status_topic": "/grabber/status"},
-    #             {"health_topic": "/grabber/health"}],
-    # arguments=["--ros-args",
-    #            "-r",
-    #            "__node:=grabber"]
-    # )
+    #TODO: assign proper CAN ids
+    spawn_end_effector_left_motor = Node(package = "motor_control",
+    executable = "kraken_control_node",
+    name = "kraken_control_node",
+    parameters=[{"motor_name": "left_motor"},
+                {"can_interface": "can1"},
+                {"can_id": 24},
+                {"control_topic": "/end_effector_left/control"},
+                {"status_topic": "/end_effector_left/status"},
+                {"health_topic": "/end_effector_left/health"}],
+    arguments=["--ros-args",
+               "-r",
+               "__node:=end_effector_left_motor_controller"]
+    )
+
+    spawn_end_effector_right_motor = Node(package = "motor_control",
+    executable = "kraken_control_node",
+    name = "kraken_control_node",
+    parameters=[{"motor_name": "left_motor"},
+                {"can_interface": "can1"},
+                {"can_id": 25},
+                {"control_topic": "/end_effector_right/control"},
+                {"status_topic": "/end_effector_right/status"},
+                {"health_topic": "/base_end_effector_rightleft/health"}],
+    arguments=["--ros-args",
+               "-r",
+               "__node:=end_effector_right_motor_controller"]
+    )
+
+    spawn_grabber = Node(package = "motor_control",
+    executable = "sparkmax_control_node",
+    name = "sparkmax_control_node",
+    parameters=[{"motor_name": "left_motor"},
+                {"can_interface": "can1"},
+                {"can_id": 11}, 
+                {"control_topic": "/grabber/control"},
+                {"status_topic": "/grabber/status"},
+                {"health_topic": "/grabber/health"}],
+    arguments=["--ros-args",
+               "-r",
+               "__node:=grabber"]
+    )
 
     return LaunchDescription([
         spawn_arm_joy_control_noik,
