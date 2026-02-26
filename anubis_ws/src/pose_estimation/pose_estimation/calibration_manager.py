@@ -18,3 +18,5 @@ def load_matrix_distortion(Camera_Name: str):
     return Kmatrix, dist_coeffs
 
 # load_matrix_distortion("usb-Framework_Laptop_Webcam_Module__2nd_Gen__FRANJBCHA1537100EB-video-index0")
+    # ros2 run camera_calibration cameracalibrator --size 4x4 --square 0.0347 image:=/image_raw camera:=/webcam
+
