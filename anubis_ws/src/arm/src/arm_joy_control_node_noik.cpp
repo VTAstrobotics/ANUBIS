@@ -122,14 +122,16 @@ private:
         {
             motor_messages::msg::Command motor_msg_position;
 
-            motor_msg_position.position.data = joint_motors[BASE_JOINT].cancoder->get_angle();
+            float angle1 = joint_motors[BASE_JOINT].cancoder->get_angle();
+            motor_msg_position.position.data = angle1;
             joint_motors[BASE_JOINT].left_motor->send_command(motor_msg_position);
             joint_motors[BASE_JOINT].right_motor->send_command(motor_msg_position);
 
-            motor_msg_position.position.data = joint_motors[ELBOW].cancoder->get_angle();
+            float angle2 = joint_motors[ELBOW].cancoder->get_angle();
+            motor_msg_position.position.data = angle2;
             joint_motors[ELBOW].left_motor->send_command(motor_msg_position);
             joint_motors[ELBOW].right_motor->send_command(motor_msg_position);
-            RCLCPP_ERROR(this->get_logger(), "HALTING ARM");
+            RCLCPP_ERROR(this->get_logger(), "HALTING ARM - angle 1: %f, angle 2: %f", angle1, angle2);
             return;
         }
 
