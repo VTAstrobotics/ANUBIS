@@ -14,7 +14,7 @@ class HammerDetectorNode(Node):
         super().__init__("hammer_detector_node")
 
        # self.declare_parameter("model_path", "/home/swara23/ANUBIS/anubis_ws/src/yolo_perception/yolo_perception/T10_Best.pt")
-        weights_path = os.path.join(get_package_share_directory('yolo_perception'), 'weights', 'weights.pt')
+        weights_path = os.path.join(get_package_share_directory('yolo_perception'), 'weights', 'yolov11HammerBottle.pt')
         self.declare_parameter("model_path", weights_path)
         self.declare_parameter("confidence_threshold", 0.50)
         self.declare_parameter("image_topic", "/image")

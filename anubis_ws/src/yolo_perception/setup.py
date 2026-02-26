@@ -11,6 +11,7 @@ setup(
     ('share/' + package_name, ['package.xml']),
     ('share/' + package_name + '/weights', ['yolo_perception/T10_Best.pt']),  
     ('share/' + package_name + '/weights', ['yolo_perception/weights.pt']),  
+    ('share/' + package_name + '/weights', ['yolo_perception/yolov11HammerBottle.pt']),  
     ],
     install_requires=['setuptools'],
     zip_safe=True,
