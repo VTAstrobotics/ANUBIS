@@ -44,32 +44,7 @@ usb-046d_Brio_101_2450APR8ZF68-video-index0:
     rows: 3
     cols: 3
     data: [1., 0., 0.,
-          0., 1., 0.,  image_width: 800
-  image_height: 600
-  camera_name: narrow_stereo
-  camera_matrix:
-    rows: 3
-    cols: 3
-    data: [1108.91793,    0.     ,  463.93354,
-              0.     , 1091.16189,  316.44836,
-              0.     ,    0.     ,    1.     ]
-  distortion_model: plumb_bob
-  distortion_coefficients:
-    rows: 1
-    cols: 5
-    data: [0.513070, -3.175907, -0.003528, 0.006497, 0.000000]
-  rectification_matrix:
-    rows: 3
-    cols: 3
-    data: [1., 0., 0.,
           0., 1., 0.,
-          0., 0., 1.]
-  projection_matrix:
-    rows: 3
-    cols: 4
-    data: [1121.13749,    0.     ,  469.04579,    0.     ,
-              0.     , 1115.45759,  315.64562,    0.     ,
-              0.     ,    0.     ,    1.     ,    0.     ]
           0., 0., 1.]
   projection_matrix:
     rows: 3

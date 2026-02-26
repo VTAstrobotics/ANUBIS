@@ -41,6 +41,7 @@ class PosePublisher(Node):
         print(cv2.__version__)
         self.declare_parameter("camera_name", "usb-Framework_Laptop_Webcam_Module__2nd_Gen__FRANJBCHA1537100EB-video-index0")
         self.get_logger().info(f"Aruco Tag reader started for camera {self.get_parameter('camera_name')}")
+        self.declare_parameter("aruco_topic", "/front_camera/image_raw")
 
         self.pose_publisher = self.create_publisher(Pose, 'pose', 10)
         self.stop_subscription = self.create_subscription(
@@ -51,7 +52,7 @@ class PosePublisher(Node):
         
         self.image_subscription = self.create_subscription(
             Image,
-            '/webcam/image_raw',
+            self.get_parameter("aruco_topic").value,
             self.image_callback,
             10)
 
@@ -75,7 +76,7 @@ class PosePublisher(Node):
         # Load camera calibration data
 
         self.cameraMatrix, self.distCoeffs = calibration_manager.load_matrix_distortion(self.get_parameter("camera_name").value)
-
+        self.image_width, self.image_height = calibration_manager.load_width_height(self.get_parameter("camera_name").value)
         
         self.markerLength = 0.06985  # 2 3/4 in tag size
         self.objectPoints = np.array([
@@ -93,70 +94,61 @@ class PosePublisher(Node):
             self.get_logger().info("Resumed")
 
     def image_callback(self, msg):
-        # self.get_logger().info("Received image")
+            try:
+                # 1. Convert to BGR (Standard for OpenCV processing)
+                # Using 'bgr8' instead of 'bgra8' to avoid Alpha channel headaches
+                original_frame = self.bridge.imgmsg_to_cv2(msg, 'bgr8')
+                
+                # 2. Resize once at the start so coordinates match calibration
+                frame = cv2.resize(original_frame, (self.image_width, self.image_height))
+                
+                # 3. Prepare detection frame (Gray) and drawing frame (Color copy)
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                debug_frame = frame.copy() 
+                
+                if self.stop:
+                    return
 
+                corners, ids = None, None
+                if version.parse(cv2.__version__) >= version.parse("4.7.0"):
+                    corners, ids, _ = self.arucoDetector.detectMarkers(gray)
+                else:
+                    corners, ids, _ = cv2.aruco.detectMarkers(gray, self.arucoDict, parameters=self.arucoParams)
 
-        try:
-            frame = self.bridge.imgmsg_to_cv2(msg, 'bgra8')
-        except Exception as e:
-            self.get_logger().error(f"Failed to convert image: {e}")
-            return
-        
-        # frame = self.bridge.imgmsg_to_cv2(msg, 'bgra8')
-        image_with_frame = None
-
-
-        if self.stop:
-            return
-        try:
-            corners, ids = None, None
-            frame = cv2.resize(frame, (640,480))
-            frame = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY )
-            if version.parse(cv2.__version__) >= version.parse("4.7.0"):
-                corners, ids, _ = self.arucoDetector.detectMarkers(frame)
-            else:
-                corners, ids, _ = cv2.aruco.detectMarkers(frame, self.arucoDict, parameters = self.arucoParams)
-
-            if ids is not None and len(corners) > 0:
-                for markerCorner, markerID in zip(corners, ids.flatten()):
-                    # self.get_logger().info(f"Got ID {markerID}")
-                    imagePoints = markerCorner.reshape((4, 2))
-                    success, rvec, tvec = cv2.solvePnP(
-                        self.objectPoints,
-                        imagePoints,
-                        self.cameraMatrix,
-                        self.distCoeffs
-                    )
-                    
-                    if success:
-
-                        pose_msg = Pose()
-                        pose_msg.position.x, pose_msg.position.y, pose_msg.position.z = tvec.flatten()
-                        pose_msg.orientation.x, pose_msg.orientation.y, pose_msg.orientation.z = rvec.flatten()[:3]
-                        pose_msg.orientation.w = 0.0 
-                        quaternion = quaternion_from_euler(rvec[0], rvec[1], rvec[2])
-                        pose_msg.orientation.x, pose_msg.orientation.y, pose_msg.orientation.z = quaternion.x, quaternion.y, quaternion.z 
-                        pose_msg.orientation.w = quaternion.w
-
-                        self.pose_publisher.publish(pose_msg)
-                        # self.get_logger().info(str(pose_msg))
-                        # self.get_logger().info(f"Published pose")
-                        image_with_frame = self.bridge.imgmsg_to_cv2(msg)
+                if ids is not None and len(corners) > 0:
+                    for markerCorner, markerID in zip(corners, ids.flatten()):
+                        imagePoints = markerCorner.reshape((4, 2))
                         
-                        # cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, self.distCoeffs, rvec, tvec, 0.05)
-                        cv2.drawFrameAxes(image_with_frame, self.cameraMatrix, np.asarray(()), rvec, tvec, 0.05)
-            else:
-                # self.get_logger().info("Nothing Detected in image")
-                image_with_frame = None
+                        success, rvec, tvec = cv2.solvePnP(
+                            self.objectPoints,
+                            imagePoints,
+                            self.cameraMatrix,
+                            self.distCoeffs
+                        )
+                        
+                        if success:
+                            # Pose logic
+                            pose_msg = Pose()
+                            pose_msg.position.x, pose_msg.position.y, pose_msg.position.z = tvec.flatten()
+                            
+                            quaternion = quaternion_from_euler(rvec[0][0], rvec[1][0], rvec[2][0])
+                            pose_msg.orientation.x = quaternion.x
+                            pose_msg.orientation.y = quaternion.y
+                            pose_msg.orientation.z = quaternion.z 
+                            pose_msg.orientation.w = quaternion.w
 
+                            self.pose_publisher.publish(pose_msg)
+                            
+                            # 4. Draw axes on the debug_frame
+                            # Increased axis length to 0.1 for better visibility
+                            cv2.drawFrameAxes(debug_frame, self.cameraMatrix, self.distCoeffs, rvec, tvec, 0.1)
 
-        except Exception as e:
-            self.get_logger().error(f'Error processing frame: {str(e)}')
-        if image_with_frame is None:
-            self.detected_publisher.publish(self.bridge.cv2_to_imgmsg(frame))
-        else:
-            self.detected_publisher.publish(self.bridge.cv2_to_imgmsg(image_with_frame))
+                # 5. Always publish the debug_frame with explicit encoding
+                # This prevents the "blank" screen by ensuring the msg header matches the data
+                self.detected_publisher.publish(self.bridge.cv2_to_imgmsg(debug_frame, encoding="bgr8"))
 
+            except Exception as e:
+                self.get_logger().error(f'Error processing frame: {str(e)}')
 
 def main(args=None):
     rclpy.init(args=args)

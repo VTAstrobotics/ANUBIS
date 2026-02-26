@@ -102,7 +102,8 @@ def generate_launch_description():
         output="screen",
         namespace="front_camera",
         parameters=[{
-            "camera_name": "usb-046d_Brio_101_2450APR8ZF68-video-index0"
+            "camera_name": "usb-046d_Brio_101_2450APR8ZF68-video-index0",
+            "aruco_topic": "/front_camera/image_raw"
         }]
         # using the video device from v4l means we access the same camera each time and the driver exposes what camera is active on a node via the 
         # video device parameter via ros2. This lets us actually access the camera easily compared to /dev/video* ids.
