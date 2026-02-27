@@ -43,7 +43,7 @@ public:
         : Node("arm_joy_control_node_noik") // name of the node
     {
         joy_subscriber = this->create_subscription<sensor_msgs::msg::Joy>(
-            "/joy", 10, std::bind(&ArmJoyControlNoIK::joy_callback, this, _1));
+            "/joy_arm", 10, std::bind(&ArmJoyControlNoIK::joy_callback, this, _1));
         init_joint_motors();
 
         RCLCPP_ERROR(this->get_logger(), R"(
