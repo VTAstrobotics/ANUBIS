@@ -71,6 +71,7 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_subscriber;
 
     bool prev_joint_switch_state = false;
+    bool end_effector_off = false;
 
     rclcpp::Time last_switch_time{0, 0, RCL_ROS_TIME};
 
@@ -133,10 +134,27 @@ private:
 
         prev_joint_switch_state = current_switch_state;
 
+        if (msg->buttons[3])
+        {
+            motor_msg_duty.dutycycle.data = 0.25;
+            joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
+        }
+        else if (msg->buttons[0])
+        {
+            motor_msg_duty.dutycycle.data = -0.25;
+            joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
+        }
+        else{
+            motor_msg_duty.dutycycle.data = 0;
+            joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
+
+        }
+
         // End effector wrist
         float lin = msg->axes[3];
-        float ang = msg->axes[4];   
-        if (std::abs(lin) > 0.05 || std::abs(ang) > 0.05)
+        float ang = msg->axes[4];
+
+        if (std::abs(lin) > 0.10 || std::abs(ang) > 0.10)
         {
             double left_duty = ((lin - 0.5 * ang) / 1.5); // normalize
             end_effector_duty.dutycycle.data = left_duty;
@@ -144,6 +162,15 @@ private:
             double right_duty = ((lin + 0.5 * ang) / 1.5);
             end_effector_duty.dutycycle.data = right_duty;
             joint_motors[END_EFFECTOR].right_motor->send_command(end_effector_duty);
+            end_effector_off = false;
+        }
+        else if (!end_effector_off)
+        {
+            end_effector_duty.dutycycle.data = 0;
+            joint_motors[END_EFFECTOR].left_motor->send_command(end_effector_duty);
+            end_effector_duty.dutycycle.data = 0;
+            joint_motors[END_EFFECTOR].right_motor->send_command(end_effector_duty);
+            end_effector_off = true;
         }
 
         switch (joint_control_state)
