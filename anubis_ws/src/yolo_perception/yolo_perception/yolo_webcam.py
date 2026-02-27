@@ -2,6 +2,7 @@ import os
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+from sensor_msgs.msg import CompressedImage
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 from cv_bridge import CvBridge
 from ultralytics import YOLO
@@ -37,13 +38,13 @@ class HammerDetectorNode(Node):
         self.pub_detections = self.create_publisher(Detection2DArray, "/hammer_detections", 1)
 
         if self.pub_annotated:
-            self.pub_debug = self.create_publisher(Image, "/hammer_detections/debug_image", 1)
+            self.pub_debug = self.create_publisher(CompressedImage, "/hammer_detections/debug_image/compressed", 1)
 
         self.get_logger().info(f"Loaded {model_path} | Listening on {img_topic}")
 
     def image_callback(self, msg: Image):
         try:
-            cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
+            cv_image = self.bridge.imgmsg_to_cv2(msg)
         except Exception as e:
             self.get_logger().error(f"cv_bridge error: {e}")
             return
@@ -86,7 +87,7 @@ class HammerDetectorNode(Node):
                 annotated = results.plot()  # ultralytics draws boxes for us
                 self.last_annotated = annotated
             try:
-                dbg = self.bridge.cv2_to_imgmsg(annotated, encoding="bgr8")
+                dbg = self.bridge.cv2_to_compressed_imgmsg(annotated)
                 dbg.header = msg.header
                 self.pub_debug.publish(dbg)
             except Exception as e:
