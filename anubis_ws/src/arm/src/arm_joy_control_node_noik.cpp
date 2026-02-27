@@ -136,12 +136,12 @@ private:
 
         if (msg->buttons[3])
         {
-            motor_msg_duty.dutycycle.data = 0.25;
+            motor_msg_duty.dutycycle.data = 0.50;
             joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
         }
         else if (msg->buttons[0])
         {
-            motor_msg_duty.dutycycle.data = -0.25;
+            motor_msg_duty.dutycycle.data = -0.50;
             joint_motors[BASE_LAT].left_motor->send_command(motor_msg_duty);
         }
         else{
