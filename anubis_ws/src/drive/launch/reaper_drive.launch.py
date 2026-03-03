@@ -10,6 +10,11 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 def generate_launch_description():
+
+    kS = 0.26
+    kP = 8.0
+    kV = 3.8
+    kD = 0.4
     spawn_drive = Node(package="drive",            
         executable="drive_node",
         name="drive_node",
@@ -25,7 +30,11 @@ def generate_launch_description():
                 {"can_id": 48},
                 {"control_topic": "/left_front/control"},
                 {"status_topic": "/left_front/status"},
-                {"health_topic": "/left_front/health"}],
+                {"health_topic": "/left_front/health"},
+                {"kS": kS},
+                {"kP": kP},
+                {"kV": kV},
+                {"kD": kD}],
     arguments=["--ros-args",
                "-r",
                "__node:=left_motor_controller"]
@@ -38,7 +47,11 @@ def generate_launch_description():
                 {"can_id": 44},
                 {"control_topic": "/left_back/control"},
                 {"status_topic": "/left_back/status"},
-                {"health_topic": "/left_back/health"}],
+                {"health_topic": "/left_back/health"},
+                {"kS": kS},
+                {"kP": kP},
+                {"kV": kV},
+                {"kD": kD}],
     arguments=["--ros-args",
             "-r",
             "__node:=left_motor_controller"]
@@ -53,7 +66,11 @@ def generate_launch_description():
                 {"can_id": 46},
                 {"control_topic": "/right_front/control"},
                 {"status_topic": "/right_front/status"},
-                {"health_topic": "/right_front/health"}],
+                {"health_topic": "/right_front/health"},
+                {"kS": kS},
+                {"kP": kP},
+                {"kV": kV},
+                {"kD": kD}],
     arguments=["--ros-args",
                "-r",
                "__node:=right_motor_controller"]
@@ -67,7 +84,11 @@ def generate_launch_description():
                 {"can_id": 45},
                 {"control_topic": "/right_back/control"},
                 {"status_topic": "/right_back/status"},
-                {"health_topic": "/right_back/health"}],
+                {"health_topic": "/right_back/health"},
+                {"kS": kS},
+                {"kP": kP},
+                {"kV": kV},
+                {"kD": kD}],
     arguments=["--ros-args",
                "-r",
                "__node:=right_motor_controller"]
@@ -116,13 +137,13 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        # spawn_drive,
-        # spawn_left_motor,
-        # spawn_right_motor,
-        # spawn_left_back__motor,
-        # spawn_right_back_motor,
-        webcam_v4l2,
+        spawn_drive,
+        spawn_left_motor,
+        spawn_right_motor,
+        spawn_left_back__motor,
+        spawn_right_back_motor,
+        # webcam_v4l2,
         # foxglove_studio,
-        aruco_webcam
+        # aruco_webcam
     ])
 
