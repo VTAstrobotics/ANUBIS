@@ -15,11 +15,12 @@ def generate_launch_description():
     kP = 8.0
     kV = 3.8
     kD = 0.4
+    
     spawn_drive = Node(package="drive",            
         executable="drive_node",
         name="drive_node",
         parameters=[{"use_sim_time": False},
-                    ]
+        ]
     )
     
     spawn_left_motor = Node(package = "motor_control",
@@ -39,6 +40,7 @@ def generate_launch_description():
                "-r",
                "__node:=left_motor_controller"]
     )
+    
     spawn_left_back__motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
@@ -55,8 +57,7 @@ def generate_launch_description():
     arguments=["--ros-args",
             "-r",
             "__node:=left_motor_controller"]
-)
-
+    )
 
     spawn_right_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
@@ -76,7 +77,7 @@ def generate_launch_description():
                "-r",
                "__node:=right_motor_controller"]
     )
-    
+
     spawn_right_back_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
@@ -95,7 +96,6 @@ def generate_launch_description():
                "-r",
                "__node:=right_motor_controller"]
     )
-
      # calibration command
 
     # each camera will require these 2 nodes to be started for it to work properly.

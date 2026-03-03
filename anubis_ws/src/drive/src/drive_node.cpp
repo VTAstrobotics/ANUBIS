@@ -107,7 +107,7 @@ private:
   */
   double vel_to_rpm(double velocity)
   {
-    return (velocity * 60.0 * motor_gear_ratio) / (((wheel_diameter) / 2.0) * 2 * M_PI);
+    return (velocity  * motor_gear_ratio) / (((wheel_diameter) / 2.0) * 2 * M_PI); //uses RPS
   }
 
   /*
