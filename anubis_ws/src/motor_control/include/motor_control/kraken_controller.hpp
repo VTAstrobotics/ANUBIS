@@ -4,6 +4,7 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <ctre/phoenix6/unmanaged/Unmanaged.hpp>
 #include <rclcpp/rclcpp.hpp>
+
 using namespace ctre::phoenix6;
 class KrakenController : public motor_control::MotorControllerBase
 {
@@ -30,7 +31,47 @@ public:
 
     configs::TalonFXConfiguration fx_config{};
 
-    fx_config.MotorOutput.Inverted = signals::InvertedValue::CounterClockwise_Positive;
+    // False is no inversion, positive counterclockwise
+    this->declare_parameter<bool>("inverted_value", false);
+    this->declare_parameter<float>("kP", 0);
+    this->declare_parameter<float>("kI", 0);
+    this->declare_parameter<float>("kD", 0);
+    this->declare_parameter<float>("kS", 0);
+    this->declare_parameter<float>("kV", 0);
+    this->declare_parameter<float>("kG", 0);
+    this->declare_parameter<int>("encoder_canID", 0);
+
+    this->declare_parameter<bool>("arm_cosine", false);
+    this->declare_parameter<bool>("brake", false);
+
+    int canID = this->get_parameter("encoder_canID").as_int();
+    fx_config.Feedback.FeedbackRemoteSensorID = canID;
+
+    if (canID != 0)
+    {
+      fx_config.Feedback.FeedbackSensorSource = signals::FeedbackSensorSourceValue::RemoteCANcoder;
+    }
+
+    bool kg_type = this->get_parameter("brake").as_bool();
+    fx_config.MotorOutput.NeutralMode = (kg_type) ? ctre::phoenix6::signals::NeutralModeValue::Brake : ctre::phoenix6::signals::NeutralModeValue::Coast;
+
+    bool arm_cosine = this->get_parameter("arm_cosine").as_bool();
+    fx_config.Slot0.GravityType = (arm_cosine) ? signals::GravityTypeValue::Arm_Cosine : signals::GravityTypeValue::Elevator_Static;
+    bool inversion = this->get_parameter("inverted_value").as_bool();
+    fx_config.MotorOutput.Inverted = inversion ? signals::InvertedValue::CounterClockwise_Positive : signals::InvertedValue::Clockwise_Positive;
+
+    double kP = this->get_parameter("kP").as_double();
+    fx_config.Slot0.kP = kP;
+    double kI = this->get_parameter("kI").as_double();
+    fx_config.Slot0.kI = kI;
+    double kD = this->get_parameter("kD").as_double();
+    fx_config.Slot0.kD = kD;
+    double kS = this->get_parameter("kS").as_double();
+    fx_config.Slot0.kS = kS;
+    double kV = this->get_parameter("kV").as_double();
+    fx_config.Slot0.kV = kV;
+    double kG = this->get_parameter("kG").as_double();
+    fx_config.Slot0.kG = kG;
     motor->GetConfigurator().Apply(fx_config);
 
     // motor->SetNeutralMode(signals::NeutralModeValue::Coast);
