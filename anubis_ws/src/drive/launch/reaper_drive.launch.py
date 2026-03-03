@@ -70,7 +70,8 @@ def generate_launch_description():
                 {"kS": kS},
                 {"kP": kP},
                 {"kV": kV},
-                {"kD": kD}],
+                {"kD": kD},
+                {"inverted_value": True}],
     arguments=["--ros-args",
                "-r",
                "__node:=right_motor_controller"]
@@ -88,7 +89,8 @@ def generate_launch_description():
                 {"kS": kS},
                 {"kP": kP},
                 {"kV": kV},
-                {"kD": kD}],
+                {"kD": kD},
+                {"inverted_value": True}],
     arguments=["--ros-args",
                "-r",
                "__node:=right_motor_controller"]
