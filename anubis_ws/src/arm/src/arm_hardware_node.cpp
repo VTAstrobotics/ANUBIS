@@ -1,0 +1,157 @@
+#include <memory>
+#include <chrono>
+#include <vector>
+#include <cmath>
+
+#include "rclcpp/rclcpp.hpp"
+#include "motor_messages/msg/command.hpp"
+#include "motor_messages/msg/feedback.hpp"
+#include "motor_control/kraken_controller.hpp"
+#include "motor_control/motor_controller_base.hpp"
+#include "std_msgs/msg/float32_multi_array.hpp"
+
+#include "motor.hpp"
+#include "encoder.hpp"
+
+#define MAX_MOTORS 2
+
+#define RADIAN_TO_REV 0.15915494
+
+#define BASE_LAT_GR 1
+#define BASE_JOINT_GR 125
+#define ELBOW_GR 108
+#define END_EFFECTOR_GR 45
+// float GEAR_RATIOS[4] = {BASE_LAT_GR, BASE_JOINT_GR, ELBOW_GR, END_EFFECTOR_GR};
+float GEAR_RATIOS[MAX_MOTORS] = {BASE_JOINT_GR, ELBOW_GR};
+
+#define BASE_JOINT_CANCODER_ID 50 // Both need to be set to real CAN IDs
+#define ELBOW_CANCODER_ID 50      // Should probably live in a different file but its here for now
+
+enum JOINT
+{
+  // BASE_LAT = 0,
+  BASE_JOINT = 0,
+  ELBOW,
+  // END_EFFECTOR
+};
+
+struct joint_motors
+{
+  std::shared_ptr<motor> left_motor;
+  std::shared_ptr<motor> right_motor;
+  std::shared_ptr<encoder> cancoder;
+};
+
+using std::placeholders::_1;
+class ArmHardwareNode : public rclcpp::Node
+
+{
+public:
+  ArmHardwareNode()
+      : Node("arm_hardware_node") // name of the node
+  {
+    init_motor_array();
+    joint_pos_subscriber = this->create_subscription<std_msgs::msg::Float32MultiArray>(
+        "/joint_positions_radians", 10, std::bind(&ArmHardwareNode::joint_pos_callback, this, _1));
+
+    // treat base lat motor seperately since duty cycle driven
+    base_lat.left_motor = std::make_shared<motor>("base_lat_left", this);
+    base_lat.right_motor = std::make_shared<motor>("base_lat_right", this);
+  }
+
+private:
+  float prev_angles[MAX_MOTORS] = {0}; // assume all zeroes, can change this to init position
+
+  // float prev_angles_test[MAX_MOTORS] = {0};
+
+  rclcpp::Subscription<std_msgs::msg::Float32MultiArray>::SharedPtr joint_pos_subscriber;
+  motor_messages::msg::Command motor_msgs[MAX_MOTORS];
+
+  joint_motors joint[MAX_MOTORS];
+
+  joint_motors base_lat;
+
+  void init_motor_array()
+  {
+    // joint[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
+    // joint[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_right", this);
+    // No CANCoder as far as I know
+
+    joint[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
+    joint[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
+    // joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true, 0.3);
+
+    joint[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
+    joint[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
+    // joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0.3);
+
+    // joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
+    // joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
+    // No CANCoder as far as I know
+  }
+
+  void joint_pos_callback(std_msgs::msg::Float32MultiArray::SharedPtr msg)
+  {
+
+    if (msg->data.size() < (MAX_MOTORS + 1))
+    {
+      RCLCPP_WARN(this->get_logger(), "incoming message size too small");
+      return;
+    }
+
+    float sent_angles[MAX_MOTORS];
+
+    float rotations[MAX_MOTORS];
+
+    // handle base lateral movement with duty cycle
+    motor_messages::msg::Command base_lat_msg;
+    base_lat_msg.dutycycle.data = msg->data[0];
+    base_lat.right_motor->send_command(base_lat_msg);
+    base_lat.left_motor->send_command(base_lat_msg);
+
+    for (size_t i{}; i < MAX_MOTORS; i++)
+    {
+      motor_msgs[i].position.data = msg->data[i + 1] / (2 * M_PI);
+      joint[i].left_motor->send_command(motor_msgs[i]);
+      joint[i].right_motor->send_command(motor_msgs[i]);
+    }
+  }
+
+  void update_prev_angles_cancoders()
+  {
+    for (size_t i{}; i < MAX_MOTORS; i++)
+    { // be careful here - not all joints have cancoders
+      prev_angles[i] = joint[i].cancoder->get_angle();
+    }
+  }
+
+  float shortest_angular_distance(float from, float to)
+  {
+    float diff = std::fmod(
+        to - from + static_cast<float>(M_PI),
+        static_cast<float>(2.0 * M_PI));
+
+    if (diff < 0)
+      diff += 2.0 * M_PI;
+
+    return diff - (M_PI);
+  }
+
+  void publish_rotations(float *array)
+  {
+    for (size_t i{}; i < MAX_MOTORS; i++)
+    {
+      motor_msgs[i].position.data = array[i];
+      joint[i].left_motor->send_command(motor_msgs[i]);
+      joint[i].right_motor->send_command(motor_msgs[i]);
+    }
+  }
+};
+
+int main(int argc, char *argv[])
+{
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<ArmHardwareNode>());
+  rclcpp::shutdown();
+  return 0;
+}

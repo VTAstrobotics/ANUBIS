@@ -40,8 +40,7 @@ public:
     this->wheelbase = this->get_parameter("wheelbase").as_double();
 
     this->declare_parameter<double>("motor_gear_ratio", 125.0);
-    this->motor_gear_ratio = this->get_parameter("motor_gear_ratio").as_double();
-
+      
     this->declare_parameter<double>("wheel_diameter", 0.31);
     this->wheel_diameter = this->get_parameter("wheel_diameter").as_double();
 

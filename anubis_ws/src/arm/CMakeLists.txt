@@ -1,0 +1,98 @@
+cmake_minimum_required(VERSION 3.8)
+project(arm)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(motor_messages REQUIRED)
+find_package(motor_control REQUIRED)
+
+
+add_executable(arm_hardware_node src/arm_hardware_node.cpp src/motor.cpp src/encoder.cpp)
+
+add_executable(arm_joy_control_node src/arm_joy_control_node.cpp)
+
+add_executable(arm_joy_control_node_noik src/arm_joy_control_node_noik.cpp src/motor.cpp src/encoder.cpp)
+
+
+
+target_include_directories(arm_hardware_node PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_include_directories(arm_joy_control_node PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_include_directories(arm_joy_control_node_noik PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+ament_target_dependencies(arm_hardware_node
+  rclcpp
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+  motor_messages
+  motor_control
+)
+
+ament_target_dependencies(
+  arm_joy_control_node
+  rclcpp
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+)
+
+ament_target_dependencies(
+  arm_joy_control_node_noik
+  rclcpp
+  geometry_msgs
+  std_msgs
+  sensor_msgs
+  motor_messages
+  motor_control
+)
+
+target_link_libraries(arm_hardware_node motor_control::motor_control_nodes)
+
+
+install(TARGETS arm_hardware_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS arm_joy_control_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
+install(TARGETS arm_joy_control_node_noik
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  # the following line skips the linter which checks for copyrights
+  # comment the line when a copyright and license is added to all source files
+  set(ament_cmake_copyright_FOUND TRUE)
+  # the following line skips cpplint (only works in a git repo)
+  # comment the line when this package is in a git repo and when
+  # a copyright and license is added to all source files  
+  set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()
