@@ -16,7 +16,7 @@ find_package(motor_control REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
-add_executable(drive_node src/drive_node.cpp)
+add_executable(drive_node src/drive_node.cpp src/motor.cpp)
 
 ament_target_dependencies(drive_node
   rclcpp

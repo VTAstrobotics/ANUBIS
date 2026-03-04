@@ -94,7 +94,7 @@ private:
   }
 
   double linear_scale = 0.6;
-  double angular_scale = 1.8;
+  double angular_scale = 3.0;
   Stopwatch stopwatch;
 
   // this is where you can declare subscribers/publishers.
