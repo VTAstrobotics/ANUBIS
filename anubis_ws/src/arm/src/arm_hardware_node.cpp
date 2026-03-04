@@ -73,10 +73,6 @@ private:
 
   void init_motor_array()
   {
-    // joint[BASE_LAT].left_motor = std::make_shared<motor>("base_lat_left", this);
-    // joint[BASE_LAT].right_motor = std::make_shared<motor>("base_lat_right", this);
-    // No CANCoder as far as I know
-
     joint[BASE_JOINT].left_motor = std::make_shared<motor>("base_joint_left", this);
     joint[BASE_JOINT].right_motor = std::make_shared<motor>("base_joint_right", this);
     // joint[BASE_JOINT].cancoder = std::make_shared<encoder>("can1", BASE_JOINT_CANCODER_ID, true, 0.3);
@@ -84,10 +80,6 @@ private:
     joint[ELBOW].left_motor = std::make_shared<motor>("elbow_left", this);
     joint[ELBOW].right_motor = std::make_shared<motor>("elbow_right", this);
     // joint[ELBOW].cancoder = std::make_shared<encoder>("can1", ELBOW_CANCODER_ID, true, 0.3);
-
-    // joint[END_EFFECTOR].left_motor = std::make_shared<motor>("end_effector_left", this);
-    // joint[END_EFFECTOR].right_motor = std::make_shared<motor>("end_effector_right", this);
-    // No CANCoder as far as I know
   }
 
   void joint_pos_callback(std_msgs::msg::Float32MultiArray::SharedPtr msg)
@@ -111,7 +103,7 @@ private:
 
     for (size_t i{}; i < MAX_MOTORS; i++)
     {
-      motor_msgs[i].position.data = msg->data[i + 1] / (2 * M_PI);
+      motor_msgs[i].position.data = msg->data[i + 1] / (2 * M_PI); // rad to rotations - neglect gear ratio
       joint[i].left_motor->send_command(motor_msgs[i]);
       joint[i].right_motor->send_command(motor_msgs[i]);
     }
