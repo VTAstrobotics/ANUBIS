@@ -19,11 +19,21 @@ def generate_launch_description():
     #     executable="arm_hardware_node",
     #     name="arm_hardware_node"
     # )
-        
-    spawn_arm_joy_control_noik = Node(package="arm",            
+
+    spawn_arm_hardware_node = Node(package="arm",            
         executable="arm_joy_control_node_noik",
         name="arm_joy_control_node_noik"
     )
+
+    spawn_arm_joy_control = Node(package="arm",            
+        executable="arm_joy_control_node",
+        name="arm_joy_control_node"
+    )
+        
+    # spawn_arm_joy_control_noik = Node(package="arm",            
+    #     executable="arm_joy_control_node_noik",
+    #     name="arm_joy_control_node_noik"
+    # )
     spawn_base_lat_motor = Node(package = "motor_control",
     executable = "kraken_control_node",
     name = "kraken_control_node",
@@ -177,7 +187,8 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        spawn_arm_joy_control_noik,
+        spawn_arm_hardware_node,
+        spawn_arm_joy_control,
         spawn_base_lat_motor,
         delay_base,
         delay_elbow,
