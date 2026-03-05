@@ -10,6 +10,7 @@ find_package(rclcpp REQUIRED)
 find_package(motor_messages REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(phoenix6 REQUIRED)
+find_package(sensor_msgs REQUIRED)
 add_definitions(-DUNIT_LIB_DISABLE_FMT -DUNIT_LIB_ENABLE_IOSTREAM)
 
 add_library(motor_control_nodes SHARED
@@ -28,6 +29,7 @@ target_include_directories(motor_control_nodes PUBLIC
 
 add_executable(kraken_control_node src/kraken_controller_executable.cpp src/kraken_controller.cpp)
 add_executable(sparkmax_control_node src/sparkmax_controller_executable.cpp src/sparkmax_controller.cpp src/spark_base.cpp src/spark_max.cpp)
+add_executable(sim_control_node src/sim_motor_controller_executable.cpp src/sim_motor_controller.cpp)
 
 ament_target_dependencies(kraken_control_node rclcpp motor_messages rclcpp_components)
 target_include_directories(kraken_control_node PUBLIC
@@ -46,8 +48,12 @@ target_include_directories(sparkmax_control_node PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
+
+ament_target_dependencies(sim_control_node rclcpp motor_messages rclcpp_components sensor_msgs)
+
 target_link_libraries(kraken_control_node phoenix6 motor_control_nodes)
 target_link_libraries(sparkmax_control_node motor_control_nodes)
+target_link_libraries(sim_control_node motor_control_nodes)
 
 install(TARGETS
   motor_control_nodes
@@ -66,6 +72,10 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(TARGETS
+  sim_control_node
+  DESTINATION lib/${PROJECT_NAME}
+)
 install(
   DIRECTORY include/
   DESTINATION include
